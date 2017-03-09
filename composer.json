@@ -1,0 +1,30 @@
+{
+    "name": "overtrue/easy-sms",
+    "description": "The easiest way to send short message.",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "mockery/mockery": "^0.9.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Overtrue\\EasySms\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Overtrue\\EasySms\\Tests\\": "tests"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "i@overtrue.me"
+        }
+    ]
+}
