@@ -1,5 +1,4 @@
-
-<p align="center"><h1>Easy SMS</h1></p>
+<h1 align="center">Easy SMS</h1>
 
 <p align="center">:calling: The easiest way to send short message.</p>
 
