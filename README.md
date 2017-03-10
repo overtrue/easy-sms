@@ -13,6 +13,18 @@
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/license" alt="License"></a>
 </p>
 
+
+# Requirement
+
+```
+PHP >= 5.5
+```
+# Installation
+
+```shell
+$ composer require "overtrue/easy-sms"
+```
+
 # Usage
 
 ```php
