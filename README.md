@@ -33,7 +33,7 @@ $config = [
     ],
 ];
 $easySms = new EasySms($config);
-$easySms->gateway('error-log')->send(1888888888, 'hello world!');
+$easySms->gateway('error-log')->send(19188888888, 'hello world!');
 ```
 
 # License
