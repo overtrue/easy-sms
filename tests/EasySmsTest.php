@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ * (c) overtrue <i@overtrue.me>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms\Tests;
 
-use RuntimeException;
 use InvalidArgumentException;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\EasySms;
+use RuntimeException;
 
 class EasySmsTest extends TestCase
 {
@@ -13,7 +20,7 @@ class EasySmsTest extends TestCase
     {
         $easySms = new EasySms([]);
 
-        $this->assertInstanceOf(GatewayInterface::class, $easySms->gateway('Log'));
+        $this->assertInstanceOf(GatewayInterface::class, $easySms->gateway('error-log'));
 
         // invalid gateway
         $this->expectException(InvalidArgumentException::class);
@@ -52,7 +59,7 @@ class EasySmsTest extends TestCase
     public function testExtend()
     {
         $easySms = new EasySms([]);
-        $easySms->extend('foo', function() {
+        $easySms->extend('foo', function () {
             return new DummyGatewayForTest();
         });
 
@@ -67,13 +74,15 @@ class EasySmsTest extends TestCase
     }
 }
 
-class DummyGatewayForTest implements GatewayInterface {
-    public function send()
+class DummyGatewayForTest implements GatewayInterface
+{
+    public function send($to, $message, array $data = [])
     {
         return 'send-result';
     }
 }
 
-class DummyInvalidGatewayForTest {
+class DummyInvalidGatewayForTest
+{
     // nothing
 }

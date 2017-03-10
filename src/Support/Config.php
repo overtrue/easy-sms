@@ -2,9 +2,7 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
- *
  * (c) overtrue <i@overtrue.me>
- *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -12,7 +10,6 @@
 namespace Overtrue\EasySms\Support;
 
 use ArrayAccess;
-use InvalidArgumentException;
 
 /**
  * Class Config.
@@ -53,6 +50,7 @@ class Config implements ArrayAccess
         if (isset($config[$key])) {
             return $config[$key];
         }
+
         foreach (explode('.', $key) as $segment) {
             if (!is_array($config) || !array_key_exists($segment, $config)) {
                 return $default;
@@ -66,7 +64,7 @@ class Config implements ArrayAccess
     /**
      * Whether a offset exists.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @see  http://php.net/manual/en/arrayaccess.offsetexists.php
      *
      * @param mixed $offset <p>
      *                      An offset to check for.
@@ -87,7 +85,7 @@ class Config implements ArrayAccess
     /**
      * Offset to retrieve.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
+     * @see  http://php.net/manual/en/arrayaccess.offsetget.php
      *
      * @param mixed $offset <p>
      *                      The offset to retrieve.
@@ -105,7 +103,7 @@ class Config implements ArrayAccess
     /**
      * Offset to set.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
+     * @see  http://php.net/manual/en/arrayaccess.offsetset.php
      *
      * @param mixed $offset <p>
      *                      The offset to assign the value to.
@@ -126,7 +124,7 @@ class Config implements ArrayAccess
     /**
      * Offset to unset.
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @see  http://php.net/manual/en/arrayaccess.offsetunset.php
      *
      * @param mixed $offset <p>
      *                      The offset to unset.

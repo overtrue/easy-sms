@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ * (c) overtrue <i@overtrue.me>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms;
 
 use Closure;
@@ -9,7 +16,7 @@ use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
 /**
- * Class EasySms
+ * Class EasySms.
  */
 class EasySms
 {
@@ -50,7 +57,7 @@ class EasySms
     /**
      * Create a gateway.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return \Overtrue\EasySms\Contracts\GatewayInterface
      */
@@ -85,7 +92,7 @@ class EasySms
      *
      * @return string
      *
-     * @throws if no default gateway configured.
+     * @throws if no default gateway configured
      */
     public function getDefaultGateway()
     {
@@ -114,6 +121,7 @@ class EasySms
      * Create a new driver instance.
      *
      * @param string $name
+     *
      * @throws \InvalidArgumentException
      *
      * @return mixed
@@ -123,8 +131,12 @@ class EasySms
         if (isset($this->customCreators[$name])) {
             $gateway = $this->callCustomCreator($name);
         } else {
-            $name = $this->formatGatewayClassName($name);
-            $gateway = $this->makeGateway($name, $this->config->get($name, []));
+            $className = $this->formatGatewayClassName($name);
+            $config = array_merge(
+                ['signature' => $this->config->get('signature', '')],
+                $this->config->get("gateways.{$name}", [])
+            );
+            $gateway = $this->makeGateway($className, $config);
         }
 
         if (!($gateway instanceof GatewayInterface)) {

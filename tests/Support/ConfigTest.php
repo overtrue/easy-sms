@@ -1,16 +1,16 @@
 <?php
+
 /*
- * This file is part of the sora.
- *
- * (c) 2016 weibo.com
+ * This file is part of the overtrue/easy-sms.
+ * (c) overtrue <i@overtrue.me>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\EasySms\Tests\Support;
 
-
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
-
 
 class ConfigTest extends TestCase
 {
@@ -23,16 +23,16 @@ class ConfigTest extends TestCase
                 'profile' => [
                     'id' => 9999,
                     'name' => 'overtrue',
-                ]
+                ],
             ],
             'numbers' => [
                 [
                     'id' => 1,
-                    'number' => 1
+                    'number' => 1,
                 ],
                 [
                     'id' => 2,
-                    'number' => 2
+                    'number' => 2,
                 ],
             ],
         ]);
