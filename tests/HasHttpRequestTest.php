@@ -74,7 +74,7 @@ class HasHttpRequestTest extends TestCase
         $object->allows()->getBaseOptions(anyArgs())->passthru();
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
-        $this->assertSame(2.0, $object->getBaseOptions()['timeout']);
+        $this->assertSame(5.0, $object->getBaseOptions()['timeout']);
     }
 
     public function testUnwrapResponseWithJsonResponse()

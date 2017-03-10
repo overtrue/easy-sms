@@ -21,7 +21,7 @@ class GatewayTest extends TestCase
 
         $this->assertInstanceOf(Config::class, $gateway->getConfig());
         $this->assertSame('https://mock-base-uri', $gateway->getBaseUri());
-        $this->assertSame(2.0, $gateway->getTimeout());
+        $this->assertSame(5.0, $gateway->getTimeout());
         $gateway->timeout(4.0);
         $this->assertSame(4.0, $gateway->getTimeout());
 
@@ -33,7 +33,6 @@ class GatewayTest extends TestCase
 class DummyGatewayForGatewayTest extends Gateway
 {
     protected $baseUri = 'https://mock-base-uri';
-    protected $timeout = 5.0;
 
     public function send($to, $message, array $data = [])
     {
