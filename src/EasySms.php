@@ -21,7 +21,7 @@ use RuntimeException;
 class EasySms
 {
     /**
-     * @var array
+     * @var \Overtrue\EasySms\Support\Config
      */
     protected $config;
 
