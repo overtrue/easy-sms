@@ -124,7 +124,7 @@ class EasySms
      *
      * @throws \InvalidArgumentException
      *
-     * @return mixed
+     * @return GatewayInterface
      */
     protected function createGateway($name)
     {
@@ -185,6 +185,7 @@ class EasySms
      * Call a custom gateway creator.
      *
      * @param string gateway
+     * @param string $gateway
      *
      * @return mixed
      */
