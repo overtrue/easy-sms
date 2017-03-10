@@ -184,7 +184,6 @@ class EasySms
     /**
      * Call a custom gateway creator.
      *
-     * @param string gateway
      * @param string $gateway
      *
      * @return mixed
