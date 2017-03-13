@@ -30,7 +30,6 @@ use Overtrue\EasySms\EasySms;
 
 $config = [
     'default' => 'error-log',
-    'signature' => '【xxx公司】',
     'gateways' => [
         /*...*/
         'error-log' => [

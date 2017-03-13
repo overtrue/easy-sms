@@ -38,7 +38,7 @@ class YunPianGateway extends Gateway
         return $this->post($endpoint, [
             'apikey' => $this->config->get('api_key'),
             'mobile' => $to,
-            'text' => $this->config->get('signature').$message,
+            'text' => $message,
         ]);
     }
 

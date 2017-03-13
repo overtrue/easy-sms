@@ -132,11 +132,7 @@ class EasySms
             $gateway = $this->callCustomCreator($name);
         } else {
             $className = $this->formatGatewayClassName($name);
-            $config = array_merge(
-                ['signature' => $this->config->get('signature', '')],
-                $this->config->get("gateways.{$name}", [])
-            );
-            $gateway = $this->makeGateway($className, $config);
+            $gateway = $this->makeGateway($className, $this->config->get("gateways.{$name}", []));
         }
 
         if (!($gateway instanceof GatewayInterface)) {

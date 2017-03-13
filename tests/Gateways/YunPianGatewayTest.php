@@ -18,7 +18,6 @@ class YunPianGatewayTest extends TestCase
     {
         $gateway = \Mockery::mock(YunPianGateway::class.'[post]', [[
             'api_key' => 'mock-api-key',
-            'signature' => '【overtrue】',
         ]])->shouldAllowMockingProtectedMethods();
 
         $gateway->expects()->post('https://sms.yunpian.com/v2/sms/single_send.json', [
@@ -27,6 +26,6 @@ class YunPianGatewayTest extends TestCase
             'text' => '【overtrue】This is a test message.',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $gateway->send(18188888888, 'This is a test message.'));
+        $this->assertSame('mock-result', $gateway->send(18188888888, '【overtrue】This is a test message.'));
     }
 }
