@@ -52,6 +52,6 @@ class SubmailGateway extends Gateway
      */
     protected function buildEndpoint($function)
     {
-        return sprintf(self::ENDPOINT_TEMPLATE,$function, self::ENDPOINT_FORMAT);
+        return sprintf(self::ENDPOINT_TEMPLATE, $function, self::ENDPOINT_FORMAT);
     }
 }
