@@ -49,6 +49,7 @@ $easySms->gateway('error-log')->send(19188888888, 'hello world!');
 
 - [YunPian](https://github.com/overtrue/easy-sms/wiki/GateWays---YunPian)
 - [Submail](https://github.com/overtrue/easy-sms/wiki/GateWays---Submail)
+- [Luosimao](https://github.com/overtrue/easy-sms/wiki/GateWays---Luosimao)
 - Todo
 
 
