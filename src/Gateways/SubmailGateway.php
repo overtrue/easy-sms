@@ -14,7 +14,8 @@ use Overtrue\EasySms\HasHttpRequest;
 /**
  * Class SubmailGateway.
  */
-class SubmailGateway extends Gateway{
+class SubmailGateway extends Gateway
+{
 
     use HasHttpRequest;
 
@@ -45,8 +46,6 @@ class SubmailGateway extends Gateway{
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $resource
      * @param string $function
      *
      * @return string
