@@ -34,7 +34,7 @@ class AliDayuGateway extends Gateway
      */
     public function send($to, $message, array $data = [])
     {
-        $reqParams = [
+        $params = [
             'method' => self::ENDPOINT_METHOD,
             'format' => self::ENDPOINT_FORMAT,
             'v' => self::ENDPOINT_VERSION,
@@ -47,8 +47,8 @@ class AliDayuGateway extends Gateway
             'rec_num' => strval($to),
             'sms_param' => json_encode($data)
         ];
-        $reqParams['sign'] = $this->generateSign($reqParams);
-        return $this->post(self::ENDPOINT_URL, $reqParams);
+        $params['sign'] = $this->generateSign($params);
+        return $this->post(self::ENDPOINT_URL, $params);
     }
 
     /**
@@ -62,14 +62,12 @@ class AliDayuGateway extends Gateway
     {
         ksort($params);
         $stringToBeSigned = $this->config->get('app_secret');
-        foreach ($params as $k => $v)
-        {
-            if (is_string($v) && "@" != substr($v, 0, 1))
-            {
-                $stringToBeSigned .= "$k$v";
+        foreach ($params as $key => $value) {
+            if (is_string($value) && "@" != substr($value, 0, 1)) {
+                $stringToBeSigned .= "$key$value";
             }
         }
-        unset($k, $v);
+        unset($key, $value);
         $stringToBeSigned .= $this->config->get('app_secret');
         return strtoupper(md5($stringToBeSigned));
     }
