@@ -16,18 +16,22 @@ class YunTongXunGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_TEMPLATE = 'https://%s:%s/%s/%s/%s/%s/%s?sig=%s';
+    const SERVER_IP = 'app.cloopen.com';
+    const DEBUG_SERVER_IP = 'sandboxapp.cloopen.com';
+    const DEBUG_TEMPLATE_ID = 1;
+    const SERVER_PORT = '8883';
     const SDK_VERSION = '2013-12-26';
 
     /**
      * Send a short message.
      *
      * @param string|int $to
-     * @param string     $template_id
+     * @param string     $templateId
      * @param array      $data
      *
      * @return mixed
      */
-    public function send($to, $template_id, array $data = [])
+    public function send($to, $templateId, array $data = [])
     {
         $datetime = date('YmdHis');
 
@@ -36,9 +40,9 @@ class YunTongXunGateway extends Gateway
         return $this->request('post', $endpoint, [
             'json' => [
                 'to' => $to,
-                'templateId' => $template_id,
+                'templateId' => (int)($this->config->get('debug') ? self::DEBUG_TEMPLATE_ID : $templateId),
                 'appId' => $this->config->get('app_id'),
-                'datas' => $data
+                'datas' => $data,
             ],
             'headers' => [
                 "Accept" => 'application/json',
@@ -59,10 +63,12 @@ class YunTongXunGateway extends Gateway
      */
     protected function buildEndpoint($type, $resource, $datetime)
     {
-        $account_type = $this->config->get('is_sub_account') ? 'SubAccounts' : 'Accounts';
+        $serverIp = $this->config->get('debug') ? self::DEBUG_SERVER_IP : self::SERVER_IP;
+
+        $accountType = $this->config->get('is_sub_account') ? 'SubAccounts' : 'Accounts';
 
         $sig = strtoupper(md5($this->config->get('account_sid') . $this->config->get('account_token') . $datetime));
 
-        return sprintf(self::ENDPOINT_TEMPLATE, $this->config->get('server_ip'), $this->config->get('server_port'), self::SDK_VERSION, $account_type, $this->config->get('account_sid'), $type, $resource, $sig);
+        return sprintf(self::ENDPOINT_TEMPLATE, $serverIp, self::SERVER_PORT, self::SDK_VERSION, $accountType, $this->config->get('account_sid'), $type, $resource, $sig);
     }
 }

@@ -17,12 +17,11 @@ class YunTongXunGatewayTest extends TestCase
     public function testSend()
     {
         $gateway = \Mockery::mock(YunTongXunGateway::class . '[request]', [[
+            'debug' => false,
             'is_sub_account' => false,
             'account_sid' => 'mock-account-sid',
             'account_token' => 'mock-account-token',
             'app_id' => 'mock-app-id',
-            'server_ip' => 'app.cloopen.com',
-            'server_port' => '8883',
         ]])->shouldAllowMockingProtectedMethods();
 
         $hash = date('YmdHis');
@@ -33,7 +32,7 @@ class YunTongXunGatewayTest extends TestCase
                 'to' => 18888888888,
                 'templateId' => 5589,
                 'appId' => 'mock-app-id',
-                'datas' => ['mock-data-1', 'mock-data-2']
+                'datas' => ['mock-data-1', 'mock-data-2'],
             ],
             'headers' => [
                 "Accept" => 'application/json',
