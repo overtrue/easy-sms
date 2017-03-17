@@ -67,7 +67,6 @@ class AliDayuGateway extends Gateway
                 $stringToBeSigned .= "$key$value";
             }
         }
-        unset($key, $value);
         $stringToBeSigned .= $this->config->get('app_secret');
         return strtoupper(md5($stringToBeSigned));
     }

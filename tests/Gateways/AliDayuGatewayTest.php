@@ -50,7 +50,6 @@ class AliDayuGatewayTest extends TestCase
                 $stringToBeSigned .= "$key$value";
             }
         }
-        unset($key, $value);
         $stringToBeSigned .= 'mock-api-secret';
         return strtoupper(md5($stringToBeSigned));
     }
