@@ -34,7 +34,7 @@ class HuyiGateway extends Gateway
     public function send($to, $message, array $data = [])
     {
         $params = [
-            'account' => $this->config->get('APIID'),
+            'account' => $this->config->get('api_id'),
             'mobile' => strval($to),
             'content' => $message,
             'time' => time(),
@@ -53,7 +53,6 @@ class HuyiGateway extends Gateway
      */
     protected function generateSign($params)
     {
-        return md5($params['account'].$this->config->get('APIKEY').$params['mobile'].$params['content'].$params['time']);
+        return md5($params['account'].$this->config->get('api_key').$params['mobile'].$params['content'].$params['time']);
     }
-
 }

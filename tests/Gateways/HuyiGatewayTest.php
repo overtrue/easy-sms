@@ -16,8 +16,8 @@ class HuyiGatewayTest extends TestCase
     public function testSend()
     {
         $gateway = \Mockery::mock(HuyiGateway::class.'[post]', [[
-            'APIID' => 'mock-api-id',
-            'APIKEY' => 'mock-api-key',
+            'api_id' => 'mock-api-id',
+            'api_key' => 'mock-api-key',
         ]])->shouldAllowMockingProtectedMethods();
 
         $params= [
@@ -32,7 +32,6 @@ class HuyiGatewayTest extends TestCase
             ->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $gateway->send(18188888888,'This is a huyi test message.'));
     }
-
 
     protected function generateSign($params)
     {
