@@ -38,7 +38,6 @@ class HuyiGateway extends Gateway
             'mobile' => strval($to),
             'content' => $message,
             'time' => time(),
-            'sms_type' => 'normal',
             'format' => self::ENDPOINT_FORMAT
         ];
         $params['password'] = $this->generateSign($params);
