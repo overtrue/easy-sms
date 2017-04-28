@@ -13,7 +13,7 @@ use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Support\Config;
 
 /**
- * Class Gateway
+ * Class Gateway.
  */
 abstract class Gateway implements GatewayInterface
 {
@@ -23,11 +23,6 @@ abstract class Gateway implements GatewayInterface
      * @var \Overtrue\EasySms\Support\Config
      */
     protected $config;
-
-    /**
-     * @var string
-     */
-    protected $baseUri;
 
     /**
      * @var float
@@ -42,16 +37,6 @@ abstract class Gateway implements GatewayInterface
     public function __construct(array $config)
     {
         $this->config = new Config($config);
-    }
-
-    /**
-     * Return base uri.
-     *
-     * @return string
-     */
-    public function getBaseUri()
-    {
-        return $this->baseUri;
     }
 
     /**
@@ -71,7 +56,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return $this
      */
-    public function timeout($timeout)
+    public function setTimeout($timeout)
     {
         $this->timeout = floatval($timeout);
 
@@ -84,5 +69,17 @@ abstract class Gateway implements GatewayInterface
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * @param \Overtrue\EasySms\Support\Config $config
+     *
+     * @return $this
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+
+        return $this;
     }
 }

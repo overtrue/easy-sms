@@ -11,7 +11,11 @@ namespace Overtrue\EasySms\Tests;
 
 use InvalidArgumentException;
 use Overtrue\EasySms\Contracts\GatewayInterface;
+use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\EasySms;
+use Overtrue\EasySms\Message;
+use Overtrue\EasySms\Messenger;
+use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
 class EasySmsTest extends TestCase
@@ -66,17 +70,23 @@ class EasySmsTest extends TestCase
         $this->assertInstanceOf(DummyGatewayForTest::class, $easySms->gateway('foo'));
     }
 
-    public function testMagicCall()
+    public function testSend()
     {
-        $easySms = new EasySms(['default' => DummyGatewayForTest::class]);
+        $message = new Message(['content' => 'hello']);
+        $config = new Config();
 
-        $this->assertSame('send-result', $easySms->send('mock-number', 'hello'));
+        $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
+        $messenger = \Mockery::mock(Messenger::class);
+        $messenger->shouldReceive('send')->with('mock-number', $message, [])->andReturn('send-result');
+        $easySms->shouldReceive('getMessenger')->andReturn($messenger);
+
+        $this->assertSame('send-result', $easySms->send('mock-number', $message, $config));
     }
 }
 
 class DummyGatewayForTest implements GatewayInterface
 {
-    public function send($to, $message, array $data = [])
+    public function send($to, MessageInterface $message, Config $config)
     {
         return 'send-result';
     }

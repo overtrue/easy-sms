@@ -7,11 +7,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\EasySms\Tests;
+namespace Overtrue\EasySms\Tests\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Overtrue\EasySms\HasHttpRequest;
+use Overtrue\EasySms\Traits\HasHttpRequest;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class HasHttpRequestTest extends TestCase

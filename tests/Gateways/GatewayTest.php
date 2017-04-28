@@ -9,6 +9,7 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Gateways\Gateway;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
@@ -20,9 +21,8 @@ class GatewayTest extends TestCase
         $gateway = new DummyGatewayForGatewayTest(['foo' => 'bar']);
 
         $this->assertInstanceOf(Config::class, $gateway->getConfig());
-        $this->assertSame('https://mock-base-uri', $gateway->getBaseUri());
         $this->assertSame(5.0, $gateway->getTimeout());
-        $gateway->timeout(4.0);
+        $gateway->setTimeout(4.0);
         $this->assertSame(4.0, $gateway->getTimeout());
 
         $gateway = new DummyGatewayForGatewayTest(['foo' => 'bar', 'timeout' => 12.0]);
@@ -32,9 +32,7 @@ class GatewayTest extends TestCase
 
 class DummyGatewayForGatewayTest extends Gateway
 {
-    protected $baseUri = 'https://mock-base-uri';
-
-    public function send($to, $message, array $data = [])
+    public function send($to, MessageInterface $message, Config $config)
     {
         return 'mock-result';
     }

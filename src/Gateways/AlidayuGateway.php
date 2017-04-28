@@ -9,12 +9,17 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use Overtrue\EasySms\HasHttpRequest;
+use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Support\Config;
+use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class AliDayuGateway.
+ * Class AlidayuGateway.
+ *
+ * @see http://open.taobao.com/doc2/apiDetail?apiId=25450#s2
  */
-class AliDayuGateway extends Gateway
+class AlidayuGateway extends Gateway
 {
     use HasHttpRequest;
 
@@ -24,31 +29,39 @@ class AliDayuGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * Send a short message.
-     *
-     * @param string|int $to
-     * @param string     $message
-     * @param array      $data
+     * @param array|int|string                             $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return mixed
+     *
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
      */
-    public function send($to, $message, array $data = [])
+    public function send($to, MessageInterface $message, Config $config)
     {
         $params = [
             'method' => self::ENDPOINT_METHOD,
             'format' => self::ENDPOINT_FORMAT,
             'v' => self::ENDPOINT_VERSION,
             'sign_method' => 'md5',
-            'timestamp' => date("Y-m-d H:i:s"),
+            'timestamp' => date('Y-m-d H:i:s'),
             'sms_type' => 'normal',
-            'sms_free_sign_name' => $this->config->get('sign_name'),
-            'app_key' => $this->config->get('app_key'),
-            'sms_template_code' => $this->config->get('template_code'),
+            'sms_free_sign_name' => $config->get('sign_name'),
+            'app_key' => $config->get('app_key'),
+            'sms_template_code' => $config->get('template_code'),
             'rec_num' => strval($to),
-            'sms_param' => json_encode($data)
+            'sms_param' => json_encode($message->getData()),
         ];
+
         $params['sign'] = $this->generateSign($params);
-        return $this->post(self::ENDPOINT_URL, $params);
+
+        $result = $this->post(self::ENDPOINT_URL, $params);
+
+        if (!empty($result['error_response'])) {
+            throw new GatewayErrorException($result['error_response']['sub_msg'], $result['error_response']['code'], $result);
+        }
+
+        return $result;
     }
 
     /**
@@ -63,11 +76,13 @@ class AliDayuGateway extends Gateway
         ksort($params);
         $stringToBeSigned = $this->config->get('app_secret');
         foreach ($params as $key => $value) {
-            if (is_string($value) && "@" != substr($value, 0, 1)) {
+            if (is_string($value) && '@' != substr($value, 0, 1)) {
                 $stringToBeSigned .= "$key$value";
             }
         }
+
         $stringToBeSigned .= $this->config->get('app_secret');
+
         return strtoupper(md5($stringToBeSigned));
     }
 }

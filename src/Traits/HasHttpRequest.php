@@ -7,13 +7,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Overtrue\EasySms;
+namespace Overtrue\EasySms\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Trait HasHttpRequest
+ * Trait HasHttpRequest.
  */
 trait HasHttpRequest
 {

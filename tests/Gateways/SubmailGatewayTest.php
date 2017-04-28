@@ -9,27 +9,54 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\SubmailGateway;
+use Overtrue\EasySms\Message;
+use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class SubmailGatewayTest extends TestCase
 {
     public function testSend()
     {
-        $gateway = \Mockery::mock(SubmailGateway::class.'[post]', [[
+        $config = [
             'app_id' => 'mock-app-id',
             'app_key' => 'mock-app-key',
-            'project' => 'mock-project'
-        ]])->shouldAllowMockingProtectedMethods();
+            'project' => 'mock-project',
+        ];
+        $gateway = \Mockery::mock(SubmailGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->expects()->post('https://api.mysubmail.com/message/xsend.json', [
+        $gateway->shouldReceive('post')->with('https://api.mysubmail.com/message/xsend.json', [
             'appid' => 'mock-app-id',
             'signature' => 'mock-app-key',
             'project' => 'mock-project',
             'to' => 18188888888,
-            'vars' => json_encode(array(['code'=>'123456','time'=>'15'])),
-        ])->andReturn('mock-result')->once();
+            'vars' => json_encode(['code' => '123456', 'time' => '15']),
+        ])->andReturn([
+            'status' => 'success',
+            'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',
+            'fee' => 1,
+            'sms_credits' => 14197,
+        ], [
+            'status' => 'error',
+            'code' => 100,
+            'msg' => 'mock-err-msg',
+        ])->times(2);
 
-        $this->assertSame('mock-result', $gateway->send(18188888888, '',array(['code'=>'123456','time'=>'15'])));
+        $message = new Message(['data' => ['code' => '123456', 'time' => '15']]);
+        $config = new Config($config);
+
+        $this->assertSame([
+            'status' => 'success',
+            'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',
+            'fee' => 1,
+            'sms_credits' => 14197,
+        ], $gateway->send(18188888888, $message, $config));
+
+        $this->expectException(GatewayErrorException::class);
+        $this->expectExceptionCode(100);
+        $this->expectExceptionMessage('mock-err-msg');
+
+        $gateway->send(18188888888, $message, $config);
     }
 }

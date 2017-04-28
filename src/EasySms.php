@@ -12,6 +12,7 @@ namespace Overtrue\EasySms;
 use Closure;
 use InvalidArgumentException;
 use Overtrue\EasySms\Contracts\GatewayInterface;
+use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
@@ -41,6 +42,11 @@ class EasySms
     protected $gateways = [];
 
     /**
+     * @var \Overtrue\EasySms\Messenger
+     */
+    protected $messenger;
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -52,6 +58,21 @@ class EasySms
         if (!empty($config['default'])) {
             $this->setDefaultGateway($config['default']);
         }
+    }
+
+    /**
+     * Send a message.
+     *
+     * @param string|array                                 $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     *
+     * @return array
+     */
+    public function send($to, $message)
+    {
+        $messenger = $this->getMessenger();
+
+        return $messenger->send($to, $message, $this->getMessageGateways($message));
     }
 
     /**
@@ -115,6 +136,44 @@ class EasySms
         $this->defaultGateway = $name;
 
         return $this;
+    }
+
+    /**
+     * @return \Overtrue\EasySms\Messenger
+     */
+    public function getMessenger()
+    {
+        return $this->messenger ?: $this->messenger = new Messenger($this);
+    }
+
+    /**
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     *
+     * @return array
+     */
+    protected function getMessageGateways(MessageInterface $message)
+    {
+        $gateways = [];
+
+        foreach ($message->getGateways() as $gateway => $setting) {
+            if (is_integer($gateway) && is_string($setting)) {
+                $gateway = $setting;
+                $setting = [];
+            }
+            $globalSetting = $this->config->get("gateways.{$gateway}", []);
+
+            if (is_string($gateway) && !empty($globalSetting)) {
+                $gateways[$gateway] = array_merge($globalSetting, (array) $setting);
+            }
+        }
+
+        if ($this->config->get('shuffle_gateways')) {
+            uasort($gateways, function () {
+                return mt_rand() - mt_rand();
+            });
+        }
+
+        return $gateways;
     }
 
     /**

@@ -2,17 +2,22 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
- * (c) Jiajian Chan <changejian@gmail.com>
+ * (c) overtrue <i@overtrue.me>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\EasySms\Gateways;
 
-use Overtrue\EasySms\HasHttpRequest;
+use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Support\Config;
+use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
  * Class LuosimaoGateway.
+ *
+ * @see https://luosimao.com/docs/api/
  */
 class LuosimaoGateway extends Gateway
 {
@@ -23,24 +28,30 @@ class LuosimaoGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * Send a short message.
-     *
-     * @param string|int $to
-     * @param string     $message
-     * @param array      $data
+     * @param array|int|string                             $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return mixed
+     *
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
      */
-    public function send($to, $message, array $data = [])
+    public function send($to, MessageInterface $message, Config $config)
     {
         $endpoint = $this->buildEndpoint('sms-api', 'send');
 
-        return $this->post($endpoint, [
+        $result = $this->post($endpoint, [
             'mobile' => $to,
-            'message' => $message,
+            'message' => $message->getContent(),
         ], [
-            'Authorization' => 'Basic ' . base64_encode('api:key-' . $this->config->get('api_key')),
+            'Authorization' => 'Basic '.base64_encode('api:key-'.$config->get('api_key')),
         ]);
+
+        if ($result['error']) {
+            throw new GatewayErrorException($result['msg'], $result['error'], $result);
+        }
+
+        return $result;
     }
 
     /**

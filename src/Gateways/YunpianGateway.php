@@ -15,15 +15,16 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class SubmailGateway.
+ * Class YunpianGateway.
  *
- * @see https://www.mysubmail.com/chs/documents/developer/index
+ * @see https://www.yunpian.com/api2.0/api-domestic/single_send.html
  */
-class SubmailGateway extends Gateway
+class YunpianGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_TEMPLATE = 'https://api.mysubmail.com/message/%s.%s';
+    const ENDPOINT_TEMPLATE = 'https://%s.yunpian.com/%s/%s/%s.%s';
+    const ENDPOINT_VERSION = 'v2';
     const ENDPOINT_FORMAT = 'json';
 
     /**
@@ -31,23 +32,21 @@ class SubmailGateway extends Gateway
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config
      *
-     * @return mixed
+     * @return array
      *
      * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
      */
     public function send($to, MessageInterface $message, Config $config)
     {
-        $endpoint = $this->buildEndpoint('xsend');
+        $endpoint = $this->buildEndpoint('sms', 'sms', 'single_send');
 
         $result = $this->post($endpoint, [
-            'appid' => $config->get('app_id'),
-            'signature' => $config->get('app_key'),
-            'project' => $config->get('project'),
-            'to' => $to,
-            'vars' => json_encode($message->getData()),
+            'apikey' => $config->get('api_key'),
+            'mobile' => $to,
+            'text' => $message->getContent(),
         ]);
 
-        if ($result['status'] != 'success') {
+        if ($result['code']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 
@@ -57,12 +56,14 @@ class SubmailGateway extends Gateway
     /**
      * Build endpoint url.
      *
+     * @param string $type
+     * @param string $resource
      * @param string $function
      *
      * @return string
      */
-    protected function buildEndpoint($function)
+    protected function buildEndpoint($type, $resource, $function)
     {
-        return sprintf(self::ENDPOINT_TEMPLATE, $function, self::ENDPOINT_FORMAT);
+        return sprintf(self::ENDPOINT_TEMPLATE, $type, self::ENDPOINT_VERSION, $resource, $function, self::ENDPOINT_FORMAT);
     }
 }

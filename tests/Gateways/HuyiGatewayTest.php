@@ -1,40 +1,57 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017-03-20
- * Time: 下午 5:15
+
+/*
+ * This file is part of the overtrue/easy-sms.
+ * (c) overtrue <i@overtrue.me>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\HuyiGateway;
+use Overtrue\EasySms\Message;
+use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class HuyiGatewayTest extends TestCase
 {
     public function testSend()
     {
-        $gateway = \Mockery::mock(HuyiGateway::class.'[post]', [[
+        $config = [
             'api_id' => 'mock-api-id',
             'api_key' => 'mock-api-key',
-        ]])->shouldAllowMockingProtectedMethods();
+        ];
+        $gateway = \Mockery::mock(HuyiGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $params= [
+        $params = [
             'account' => 'mock-api-id',
             'mobile' => strval(18188888888),
             'content' => 'This is a huyi test message.',
-            'time' => time(),
-            'format' => 'json'
+            'format' => 'json',
         ];
-        $params['sign']=$this->generateSign($params);
-        $gateway->expects()->post('http://106.ihuyi.com/webservice/sms.php?method=Submit', $params)
-            ->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $gateway->send(18188888888,'This is a huyi test message.'));
-    }
+        $gateway->shouldReceive('post')->with('http://106.ihuyi.com/webservice/sms.php?method=Submit', \Mockery::subset($params))
+            ->andReturn([
+                'code' => HuyiGateway::SUCCESS_CODE,
+                'msg' => 'mock-result',
+            ], [
+                'code' => 1234,
+                'msg' => 'mock-err-msg',
+            ])->times(2);
 
-    protected function generateSign($params)
-    {
-        return md5($params['account'].'mock-api-key'.$params['mobile'].$params['content'].$params['time']);
+        $message = new Message(['content' => 'This is a huyi test message.']);
+        $config = new Config($config);
+
+        $this->assertSame([
+            'code' => HuyiGateway::SUCCESS_CODE,
+            'msg' => 'mock-result',
+        ], $gateway->send(18188888888, $message, $config));
+
+        $this->expectException(GatewayErrorException::class);
+        $this->expectExceptionCode(1234);
+        $this->expectExceptionMessage('mock-err-msg');
+
+        $gateway->send(18188888888, $message, $config);
     }
 }

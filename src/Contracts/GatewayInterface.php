@@ -9,6 +9,8 @@
 
 namespace Overtrue\EasySms\Contracts;
 
+use Overtrue\EasySms\Support\Config;
+
 /**
  * Class GatewayInterface.
  */
@@ -17,11 +19,11 @@ interface GatewayInterface
     /**
      * Send a short message.
      *
-     * @param string|int $to
-     * @param string     $template
-     * @param array      $data
+     * @param int|string|array                             $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
-     * @return mixed
+     * @return array
      */
-    public function send($to, $template, array $data = []);
+    public function send($to, MessageInterface $message, Config $config);
 }
