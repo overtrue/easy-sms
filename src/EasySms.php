@@ -231,7 +231,7 @@ class EasySms
             return $name;
         }
 
-        $name = $this->camelCase($name);
+        $name = ucfirst(str_replace(['-', '_', ''], '', $name));
 
         return __NAMESPACE__."\\Gateways\\{$name}Gateway";
     }
@@ -246,18 +246,6 @@ class EasySms
     protected function callCustomCreator($gateway)
     {
         return call_user_func($this->customCreators[$gateway], $this->config->get($gateway, []));
-    }
-
-    /**
-     * Convert string to camel case.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    protected function camelCase($name)
-    {
-        return str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $name)));
     }
 
     /**
