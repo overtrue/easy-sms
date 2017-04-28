@@ -139,7 +139,7 @@ class Message implements MessageInterface
      */
     public function setData(array $data)
     {
-        $this->data = $data;s
+        $this->data = $data;
 
         return $this;
     }
