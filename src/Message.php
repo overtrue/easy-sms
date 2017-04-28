@@ -139,7 +139,7 @@ class Message implements MessageInterface
      */
     public function setData(array $data)
     {
-        $this->data = $data;
+        $this->data = $data;s
 
         return $this;
     }
@@ -147,7 +147,7 @@ class Message implements MessageInterface
     /**
      * @return array
      */
-    public function getGateways(): array
+    public function getGateways()
     {
         return $this->gateways;
     }
