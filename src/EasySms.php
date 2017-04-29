@@ -10,9 +10,9 @@
 namespace Overtrue\EasySms;
 
 use Closure;
-use InvalidArgumentException;
 use Overtrue\EasySms\Contracts\GatewayInterface;
-use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\StrategyInterface;
+use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
@@ -47,6 +47,11 @@ class EasySms
     protected $messenger;
 
     /**
+     * @var array
+     */
+    protected $strategies = [];
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -65,14 +70,15 @@ class EasySms
      *
      * @param string|array                                 $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param array                                        $gateways
      *
      * @return array
      */
-    public function send($to, $message)
+    public function send($to, $message, array $gateways = [])
     {
         $messenger = $this->getMessenger();
 
-        return $messenger->send($to, $message, $this->getMessageGateways($message));
+        return $messenger->send($to, $message, $gateways);
     }
 
     /**
@@ -94,6 +100,34 @@ class EasySms
     }
 
     /**
+     * Get a strategy instance.
+     *
+     * @param string|null $strategy
+     *
+     * @return StrategyInterface
+     */
+    public function strategy($strategy = null)
+    {
+        if (is_null($strategy)) {
+            $strategy = $this->config->get('default.strategy');
+        }
+
+        if (!class_exists($strategy)) {
+            $strategy = __NAMESPACE__.'\Strategies\\'.ucfirst($strategy);
+        }
+
+        if (!class_exists($strategy)) {
+            throw new InvalidArgumentException("Unsupported strategy \"{$strategy}\"");
+        }
+
+        if (!($this->strategies[$strategy] instanceof StrategyInterface)) {
+            $this->strategies[$strategy] = new $strategy($this);
+        }
+
+        return $this->strategies[$strategy];
+    }
+
+    /**
      * Register a custom driver creator Closure.
      *
      * @param string   $name
@@ -106,6 +140,14 @@ class EasySms
         $this->customCreators[$name] = $callback;
 
         return $this;
+    }
+
+    /**
+     * @return \Overtrue\EasySms\Support\Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -144,36 +186,6 @@ class EasySms
     public function getMessenger()
     {
         return $this->messenger ?: $this->messenger = new Messenger($this);
-    }
-
-    /**
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     *
-     * @return array
-     */
-    protected function getMessageGateways(MessageInterface $message)
-    {
-        $gateways = [];
-
-        foreach ($message->getGateways() as $gateway => $setting) {
-            if (is_integer($gateway) && is_string($setting)) {
-                $gateway = $setting;
-                $setting = [];
-            }
-            $globalSetting = $this->config->get("gateways.{$gateway}", []);
-
-            if (is_string($gateway) && !empty($globalSetting)) {
-                $gateways[$gateway] = array_merge($globalSetting, (array) $setting);
-            }
-        }
-
-        if ($this->config->get('shuffle_gateways')) {
-            uasort($gateways, function () {
-                return mt_rand() - mt_rand();
-            });
-        }
-
-        return $gateways;
     }
 
     /**
@@ -246,18 +258,5 @@ class EasySms
     protected function callCustomCreator($gateway)
     {
         return call_user_func($this->customCreators[$gateway], $this->config->get($gateway, []));
-    }
-
-    /**
-     * Dynamically call the default gateway instance.
-     *
-     * @param string $method
-     * @param array  $parameters
-     *
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array([$this->gateway(), $method], $parameters);
     }
 }

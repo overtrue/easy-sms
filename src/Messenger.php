@@ -10,13 +10,30 @@
 namespace Overtrue\EasySms;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
-use Overtrue\EasySms\Support\Config;
 
 /**
  * Class Messenger.
  */
 class Messenger
 {
+    const STATUS_SUCCESS = 'success';
+    const STATUS_ERRED = 'erred';
+
+    /**
+     * @var \Overtrue\EasySms\EasySms
+     */
+    protected $easySms;
+
+    /**
+     * Messenger constructor.
+     *
+     * @param \Overtrue\EasySms\EasySms $easySms
+     */
+    public function __construct(EasySms $easySms)
+    {
+        $this->easySms = $easySms;
+    }
+
     /**
      * Send a message.
      *
@@ -29,20 +46,62 @@ class Messenger
     public function send($to, MessageInterface $message, array $gateways = [])
     {
         if (!($message instanceof MessageInterface)) {
-            $message = new Message(['content' => $message, 'template' => $message]);
+            $message = new Message([
+                'content' => $message,
+                'template' => $message,
+            ]);
         }
 
-        $result = [];
+        $results = [];
 
-        foreach ($gateways as $gateway => $config) {
+        if (empty($gateways)) {
+            $gateways = $message->getGateways();
+        }
+
+        $gateways = $this->formatGateways($gateways);
+        $strategyAppliedGateways = $this->easySms->strategy()->apply($gateways);
+
+        foreach ($strategyAppliedGateways as $gateway) {
             try {
-                $result[$gateway] = $this->gateway($gateway)->send($to, $message, new Config($config));
+                $result[$gateway] = [
+                        'status' => self::STATUS_SUCCESS,
+                        'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
+                    ];
             } catch (GatewayErrorException $e) {
-                $result[$gateway] = $e;
+                $result[$gateway] = [
+                    'status' => self::STATUS_ERRED,
+                    'exception' => $e,
+                ];
                 continue;
             }
         }
 
-        return false;
+        return $results;
+    }
+
+    /**
+     * @param array $gateways
+     *
+     * @return array
+     */
+    protected function formatGateways(array $gateways)
+    {
+        $formatted = [];
+        $config = $this->easySms->getConfig();
+
+        foreach ($gateways as $gateway => $setting) {
+            if (is_integer($gateway) && is_string($setting)) {
+                $gateway = $setting;
+                $setting = [];
+            }
+
+            $globalSetting = $config->get("gateways.{$gateway}", []);
+
+            if (is_string($gateway) && !empty($globalSetting) && is_array($setting)) {
+                $formatted[$gateway] = array_merge($globalSetting, $setting);
+            }
+        }
+
+        return $formatted;
     }
 }

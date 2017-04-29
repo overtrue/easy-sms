@@ -29,15 +29,22 @@ $ composer require "overtrue/easy-sms"
 use Overtrue\EasySms\EasySms;
 
 $config = [
-    'default' => 'error-log',
-    'shuffle_gateways' => true, 
-    'enabled_gateways' => ['yunpian', 'alidayu'],
+    'timeout' => 5.0,
+    'default' => [
+        'strategy' => \Overtrue\EasySms\Strategies\RandomStrategy::class,
+        'gateways' => [
+            'yunpian', 'alidayu',
+        ],
+    ],
     'gateways' => [
-        'error-log' => [
+        'errorlog' => [
             'file' => '/tmp/easy-sms.log',
         ],
         'yunpian' => [
-            'api_key' => '824f0ff2f71cab52936a13ede3xxxxx',
+            'api_key' => '824f0ff2f71cab52936axxxxxxxxxx',
+        ],
+        alidayu => [
+            //...
         ],
     ],
 ];

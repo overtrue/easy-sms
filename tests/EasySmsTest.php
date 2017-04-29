@@ -73,14 +73,20 @@ class EasySmsTest extends TestCase
     public function testSend()
     {
         $message = new Message(['content' => 'hello']);
-        $config = new Config();
 
         $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
         $messenger = \Mockery::mock(Messenger::class);
         $messenger->shouldReceive('send')->with('mock-number', $message, [])->andReturn('send-result');
         $easySms->shouldReceive('getMessenger')->andReturn($messenger);
 
-        $this->assertSame('send-result', $easySms->send('mock-number', $message, $config));
+        $this->assertSame('send-result', $easySms->send('mock-number', $message, []));
+    }
+
+    public function testGetMessenger()
+    {
+        $easySms = new EasySms([]);
+
+        $this->assertInstanceOf(Messenger::class, $easySms->getMessenger());
     }
 }
 
