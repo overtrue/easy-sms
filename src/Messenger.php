@@ -37,7 +37,7 @@ class Messenger
     /**
      * Send a message.
      *
-     * @param string                                       $to
+     * @param string|array                                 $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param array                                        $gateways
      *
@@ -63,12 +63,12 @@ class Messenger
 
         foreach ($strategyAppliedGateways as $gateway) {
             try {
-                $result[$gateway] = [
+                $results[$gateway] = [
                         'status' => self::STATUS_SUCCESS,
                         'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
                     ];
             } catch (GatewayErrorException $e) {
-                $result[$gateway] = [
+                $results[$gateway] = [
                     'status' => self::STATUS_ERRED,
                     'exception' => $e,
                 ];
