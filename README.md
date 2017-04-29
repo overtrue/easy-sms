@@ -43,7 +43,7 @@ $config = [
         'yunpian' => [
             'api_key' => '824f0ff2f71cab52936axxxxxxxxxx',
         ],
-        alidayu => [
+        'alidayu' => [
             //...
         ],
     ],
