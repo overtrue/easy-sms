@@ -12,21 +12,19 @@ namespace Overtrue\EasySms\Strategies;
 use Overtrue\EasySms\Contracts\StrategyInterface;
 
 /**
- * Class RandomStrategy.
+ * Class OrderStrategy.
  */
-class RandomStrategy implements StrategyInterface
+class OrderStrategy implements StrategyInterface
 {
     /**
+     * Apply the strategy and return result.
+     *
      * @param array $gateways
      *
      * @return array
      */
     public function apply(array $gateways)
     {
-        uasort($gateways, function () {
-            return mt_rand() - mt_rand();
-        });
-
         return $gateways;
     }
 }
