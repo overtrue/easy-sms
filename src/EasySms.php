@@ -13,6 +13,7 @@ use Closure;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Contracts\StrategyInterface;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
+use Overtrue\EasySms\Strategies\OrderStrategy;
 use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
@@ -109,7 +110,7 @@ class EasySms
     public function strategy($strategy = null)
     {
         if (is_null($strategy)) {
-            $strategy = $this->config->get('default.strategy');
+            $strategy = $this->config->get('default.strategy', OrderStrategy::class);
         }
 
         if (!class_exists($strategy)) {

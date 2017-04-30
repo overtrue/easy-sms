@@ -52,15 +52,18 @@ class Messenger
             ]);
         }
 
-        $results = [];
-
         if (empty($gateways)) {
             $gateways = $message->getGateways();
+        }
+
+        if (empty($gateways)) {
+            $gateways = $this->easySms->getConfig()->get('default.gateways', []);
         }
 
         $gateways = $this->formatGateways($gateways);
         $strategyAppliedGateways = $this->easySms->strategy()->apply($gateways);
 
+        $results = [];
         foreach ($strategyAppliedGateways as $gateway) {
             try {
                 $results[$gateway] = [

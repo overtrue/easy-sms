@@ -31,7 +31,6 @@ use Overtrue\EasySms\EasySms;
 $config = [
     'timeout' => 5.0,
     'default' => [
-        'strategy' => \Overtrue\EasySms\Strategies\RandomStrategy::class,
         'gateways' => [
             'yunpian', 'alidayu',
         ],
