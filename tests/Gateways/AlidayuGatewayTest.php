@@ -32,7 +32,6 @@ class AlidayuGatewayTest extends TestCase
             'format' => 'json',
             'v' => '2.0',
             'sign_method' => 'md5',
-            'timestamp' => date('Y-m-d H:i:s'),
             'sms_type' => 'normal',
             'sms_free_sign_name' => 'mock-api-sign-name',
             'app_key' => 'mock-api-key',
@@ -40,8 +39,7 @@ class AlidayuGatewayTest extends TestCase
             'rec_num' => strval(18888888888),
             'sms_param' => json_encode(['code' => '123456', 'time' => '15']),
         ];
-        $params['sign'] = $this->generateSign($params);
-        $gateway->shouldReceive('post')->with('https://eco.taobao.com/router/rest', $params)
+        $gateway->shouldReceive('post')->with('https://eco.taobao.com/router/rest', \Mockery::subset($params))
                 ->andReturn([
                     'success_response' => 'mock-result',
                 ], [
@@ -63,19 +61,5 @@ class AlidayuGatewayTest extends TestCase
         $this->expectExceptionMessage('mock-msg');
 
         $gateway->send(18888888888, $message, $config);
-    }
-
-    protected function generateSign($params)
-    {
-        ksort($params);
-        $stringToBeSigned = 'mock-api-secret';
-        foreach ($params as $key => $value) {
-            if (is_string($key) && '@' != substr($value, 0, 1)) {
-                $stringToBeSigned .= "$key$value";
-            }
-        }
-        $stringToBeSigned .= 'mock-api-secret';
-
-        return strtoupper(md5($stringToBeSigned));
     }
 }
