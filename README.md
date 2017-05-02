@@ -112,6 +112,7 @@ $easySms->send(13188888888, $message);
 - [阿里大鱼](https://github.com/overtrue/easy-sms/wiki/GateWays---AliDayu)
 - [容联云通讯](https://github.com/overtrue/easy-sms/wiki/GateWays---Yuntongxun)
 - [互亿无线](https://github.com/overtrue/easy-sms/wiki/GateWays---Huyi)
+- [聚合数据](https://github.com/overtrue/easy-sms/wiki/GateWays---Juhe)
 - SendCloud
 
 # License
