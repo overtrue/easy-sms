@@ -27,23 +27,29 @@ interface MessageInterface
     /**
      * Return message content.
      *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return string
      */
-    public function getContent();
+    public function getContent(GatewayInterface $gateway = null);
 
     /**
      * Return the template id of message.
      *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return string
      */
-    public function getTemplate();
+    public function getTemplate(GatewayInterface $gateway = null);
 
     /**
      * Return the template data of message.
      *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return string
      */
-    public function getData();
+    public function getData(GatewayInterface $gateway = null);
 
     /**
      * Return message supported gateways.

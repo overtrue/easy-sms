@@ -9,6 +9,7 @@
 
 namespace Overtrue\EasySms;
 
+use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Contracts\MessageInterface;
 
 /**
@@ -71,9 +72,11 @@ class Message implements MessageInterface
     /**
      * Return message content.
      *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return string
      */
-    public function getContent()
+    public function getContent(GatewayInterface $gateway = null)
     {
         return $this->content;
     }
@@ -81,9 +84,11 @@ class Message implements MessageInterface
     /**
      * Return the template id of message.
      *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return string
      */
-    public function getTemplate()
+    public function getTemplate(GatewayInterface $gateway = null)
     {
         return $this->template;
     }
@@ -125,9 +130,11 @@ class Message implements MessageInterface
     }
 
     /**
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
      * @return array
      */
-    public function getData()
+    public function getData(GatewayInterface $gateway = null)
     {
         return $this->data;
     }
