@@ -20,7 +20,7 @@ class JuheGatewayTest extends TestCase
     public function testSend()
     {
         $config = [
-            'key' => 'mock-key',
+            'app_key' => 'mock-key',
         ];
         $gateway = \Mockery::mock(JuheGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
 
