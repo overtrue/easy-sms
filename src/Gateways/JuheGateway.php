@@ -1,12 +1,13 @@
 <?php
+
 /*
- * This file is part of the sora.
- *
- * (c) 2016 weibo.com
+ * This file is part of the overtrue/easy-sms.
+ * (c) overtrue <i@overtrue.me>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\EasySms\Gateways;
-
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
