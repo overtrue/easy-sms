@@ -37,7 +37,7 @@ class JuheGateway extends Gateway
             'tpl_id' => $message->getTemplate($this),
             'tpl_value' => $this->formatTemplateVars($message->getData($this)),
             'dtype' => self::ENDPOINT_FORMAT,
-            'key' => $config->get('key'),
+            'key' => $config->get('app_key'),
         ];
 
         $result = $this->get(self::ENDPOINT_URL, $params);

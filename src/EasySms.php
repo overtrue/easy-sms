@@ -77,9 +77,7 @@ class EasySms
      */
     public function send($to, $message, array $gateways = [])
     {
-        $messenger = $this->getMessenger();
-
-        return $messenger->send($to, $message, $gateways);
+        return $this->getMessenger()->send($to, $message, $gateways);
     }
 
     /**
@@ -121,7 +119,7 @@ class EasySms
             throw new InvalidArgumentException("Unsupported strategy \"{$strategy}\"");
         }
 
-        if (!($this->strategies[$strategy] instanceof StrategyInterface)) {
+        if (empty($this->strategies[$strategy]) || !($this->strategies[$strategy] instanceof StrategyInterface)) {
             $this->strategies[$strategy] = new $strategy($this);
         }
 

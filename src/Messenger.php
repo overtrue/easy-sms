@@ -10,6 +10,8 @@
 namespace Overtrue\EasySms;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Support\Config;
 
 /**
  * Class Messenger.
@@ -38,19 +40,14 @@ class Messenger
      * Send a message.
      *
      * @param string|array                                 $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param string|array|\Overtrue\EasySms\Contracts\MessageInterface $message
      * @param array                                        $gateways
      *
      * @return array
      */
-    public function send($to, MessageInterface $message, array $gateways = [])
+    public function send($to, $message, array $gateways = [])
     {
-        if (!($message instanceof MessageInterface)) {
-            $message = new Message([
-                'content' => $message,
-                'template' => $message,
-            ]);
-        }
+        $message = $this->formatMessage($message);
 
         if (empty($gateways)) {
             $gateways = $message->getGateways();
@@ -70,6 +67,7 @@ class Messenger
                         'status' => self::STATUS_SUCCESS,
                         'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
                     ];
+                break;
             } catch (GatewayErrorException $e) {
                 $results[$gateway] = [
                     'status' => self::STATUS_ERRED,
@@ -80,6 +78,27 @@ class Messenger
         }
 
         return $results;
+    }
+
+    /**
+     * @param array|string|\Overtrue\EasySms\Contracts\MessageInterface $message
+     *
+     * @return \Overtrue\EasySms\Contracts\MessageInterface
+     */
+    protected function formatMessage($message)
+    {
+        if (!($message instanceof MessageInterface)) {
+            if (!is_array($message)) {
+                $message = [
+                    'content' => strval($message),
+                    'template' => strval($message),
+                ];
+            }
+
+            $message = new Message($message);
+        }
+
+        return $message;
     }
 
     /**

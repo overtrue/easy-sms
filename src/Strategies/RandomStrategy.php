@@ -27,6 +27,6 @@ class RandomStrategy implements StrategyInterface
             return mt_rand() - mt_rand();
         });
 
-        return $gateways;
+        return array_keys($gateways);
     }
 }
