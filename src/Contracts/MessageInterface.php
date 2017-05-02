@@ -47,7 +47,7 @@ interface MessageInterface
      *
      * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
      *
-     * @return string
+     * @return array
      */
     public function getData(GatewayInterface $gateway = null);
 
