@@ -34,7 +34,7 @@ $config = [
     
     // 默认发送配置
     'default' => [
-        // 网关调用策略，默认顺序调用
+        // 网关调用策略，默认：顺序调用
         'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class
         
         // 默认可用的发送网关
@@ -116,11 +116,13 @@ $easySms->send(13188888888,
 <?php
 
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\Strategies\OrderStrategy;
 
 class OrderPaidMessage extends Messeage
 {
     protected $order;
-    protected $gateways = ['alidayu', 'yunpian']; // 定义本短信的适用平台，覆盖全局配置中的 `enabled_gateways`
+    protected $strategy = OrderStrategy::class;           // 定义本短信的网关使用策略，覆盖全局配置中的 `default.strategy`
+    protected $gateways = ['alidayu', 'yunpian', 'juhe']; // 定义本短信的适用平台，覆盖全局配置中的 `default.gateways`
 
     public function __construct($order)
     {
