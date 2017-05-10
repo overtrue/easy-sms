@@ -13,28 +13,36 @@
 </p>
 
 
-# 环境需求
+## 环境需求
 
 - PHP >= 5.6
 
-# 安装
+## 安装
 
 ```shell
 $ composer require "overtrue/easy-sms"
 ```
 
-# 使用
+## 使用
 
 ```php
 use Overtrue\EasySms\EasySms;
 
 $config = [
+    // HTTP 请求的超时时间（秒）
     'timeout' => 5.0,
+    
+    // 默认发送配置
     'default' => [
+        // 网关调用策略，默认顺序调用
+        'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class
+        
+        // 默认可用的发送网关
         'gateways' => [
             'yunpian', 'alidayu',
         ],
     ],
+    // 可用的网关配置
     'gateways' => [
         'errorlog' => [
             'file' => '/tmp/easy-sms.log',
@@ -49,10 +57,58 @@ $config = [
 ];
 
 $easySms = new EasySms($config);
-$easySms->send(13188888888, 'hello world!');
+
+$easySms->send(13188888888, 
+    'content'  => '您的验证码为: 6379', 
+    'template' => 'SMS_001', 
+    'data' => [ 
+        'code' => 6379
+    ],
+ ]);
 ```
 
-# 定义短信
+## 短信内容
+
+由于使用多网关发送，所以一条短信要支持多平台发送，每家的发送方式不一样，但是我们抽象定义了以下公用属性：
+
+- `content` 文字内容，使用在像云片类似的以文字内容发送的平台
+- `template` 模板 ID，使用在以模板ID来发送短信的平台
+- `data`  模板变量，使用在以模板ID来发送短信的平台
+
+所以，在使用过程中你可以根据所要使用的平台定义发送的内容。
+
+## 发送网关
+
+默认使用 `default` 中的设置来发送，如果某一条短信你想要覆盖默认的设置。在 `send` 方法中使用第三个参数即可：
+
+```php
+$easySms->send(13188888888, 
+    'content'  => '您的验证码为: 6379', 
+    'template' => 'SMS_001', 
+    'data' => [ 
+        'code' => 6379
+    ],
+ ], ['yunpian', 'juhe']); // 这里的网关配置将会覆盖全局默认值
+```
+
+## 返回值
+
+由于使用多网关发送，所以返回值为一个数组，结构如下：
+```php
+[
+    'yunpian' => [
+        'status' => 'success',
+        'result' => [...] // 平台返回值
+    ],
+    'juhe' => [
+        'status' => 'erred',
+        'exception' => \Overtrue\EasySms\Exceptions\GatewayErrorException 对象
+    ],
+    //...
+]
+```
+
+## 定义短信
 
 你可以根本发送场景的不同，定义不同的短信类，从而实现一处定义多处调用，你可以继承 `Overtrue\EasySms\Message` 来定义短信模型：
 
@@ -104,7 +160,7 @@ $message = new OrderPaidMessage($order);
 $easySms->send(13188888888, $message);
 ```
 
-# 平台支持
+## 平台支持
 
 - [云片](https://github.com/overtrue/easy-sms/wiki/GateWays---Yunpian)
 - [Submail](https://github.com/overtrue/easy-sms/wiki/GateWays---Submail)
@@ -115,6 +171,6 @@ $easySms->send(13188888888, $message);
 - [聚合数据](https://github.com/overtrue/easy-sms/wiki/GateWays---Juhe)
 - SendCloud
 
-# License
+## License
 
 MIT
