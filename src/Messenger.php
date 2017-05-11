@@ -39,9 +39,9 @@ class Messenger
     /**
      * Send a message.
      *
-     * @param string|array                                 $to
+     * @param string|array                                              $to
      * @param string|array|\Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param array                                        $gateways
+     * @param array                                                     $gateways
      *
      * @return array
      */
