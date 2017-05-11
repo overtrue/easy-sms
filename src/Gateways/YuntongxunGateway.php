@@ -44,7 +44,7 @@ class YuntongxunGateway extends Gateway
     {
         $datetime = date('YmdHis');
 
-        $endpoint = $this->buildEndpoint('SMS', 'TemplateSMS', $datetime);
+        $endpoint = $this->buildEndpoint('SMS', 'TemplateSMS', $datetime, $config);
 
         $result = $this->request('post', $endpoint, [
             'json' => [
@@ -70,20 +70,21 @@ class YuntongxunGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $resource
-     * @param string $datetime
+     * @param string                           $type
+     * @param string                           $resource
+     * @param string                           $datetime
+     * @param \Overtrue\EasySms\Support\Config $config
      *
      * @return string
      */
-    protected function buildEndpoint($type, $resource, $datetime)
+    protected function buildEndpoint($type, $resource, $datetime, Config $config)
     {
         $serverIp = $this->config->get('debug') ? self::DEBUG_SERVER_IP : self::SERVER_IP;
 
         $accountType = $this->config->get('is_sub_account') ? 'SubAccounts' : 'Accounts';
 
-        $sig = strtoupper(md5($this->config->get('account_sid').$this->config->get('account_token').$datetime));
+        $sig = strtoupper(md5($config->get('account_sid').$config->get('account_token').$datetime));
 
-        return sprintf(self::ENDPOINT_TEMPLATE, $serverIp, self::SERVER_PORT, self::SDK_VERSION, $accountType, $this->config->get('account_sid'), $type, $resource, $sig);
+        return sprintf(self::ENDPOINT_TEMPLATE, $serverIp, self::SERVER_PORT, self::SDK_VERSION, $accountType, $config->get('account_sid'), $type, $resource, $sig);
     }
 }
