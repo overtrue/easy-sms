@@ -13,6 +13,18 @@
 </p>
 
 
+## 平台支持
+
+- [云片](https://www.yunpian.com)
+- [Submail](https://www.mysubmail.com)
+- [螺丝帽](https://luosimao.com/)
+- [阿里大于](https://www.alidayu.com/)
+- [容联云通讯](http://www.yuntongxun.com)
+- [互亿无线](http://www.ihuyi.com)
+- [聚合数据](https://www.juhe.cn)
+- [SendCloud](http://www.sendcloud.net/)
+
+
 ## 环境需求
 
 - PHP >= 5.6
@@ -162,16 +174,80 @@ $message = new OrderPaidMessage($order);
 $easySms->send(13188888888, $message);
 ```
 
-## 平台支持
+## 各平台配置说明
 
-- [云片](https://github.com/overtrue/easy-sms/wiki/GateWays---Yunpian)
-- [Submail](https://github.com/overtrue/easy-sms/wiki/GateWays---Submail)
-- [螺丝帽](https://github.com/overtrue/easy-sms/wiki/GateWays---Luosimao)
-- [阿里大鱼](https://github.com/overtrue/easy-sms/wiki/GateWays---AliDayu)
-- [容联云通讯](https://github.com/overtrue/easy-sms/wiki/GateWays---Yuntongxun)
-- [互亿无线](https://github.com/overtrue/easy-sms/wiki/GateWays---Huyi)
-- [聚合数据](https://github.com/overtrue/easy-sms/wiki/GateWays---Juhe)
-- SendCloud
+
+
+### [阿里大于](https://www.alidayu.com/)
+
+```php
+    'alidayu' => [
+        'app_key' => '',
+        'sign_name' => '',
+    ],
+```
+
+### [云片](https://www.yunpian.com)
+
+```php
+    'yunpian' => [
+        'api_key' => '',
+    ],
+```
+
+### [Submail](https://www.mysubmail.com)
+
+```php
+    'submail' => [
+        'app_id' => '',
+        'app_key' => '',
+        'project' => '',
+    ],
+```
+
+### [螺丝帽](https://luosimao.com/)
+
+```php
+    'luosimao' => [
+        'api_key' => '',
+    ],
+```
+
+### [容联云通讯](http://www.yuntongxun.com)
+
+```php
+    'yuntongxun' => [
+        'app_id' => '',
+        'account_sid' => '',
+        'account_token' => '',
+        'is_sub_account' => false,
+    ],
+```
+
+### [互亿无线](http://www.ihuyi.com)
+
+```php
+    'huyi' => [
+        'api_id' => '',
+    ],
+```
+
+### [聚合数据](https://www.juhe.cn)
+
+```php
+    'juhe' => [
+        'app_key' => '',
+    ],
+```
+
+### [SendCloud](http://www.sendcloud.net/)
+
+```php
+    'sendcloud' => [
+        'sms_user' => '',
+        'sms_key' => '',
+    ],
+```
 
 ## License
 
