@@ -33,6 +33,8 @@ class SendcloudGateway extends Gateway
      * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return array
+     * 
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
      */
     public function send($to, MessageInterface $message, Config $config)
     {
@@ -72,7 +74,7 @@ class SendcloudGateway extends Gateway
     }
 
     /**
-     * @param string $params
+     * @param array  $params
      * @param string $key
      *
      * @return string
