@@ -117,6 +117,7 @@ class Messenger
                 $setting = [];
             }
 
+            $formatted[$gateway] = $setting;
             $globalSetting = $config->get("gateways.{$gateway}", []);
 
             if (is_string($gateway) && !empty($globalSetting) && is_array($setting)) {
