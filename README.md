@@ -94,7 +94,7 @@ $easySms->send(13188888888,
 默认使用 `default` 中的设置来发送，如果某一条短信你想要覆盖默认的设置。在 `send` 方法中使用第三个参数即可：
 
 ```php
-$easySms->send(13188888888, 
+$easySms->send(13188888888, [
     'content'  => '您的验证码为: 6379', 
     'template' => 'SMS_001', 
     'data' => [ 
