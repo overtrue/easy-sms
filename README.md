@@ -128,6 +128,7 @@ $easySms->send(13188888888, [
 <?php
 
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 
 class OrderPaidMessage extends Messeage
@@ -142,19 +143,19 @@ class OrderPaidMessage extends Messeage
     }
         
     // 定义直接使用内容发送平台的内容
-    public function getContent()
+    public function getContent(GatewayInterface $gateway = null)
     {
         return sprintf('您的订单:%s, 已经完成付款', $this->order->no);    
     }
     
     // 定义使用模板发送方式平台所需要的模板 ID
-    public function getTemplate()
+    public function getTemplate(GatewayInterface $gateway = null)
     {
         return 'SMS_003'; 
     }
         
     // 模板参数
-    public function getData()
+    public function getData(GatewayInterface $gateway = null)
     {
         return [
             'order_no' => $this->order->no    
