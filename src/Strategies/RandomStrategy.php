@@ -23,7 +23,7 @@ class RandomStrategy implements StrategyInterface
      */
     public function apply(array $gateways)
     {
-        uasort($gateways, function() {
+        uasort($gateways, function () {
             return mt_rand() - mt_rand();
         });
 
