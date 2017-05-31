@@ -12,6 +12,15 @@
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/license" alt="License"></a>
 </p>
 
+## 特点
+
+1. 支持目前市面多家服务商
+1. 一套写法兼容所有平台
+1. 简单配置即可灵活增减服务商
+1. 内置多种服务商轮询策略、支持自定义轮询策略
+1. 统一的返回值格式，便于日志与监控
+1. 自动轮询选择可用的服务商
+1. 更多等你去发现与改进...
 
 ## 平台支持
 
