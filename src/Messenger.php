@@ -39,9 +39,9 @@ class Messenger
     /**
      * Send a message.
      *
-     * @param string|array                                 $to
+     * @param string|array                                              $to
      * @param string|array|\Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param array                                        $gateways
+     * @param array                                                     $gateways
      *
      * @return array
      */
@@ -117,6 +117,7 @@ class Messenger
                 $setting = [];
             }
 
+            $formatted[$gateway] = $setting;
             $globalSetting = $config->get("gateways.{$gateway}", []);
 
             if (is_string($gateway) && !empty($globalSetting) && is_array($setting)) {

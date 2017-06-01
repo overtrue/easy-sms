@@ -33,7 +33,7 @@ class AlidayuGateway extends Gateway
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config
      *
-     * @return mixed
+     * @return array
      *
      * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
      */
@@ -48,7 +48,7 @@ class AlidayuGateway extends Gateway
             'sms_type' => 'normal',
             'sms_free_sign_name' => $config->get('sign_name'),
             'app_key' => $config->get('app_key'),
-            'sms_template_code' => $config->get('template_code'),
+            'sms_template_code' => $message->getTemplate(),
             'rec_num' => strval($to),
             'sms_param' => json_encode($message->getData()),
         ];

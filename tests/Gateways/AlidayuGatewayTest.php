@@ -27,7 +27,7 @@ class AlidayuGatewayTest extends TestCase
         ];
         $gateway = \Mockery::mock(AlidayuGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $params = [
+        $expected = [
             'method' => 'alibaba.aliqin.fc.sms.num.send',
             'format' => 'json',
             'v' => '2.0',
@@ -39,15 +39,28 @@ class AlidayuGatewayTest extends TestCase
             'rec_num' => strval(18888888888),
             'sms_param' => json_encode(['code' => '123456', 'time' => '15']),
         ];
-        $gateway->shouldReceive('post')->with('https://eco.taobao.com/router/rest', \Mockery::subset($params))
-                ->andReturn([
-                    'success_response' => 'mock-result',
-                ], [
-                        'error_response' => ['sub_msg' => 'mock-msg', 'code' => 100],
-                    ])
-                ->twice();
+        $gateway->shouldReceive('post')
+            ->with('https://eco.taobao.com/router/rest', \Mockery::on(function ($params) use ($expected) {
+                if (empty($params['timestamp']) || empty($params['sign'])) {
+                    return false;
+                }
+
+                unset($params['timestamp'], $params['sign']);
+
+                ksort($params);
+                ksort($expected);
+
+                return $params == $expected;
+            }))
+            ->andReturn([
+                'success_response' => 'mock-result',
+            ], [
+                    'error_response' => ['sub_msg' => 'mock-msg', 'code' => 100],
+                ])
+            ->twice();
 
         $message = new Message([
+            'template' => 'mock-template-code',
             'data' => ['code' => '123456', 'time' => '15'],
         ]);
         $config = new Config($config);

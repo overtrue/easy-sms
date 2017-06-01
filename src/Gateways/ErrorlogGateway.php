@@ -22,7 +22,7 @@ class ErrorlogGateway extends Gateway
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config
      *
-     * @return bool
+     * @return array
      */
     public function send($to, MessageInterface $message, Config $config)
     {
@@ -39,6 +39,9 @@ class ErrorlogGateway extends Gateway
             json_encode($message->getData())
         );
 
-        return error_log($message, 3, $this->config->get('file', ini_get('error_log')));
+        $file = $this->config->get('file', ini_get('error_log'));
+        $status = error_log($message, 3, $file);
+
+        return compact('status', 'file');
     }
 }

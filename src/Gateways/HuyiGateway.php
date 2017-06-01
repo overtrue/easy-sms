@@ -32,7 +32,7 @@ class HuyiGateway extends Gateway
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config
      *
-     * @return mixed
+     * @return array
      *
      * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
      */

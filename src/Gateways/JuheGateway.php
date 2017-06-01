@@ -14,6 +14,11 @@ use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
+/**
+ * Class JuheGateway.
+ *
+ * @see https://www.juhe.cn/docs/api/id/54
+ */
 class JuheGateway extends Gateway
 {
     use HasHttpRequest;
