@@ -32,6 +32,7 @@
 - [互亿无线](http://www.ihuyi.com)
 - [聚合数据](https://www.juhe.cn)
 - [SendCloud](http://www.sendcloud.net/)
+- [百度云](https://cloud.baidu.com/)
 
 
 ## 环境需求
@@ -256,6 +257,15 @@ $easySms->send(13188888888, $message);
     'sendcloud' => [
         'sms_user' => '',
         'sms_key' => '',
+    ],
+```
+### [百度云](https://cloud.baidu.com/)
+
+```php
+    'baidu' => [
+        'ak' => '',
+        'sk' => '',
+        'invoke_id' => '',
     ],
 ```
 
