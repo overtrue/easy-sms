@@ -16,7 +16,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class GatewayTest extends TestCase
 {
-    public function testBaseApi()
+    public function testTimeout()
     {
         $gateway = new DummyGatewayForGatewayTest(['foo' => 'bar']);
 
@@ -27,6 +27,16 @@ class GatewayTest extends TestCase
 
         $gateway = new DummyGatewayForGatewayTest(['foo' => 'bar', 'timeout' => 12.0]);
         $this->assertSame(12.0, $gateway->getTimeout());
+    }
+
+    public function testConfigSetterAndGetter()
+    {
+        $gateway = new DummyGatewayForGatewayTest(['foo' => 'bar']);
+
+        $this->assertInstanceOf(Config::class, $gateway->getConfig());
+
+        $config = new Config(['name' => 'overtrue']);
+        $this->assertSame($config, $gateway->setConfig($config)->getConfig());
     }
 }
 
