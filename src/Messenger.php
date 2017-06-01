@@ -112,7 +112,7 @@ class Messenger
         $config = $this->easySms->getConfig();
 
         foreach ($gateways as $gateway => $setting) {
-            if (is_integer($gateway) && is_string($setting)) {
+            if (is_int($gateway) && is_string($setting)) {
                 $gateway = $setting;
                 $setting = [];
             }
