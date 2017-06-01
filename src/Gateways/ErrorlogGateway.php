@@ -27,7 +27,7 @@ class ErrorlogGateway extends Gateway
     public function send($to, MessageInterface $message, Config $config)
     {
         if (is_array($to)) {
-            $to = join(',', $to);
+            $to = implode(',', $to);
         }
 
         $message = sprintf(
