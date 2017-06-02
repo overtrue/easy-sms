@@ -194,6 +194,7 @@ $easySms->send(13188888888, $message);
 ```php
     'alidayu' => [
         'app_key' => '',
+        'app_secret' => '',
         'sign_name' => '',
     ],
 ```
