@@ -240,6 +240,7 @@ $easySms->send(13188888888, $message);
 ```php
     'huyi' => [
         'api_id' => '',
+        'api_key' => '',
     ],
 ```
 
@@ -266,6 +267,7 @@ $easySms->send(13188888888, $message);
         'ak' => '',
         'sk' => '',
         'invoke_id' => '',
+        'domain' => '',
     ],
 ```
 

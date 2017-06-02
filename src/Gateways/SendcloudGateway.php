@@ -41,7 +41,7 @@ class SendcloudGateway extends Gateway
         $params = [
             'smsUser' => $config->get('sms_user'),
             'templateId' => $message->getTemplate(),
-            'phone' => is_array($to) ? join(',', $to) : $to,
+            'phone' => is_array($to) ? implode(',', $to) : $to,
             'vars' => $this->formatTemplateVars($message->getData()),
             'timestamp' => time(),
         ];

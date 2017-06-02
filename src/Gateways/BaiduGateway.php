@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
- * (c) iwzh <wzhec@foxmail.com>
+ * (c) overtrue <i@overtrue.me>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -153,7 +153,6 @@ class BaiduGateway extends Gateway
      */
     protected function getHeadersToSign(array $headers, array $keys)
     {
-        //keys确定，headers确定，兼容写法删除
         return array_intersect_key($headers, array_flip($keys));
     }
 }

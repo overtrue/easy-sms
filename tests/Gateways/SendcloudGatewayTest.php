@@ -39,7 +39,7 @@ class SendcloudGatewayTest extends TestCase
                 foreach ($expected as $key => $value) {
                     $signString[] = "{$key}={$value}";
                 }
-                $signString = join('&', $signString);
+                $signString = implode('&', $signString);
 
                 $expectedSignature = md5("{$config['sms_key']}&{$signString}&{$config['sms_key']}");
 
