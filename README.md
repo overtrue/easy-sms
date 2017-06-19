@@ -131,6 +131,41 @@ $easySms->send(13188888888, [
 ]
 ```
 
+## 自定义网关
+
+本拓展已经支持用户自定义网关，你可以很方便的配置即可当成与其它拓展一样的使用：
+
+```php
+$config = [
+    ...
+    'default' => [
+        'gateways' => [
+            'mygateway', // 配置你的网站到可用的网关列表
+        ],
+    ],
+    'gateways' => [
+        'mygateway' => [...], // 你网关所需要的参数，如果没有可以不配置
+    ],
+];
+
+$easySms = new EasySms($config);
+
+// 注册
+$easySms->extend('mygateway', function($gatewayConfig){
+    // $gatewayConfig 来自配置文件里的 `gateways.mygateway`
+    return new MyGateway($gatewayConfig);
+});
+
+$easySms->send(13188888888, 
+    [
+        'content'  => '您的验证码为: 6379', 
+        'template' => 'SMS_001', 
+        'data' => [ 
+            'code' => 6379
+        ],
+    ]);
+```
+
 ## 定义短信
 
 你可以根本发送场景的不同，定义不同的短信类，从而实现一处定义多处调用，你可以继承 `Overtrue\EasySms\Message` 来定义短信模型：
