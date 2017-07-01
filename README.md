@@ -186,7 +186,7 @@ use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 
-class OrderPaidMessage extends Messeage
+class OrderPaidMessage extends Message
 {
     protected $order;
     protected $strategy = OrderStrategy::class;           // 定义本短信的网关使用策略，覆盖全局配置中的 `default.strategy`
