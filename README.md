@@ -12,6 +12,15 @@
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/license" alt="License"></a>
 </p>
 
+<p align="center">
+  <br>
+  <b>创造不息，交付不止</b>
+  <br>
+  <a href="https://www.yousails.com">
+    <img src="https://yousails.com/banners/brand.png" width=350>
+  </a>
+</p>
+
 ## 特点
 
 1. 支持目前市面多家服务商
@@ -177,7 +186,7 @@ use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 
-class OrderPaidMessage extends Messeage
+class OrderPaidMessage extends Message
 {
     protected $order;
     protected $strategy = OrderStrategy::class;           // 定义本短信的网关使用策略，覆盖全局配置中的 `default.strategy`
