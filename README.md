@@ -140,6 +140,8 @@ $easySms->send(13188888888, [
 ]
 ```
 
+如果所选网关列表均发送失败时，将会抛出 `Overtrue\EasySms\Exceptions\NoGatewayAvailableException` 异常，你可以使用 `$e->results` 获取发送结果。
+
 ## 自定义网关
 
 本拓展已经支持用户自定义网关，你可以很方便的配置即可当成与其它拓展一样的使用：
