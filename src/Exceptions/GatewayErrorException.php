@@ -9,13 +9,14 @@
 
 namespace Overtrue\EasySms\Exceptions;
 
-use Exception;
-
 /**
  * Class GatewayErrorException.
  */
 class GatewayErrorException extends Exception
 {
+    /**
+     * @var array
+     */
     public $raw = [];
 
     /**
