@@ -69,9 +69,9 @@ class EasySms
     /**
      * Send a message.
      *
-     * @param string|array                                 $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param array                                        $gateways
+     * @param string|array                                       $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface|array $message
+     * @param array                                              $gateways
      *
      * @return array
      */
