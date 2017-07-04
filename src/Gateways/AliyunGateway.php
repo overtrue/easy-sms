@@ -16,6 +16,7 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
  * Class AliyunGateway.
+ *
  * @author carson <docxcn@gmail.com>
  *
  * @see https://help.aliyun.com/document_detail/55451.html
@@ -39,9 +40,9 @@ class AliyunGateway extends Gateway
     }
 
     /**
-     * @param array|int|string $to
+     * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return array
      *
@@ -87,9 +88,9 @@ class AliyunGateway extends Gateway
     {
         ksort($params);
         $accessKeySecret = $this->config->get('access_key_secret');
-        $stringToSign = 'GET' . '&%2F&' . urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
+        $stringToSign = 'GET'.'&%2F&'.urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
 
-        return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret . '&', true));
+        return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret.'&', true));
     }
 
     /**

@@ -25,7 +25,7 @@ class AlidayuGatewayTest extends TestCase
             'sign_name' => 'mock-api-sign-name',
             'template_code' => 'mock-template-code',
         ];
-        $gateway = \Mockery::mock(AlidayuGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AlidayuGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
             'method' => 'alibaba.aliqin.fc.sms.num.send',

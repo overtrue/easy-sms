@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
- * (c) carson <docxcn@gmail.com>
+ * (c) overtrue <i@overtrue.me>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -25,7 +25,7 @@ class AliyunGatewayTest extends TestCase
             'sign_name' => 'mock-api-sign-name',
             'template_code' => 'mock-template-code',
         ];
-        $gateway = \Mockery::mock(AliyunGateway::class . '[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AliyunGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
             'RegionId' => 'cn-hangzhou',
