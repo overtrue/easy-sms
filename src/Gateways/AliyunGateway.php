@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
- * (c) carson <docxcn@gmail.com>
+ * (c) overtrue <i@overtrue.me>
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -16,6 +16,7 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
  * Class AliyunGateway.
+ * @author carson <docxcn@gmail.com>
  *
  * @see https://help.aliyun.com/document_detail/55451.html
  */
@@ -86,55 +87,8 @@ class AliyunGateway extends Gateway
     {
         ksort($params);
         $accessKeySecret = $this->config->get('access_key_secret');
-        $canonicalizedQueryString = '';
-        foreach ($params as $key => $value) {
-            $canonicalizedQueryString .= '&' . $this->percentEncode($key) . '=' . $this->percentEncode($value);
-        }
-        $stringToSign = 'GET' . '&%2F&' . $this->percentencode(substr($canonicalizedQueryString, 1));
+        $stringToSign = 'GET' . '&%2F&' . urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
 
-        return $this->signString($stringToSign, $accessKeySecret . "&");
-    }
-
-    /**
-     * @param $source
-     * @param $accessSecret
-     *
-     * @return string
-     */
-    protected function signString($source, $accessSecret)
-    {
-        return base64_encode(hash_hmac('sha1', $source, $accessSecret, true));
-    }
-
-    /**
-     * @param $value
-     *
-     * @return string
-     */
-    protected function prepareValue($value)
-    {
-        if (is_bool($value)) {
-            if ($value) {
-                return "true";
-            } else {
-                return "false";
-            }
-        } else {
-            return $value;
-        }
-    }
-
-    /**
-     * @param $str
-     *
-     * @return mixed|string
-     */
-    protected function percentEncode($str)
-    {
-        $res = urlencode($str);
-        $res = preg_replace('/\+/', '%20', $res);
-        $res = preg_replace('/\*/', '%2A', $res);
-        $res = preg_replace('/%7E/', '~', $res);
-        return $res;
+        return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret . "&", true));
     }
 }
