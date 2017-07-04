@@ -32,12 +32,6 @@ class AliyunGateway extends Gateway
     const ENDPOINT_SIGNATURE_METHOD = 'HMAC-SHA1';
     const ENDPOINT_SIGNATURE_VERSION = '1.0';
 
-    public function __construct(array $config)
-    {
-        parent::__construct($config);
-        date_default_timezone_set('GMT');
-    }
-
     /**
      * @param array|int|string $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
@@ -67,7 +61,7 @@ class AliyunGateway extends Gateway
 
         $params['Signature'] = $this->generateSign($params);
 
-        $result = $this->get(self::ENDPOINT_URL, $params);
+        $result = $this->post(self::ENDPOINT_URL, $params);
 
         if ($result['Code'] != 'OK') {
             throw new GatewayErrorException($result['Message'], $result['Code'], $result);
@@ -87,7 +81,7 @@ class AliyunGateway extends Gateway
     {
         ksort($params);
         $accessKeySecret = $this->config->get('access_key_secret');
-        $stringToSign = 'GET' . '&%2F&' . urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
+        $stringToSign = 'POST&%2F&' . urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
 
         return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret . '&', true));
     }

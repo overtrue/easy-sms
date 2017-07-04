@@ -25,7 +25,7 @@ class AliyunGatewayTest extends TestCase
             'sign_name' => 'mock-api-sign-name',
             'template_code' => 'mock-template-code',
         ];
-        $gateway = \Mockery::mock(AliyunGateway::class . '[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AliyunGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
             'RegionId' => 'cn-hangzhou',
@@ -42,7 +42,7 @@ class AliyunGatewayTest extends TestCase
             'TemplateCode' => 'mock-template-code',
             'TemplateParam' => json_encode(['code' => '123456']),
         ];
-        $gateway->shouldReceive('get')
+        $gateway->shouldReceive('post')
             ->with(AliyunGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
                 if (empty($params['Signature'])) {
                     return false;
