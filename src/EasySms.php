@@ -83,7 +83,7 @@ class EasySms
     /**
      * Create a gateway.
      *
-     * @param string $name
+     * @param string|null $name
      *
      * @return \Overtrue\EasySms\Contracts\GatewayInterface
      */
@@ -103,7 +103,9 @@ class EasySms
      *
      * @param string|null $strategy
      *
-     * @return StrategyInterface
+     * @return \Overtrue\EasySms\Contracts\StrategyInterface
+     *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
     public function strategy($strategy = null)
     {

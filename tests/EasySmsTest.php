@@ -9,10 +9,10 @@
 
 namespace Overtrue\EasySms\Tests;
 
-use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\EasySms;
+use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Messenger;
 use Overtrue\EasySms\Support\Config;
