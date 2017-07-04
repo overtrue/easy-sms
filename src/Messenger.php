@@ -11,6 +11,7 @@ namespace Overtrue\EasySms;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 use Overtrue\EasySms\Support\Config;
 
 /**
@@ -44,6 +45,8 @@ class Messenger
      * @param array                                                     $gateways
      *
      * @return array
+     *
+     * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
     public function send($to, $message, array $gateways = [])
     {
@@ -61,12 +64,14 @@ class Messenger
         $strategyAppliedGateways = $this->easySms->strategy()->apply($gateways);
 
         $results = [];
+        $hasSucceed = false;
         foreach ($strategyAppliedGateways as $gateway) {
             try {
                 $results[$gateway] = [
-                        'status' => self::STATUS_SUCCESS,
-                        'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
-                    ];
+                    'status' => self::STATUS_SUCCESS,
+                    'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
+                ];
+                $hasSucceed = true;
                 break;
             } catch (GatewayErrorException $e) {
                 $results[$gateway] = [
@@ -75,6 +80,10 @@ class Messenger
                 ];
                 continue;
             }
+        }
+
+        if (!$hasSucceed) {
+            throw new NoGatewayAvailableException($results);
         }
 
         return $results;

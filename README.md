@@ -12,6 +12,15 @@
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/license" alt="License"></a>
 </p>
 
+<p align="center">
+  <br>
+  <b>创造不息，交付不止</b>
+  <br>
+  <a href="https://www.yousails.com">
+    <img src="https://yousails.com/banners/brand.png" width=350>
+  </a>
+</p>
+
 ## 特点
 
 1. 支持目前市面多家服务商
@@ -57,7 +66,7 @@ $config = [
     // 默认发送配置
     'default' => [
         // 网关调用策略，默认：顺序调用
-        'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class
+        'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
         
         // 默认可用的发送网关
         'gateways' => [
@@ -81,12 +90,13 @@ $config = [
 $easySms = new EasySms($config);
 
 $easySms->send(13188888888, 
-    'content'  => '您的验证码为: 6379', 
-    'template' => 'SMS_001', 
-    'data' => [ 
-        'code' => 6379
-    ],
- ]);
+    [
+        'content'  => '您的验证码为: 6379', 
+        'template' => 'SMS_001', 
+        'data' => [ 
+            'code' => 6379
+        ],
+    ]);
 ```
 
 ## 短信内容
@@ -130,6 +140,43 @@ $easySms->send(13188888888, [
 ]
 ```
 
+如果所选网关列表均发送失败时，将会抛出 `Overtrue\EasySms\Exceptions\NoGatewayAvailableException` 异常，你可以使用 `$e->results` 获取发送结果。
+
+## 自定义网关
+
+本拓展已经支持用户自定义网关，你可以很方便的配置即可当成与其它拓展一样的使用：
+
+```php
+$config = [
+    ...
+    'default' => [
+        'gateways' => [
+            'mygateway', // 配置你的网站到可用的网关列表
+        ],
+    ],
+    'gateways' => [
+        'mygateway' => [...], // 你网关所需要的参数，如果没有可以不配置
+    ],
+];
+
+$easySms = new EasySms($config);
+
+// 注册
+$easySms->extend('mygateway', function($gatewayConfig){
+    // $gatewayConfig 来自配置文件里的 `gateways.mygateway`
+    return new MyGateway($gatewayConfig);
+});
+
+$easySms->send(13188888888, 
+    [
+        'content'  => '您的验证码为: 6379', 
+        'template' => 'SMS_001', 
+        'data' => [ 
+            'code' => 6379
+        ],
+    ]);
+```
+
 ## 定义短信
 
 你可以根本发送场景的不同，定义不同的短信类，从而实现一处定义多处调用，你可以继承 `Overtrue\EasySms\Message` 来定义短信模型：
@@ -141,7 +188,7 @@ use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 
-class OrderPaidMessage extends Messeage
+class OrderPaidMessage extends Message
 {
     protected $order;
     protected $strategy = OrderStrategy::class;           // 定义本短信的网关使用策略，覆盖全局配置中的 `default.strategy`
@@ -194,6 +241,7 @@ $easySms->send(13188888888, $message);
 ```php
     'alidayu' => [
         'app_key' => '',
+        'app_secret' => '',
         'sign_name' => '',
     ],
 ```
@@ -267,6 +315,7 @@ $easySms->send(13188888888, $message);
         'ak' => '',
         'sk' => '',
         'invoke_id' => '',
+        'domain' => '',
     ],
 ```
 

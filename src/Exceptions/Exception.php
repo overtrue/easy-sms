@@ -10,8 +10,10 @@
 namespace Overtrue\EasySms\Exceptions;
 
 /**
- * Class InvalidArgumentException.
+ * Class Exception.
+ *
+ * @author overtrue <i@overtrue.me>
  */
-class InvalidArgumentException extends Exception
+class Exception extends \Exception
 {
 }
