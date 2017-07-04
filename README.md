@@ -33,6 +33,7 @@
 
 ## 平台支持
 
+- [阿里云](https://www.aliyun.com/)
 - [云片](https://www.yunpian.com)
 - [Submail](https://www.mysubmail.com)
 - [螺丝帽](https://luosimao.com/)
@@ -70,7 +71,7 @@ $config = [
         
         // 默认可用的发送网关
         'gateways' => [
-            'yunpian', 'alidayu',
+            'yunpian', 'aliyun', 'alidayu',
         ],
     ],
     // 可用的网关配置
@@ -81,6 +82,11 @@ $config = [
         'yunpian' => [
             'api_key' => '824f0ff2f71cab52936axxxxxxxxxx',
         ],
+        'aliyun' => [
+            'access_key_id' => '',
+            'access_key_secret' => '',
+            'sign_name' => '',
+        ],
         'alidayu' => [
             //...
         ],
@@ -89,14 +95,13 @@ $config = [
 
 $easySms = new EasySms($config);
 
-$easySms->send(13188888888, 
-    [
-        'content'  => '您的验证码为: 6379', 
-        'template' => 'SMS_001', 
-        'data' => [ 
-            'code' => 6379
-        ],
-    ]);
+$easySms->send(13188888888, [
+    'content'  => '您的验证码为: 6379', 
+    'template' => 'SMS_001', 
+    'data' => [ 
+        'code' => 6379
+    ],
+]);
 ```
 
 ## 短信内容
@@ -167,14 +172,13 @@ $easySms->extend('mygateway', function($gatewayConfig){
     return new MyGateway($gatewayConfig);
 });
 
-$easySms->send(13188888888, 
-    [
-        'content'  => '您的验证码为: 6379', 
-        'template' => 'SMS_001', 
-        'data' => [ 
-            'code' => 6379
-        ],
-    ]);
+$easySms->send(13188888888, [
+    'content'  => '您的验证码为: 6379', 
+    'template' => 'SMS_001', 
+    'data' => [ 
+        'code' => 6379
+    ],
+]);
 ```
 
 ## 定义短信
@@ -234,7 +238,15 @@ $easySms->send(13188888888, $message);
 
 ## 各平台配置说明
 
+### [阿里云](https://www.aliyun.com/)
 
+```php
+    'aliyun' => [
+        'access_key_id' => '',
+        'access_key_secret' => '',
+        'sign_name' => '',
+    ],
+```
 
 ### [阿里大于](https://www.alidayu.com/)
 

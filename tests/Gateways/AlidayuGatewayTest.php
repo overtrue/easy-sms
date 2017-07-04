@@ -25,7 +25,7 @@ class AlidayuGatewayTest extends TestCase
             'sign_name' => 'mock-api-sign-name',
             'template_code' => 'mock-template-code',
         ];
-        $gateway = \Mockery::mock(AlidayuGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AlidayuGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
             'method' => 'alibaba.aliqin.fc.sms.num.send',
@@ -55,14 +55,15 @@ class AlidayuGatewayTest extends TestCase
             ->andReturn([
                 'success_response' => 'mock-result',
             ], [
-                    'error_response' => ['sub_msg' => 'mock-msg', 'code' => 100],
-                ])
+                'error_response' => ['sub_msg' => 'mock-msg', 'code' => 100],
+            ])
             ->twice();
 
         $message = new Message([
             'template' => 'mock-template-code',
             'data' => ['code' => '123456', 'time' => '15'],
         ]);
+
         $config = new Config($config);
 
         $this->assertSame([
