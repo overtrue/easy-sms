@@ -48,14 +48,14 @@ class AlidayuGateway extends Gateway
             'sms_type' => 'normal',
             'sms_free_sign_name' => $config->get('sign_name'),
             'app_key' => $config->get('app_key'),
-            'sms_template_code' => $message->getTemplate(),
+            'sms_template_code' => $message->getTemplate($this),
             'rec_num' => strval($to),
-            'sms_param' => json_encode($message->getData()),
+            'sms_param' => json_encode($message->getData($this)),
         ];
 
         $params['sign'] = $this->generateSign($params);
 
-        $result = $this->post(self::ENDPOINT_URL, $params);
+        $result = is_string($result = $this->post(self::ENDPOINT_URL, $params)) ? json_decode($result, true) : $result;
 
         if (!empty($result['error_response'])) {
             throw new GatewayErrorException($result['error_response']['sub_msg'], $result['error_response']['code'], $result);
