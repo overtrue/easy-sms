@@ -55,7 +55,7 @@ class AlidayuGateway extends Gateway
 
         $params['sign'] = $this->generateSign($params);
 
-        $result = is_string($result = $this->post(self::ENDPOINT_URL, $params)) ? json_decode($result, true) : $result;
+        $result = $this->post(self::ENDPOINT_URL, $params);
 
         if (!empty($result['error_response'])) {
             throw new GatewayErrorException($result['error_response']['sub_msg'], $result['error_response']['code'], $result);
