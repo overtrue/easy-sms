@@ -54,7 +54,7 @@ class HuaxinGateway extends Gateway
         ]);
 
         if ($result['returnstatus'] !== 'Success') {
-            throw new GatewayErrorException($result['message'], 500, $result);
+            throw new GatewayErrorException($result['message'], 400, $result);
         }
 
         return $result;
@@ -64,7 +64,6 @@ class HuaxinGateway extends Gateway
      * Build endpoint url.
      *
      * @param string $ip
-     * @param string $port
      *
      * @return string
      */
