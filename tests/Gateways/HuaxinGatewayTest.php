@@ -67,7 +67,7 @@ class HuaxinGatewayTest extends TestCase
         );
 
         $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(500);
+        $this->expectExceptionCode(400);
         $this->expectExceptionMessage('操作失败');
 
         $gateway->send(18188888888, $message, $config);
