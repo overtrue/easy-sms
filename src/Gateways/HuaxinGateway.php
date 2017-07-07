@@ -38,9 +38,7 @@ class HuaxinGateway extends Gateway
      */
     public function send($to, MessageInterface $message, Config $config)
     {
-        $endpoint = $this->buildEndpoint(
-            $config->get('ip')
-        );
+        $endpoint = $this->buildEndpoint($config->get('ip'));
 
         $result = $this->post($endpoint, [
             'userid' => $config->get('user_id'),
