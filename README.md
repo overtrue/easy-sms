@@ -333,6 +333,30 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
+### [梦网科技](http://www.montnets.com/)
+
+```php
+    'dreamNet' => [
+        'user_id'      => '',
+        'password'     => '',
+        'psz_sub_port' => '',
+        'ip'           => '',
+        'port'         => '',
+    ],
+```
+
+### [华信短信平台](http://www.ipyy.com/)
+
+```php
+    'huaxin' => [
+        'user_id'  => '',
+        'password' => '',
+        'account'  => '',
+        'ip'       => '',
+        'extno'    => '',
+    ],
+```
+
 ## License
 
 MIT

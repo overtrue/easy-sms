@@ -46,8 +46,11 @@ class HuaxinGatewayTest extends TestCase
             'taskID'        => '1504080852350206',
             'successCounts' => '1'
         ], [
-            'returnstatus' => 'Faild',
-            'message'      => '操作失败'
+            'returnstatus'  => 'Faild',
+            'message'       => '操作失败',
+            'remainpoint'   => '0',
+            'taskID'        => '0',
+            'successCounts' => '0'
         ])->times(2);
 
         $message = new Message(['content' => '【TIGERB】This is a test message.']);

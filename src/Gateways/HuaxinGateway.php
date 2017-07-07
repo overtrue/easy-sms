@@ -48,7 +48,7 @@ class HuaxinGateway extends Gateway
             'password'   => $config->get('password'),
             'mobile'     => $to,
             'content'    => $message->getContent(),
-            'sendTime'   => '', //为空表示立即发送，定时发送格式2010-10-24 09:08:10
+            'sendTime'   => '',
             'action'     => 'send',
             'extno'      => $config->get('extno'),
         ]);

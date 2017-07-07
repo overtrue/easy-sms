@@ -40,6 +40,13 @@ class Message implements MessageInterface
     protected $template;
 
     /**
+     * message serial number
+     *
+     * @var string
+     */
+    protected $msgId;
+
+    /**
      * @var array
      */
     protected $data = [];
@@ -96,6 +103,18 @@ class Message implements MessageInterface
     }
 
     /**
+     * Return the user-defined message serial number.
+     *
+     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
+     *
+     * @return string
+     */
+    public function getMsgId(GatewayInterface $gateway = null)
+    {
+        return $this->msgId;
+    }
+
+    /**
      * @param string $type
      *
      * @return $this
@@ -127,6 +146,18 @@ class Message implements MessageInterface
     public function setTemplate($template)
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @param string $msgId
+     *
+     * @return $this
+     */
+    public function setMsgId(string $msgId)
+    {
+        $this->msgId = $msgId;
 
         return $this;
     }

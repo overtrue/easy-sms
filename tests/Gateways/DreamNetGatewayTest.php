@@ -37,13 +37,16 @@ class DreamNetGatewayTest extends TestCase
             'pszMobis'   => 18188888888,
             'pszMsg'     => '【TIGERB】This is a test message.',
             'iMobiCount' => 1,
-            'MsgId'      => 0,
-        ])->andReturn('-8485643440204283743', '-10001')->times(2);
+            'MsgId'      => '8485643440204283743',
+        ])->andReturn(['8485643440204283743'], ['-10001'])->times(2);
 
-        $message = new Message(['content' => '【TIGERB】This is a test message.']);
+        $message = new Message([
+            'content' => '【TIGERB】This is a test message.',
+            'msgId'   => '8485643440204283743'
+        ]);
         $config  = new Config($config);
         $this->assertSame(
-            '-8485643440204283743',
+            '8485643440204283743',
             $gateway->send(18188888888, $message, $config)
         );
 

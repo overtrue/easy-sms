@@ -44,7 +44,7 @@ class DreamNetGateway extends Gateway
         );
 
         $arr = explode(',', $to);
-        
+
         $result = $this->post($endpoint, [
             'userId'     => $config->get('user_id'),
             'password'   => $config->get('password'),
@@ -52,16 +52,14 @@ class DreamNetGateway extends Gateway
             'pszMobis'   => $to,
             'pszMsg'     => $message->getContent(),
             'iMobiCount' => count($arr),
-            'MsgId'      => 0,
+            'MsgId'      => $message->getMsgId()
         ]);
-
-        // $result = simplexml_load_string($result);
 
         if (! $result) {
             throw new GatewayErrorException('xml解析失败', 500);
         }
 
-        // $result = $result[0];
+        $result = $result[0];
         if (strlen($result) < 16) {
             throw new GatewayErrorException('发送失败', 500);
         }
