@@ -240,6 +240,8 @@ $easySms->send(13188888888, $message);
 
 ### [阿里云](https://www.aliyun.com/)
 
+短信内容使用 `template` + `data`
+
 ```php
     'aliyun' => [
         'access_key_id' => '',
@@ -249,6 +251,8 @@ $easySms->send(13188888888, $message);
 ```
 
 ### [阿里大于](https://www.alidayu.com/)
+
+短信内容使用 `template` + `data`
 
 ```php
     'alidayu' => [
@@ -260,6 +264,8 @@ $easySms->send(13188888888, $message);
 
 ### [云片](https://www.yunpian.com)
 
+短信内容使用 `content`
+
 ```php
     'yunpian' => [
         'api_key' => '',
@@ -267,6 +273,8 @@ $easySms->send(13188888888, $message);
 ```
 
 ### [Submail](https://www.mysubmail.com)
+
+短信内容使用 `data`
 
 ```php
     'submail' => [
@@ -278,6 +286,8 @@ $easySms->send(13188888888, $message);
 
 ### [螺丝帽](https://luosimao.com/)
 
+短信内容使用 `content`
+
 ```php
     'luosimao' => [
         'api_key' => '',
@@ -285,6 +295,8 @@ $easySms->send(13188888888, $message);
 ```
 
 ### [容联云通讯](http://www.yuntongxun.com)
+
+短信内容使用 `template` + `data`
 
 ```php
     'yuntongxun' => [
@@ -297,6 +309,8 @@ $easySms->send(13188888888, $message);
 
 ### [互亿无线](http://www.ihuyi.com)
 
+短信内容使用 `content`
+
 ```php
     'huyi' => [
         'api_id' => '',
@@ -306,6 +320,8 @@ $easySms->send(13188888888, $message);
 
 ### [聚合数据](https://www.juhe.cn)
 
+短信内容使用 `template` + `data`
+
 ```php
     'juhe' => [
         'app_key' => '',
@@ -314,6 +330,8 @@ $easySms->send(13188888888, $message);
 
 ### [SendCloud](http://www.sendcloud.net/)
 
+短信内容使用 `template` + `data`
+
 ```php
     'sendcloud' => [
         'sms_user' => '',
@@ -321,6 +339,8 @@ $easySms->send(13188888888, $message);
     ],
 ```
 ### [百度云](https://cloud.baidu.com/)
+
+短信内容使用 `template` + `data`
 
 ```php
     'baidu' => [
