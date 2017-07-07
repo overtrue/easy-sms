@@ -64,7 +64,6 @@ class HuaxinGateway extends Gateway
      * Build endpoint url.
      *
      * @param string $ip
-     * @param string $port
      *
      * @return string
      */
