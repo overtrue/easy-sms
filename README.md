@@ -43,7 +43,6 @@
 - [聚合数据](https://www.juhe.cn)
 - [SendCloud](http://www.sendcloud.net/)
 - [百度云](https://cloud.baidu.com/)
-- [梦网科技](http://www.montnets.com/)
 - [华信短信平台](http://www.ipyy.com/)
 
 
@@ -333,18 +332,6 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
-### [梦网科技](http://www.montnets.com/)
-
-```php
-    'dreamNet' => [
-        'user_id'      => '',
-        'password'     => '',
-        'psz_sub_port' => '',
-        'ip'           => '',
-        'port'         => '',
-    ],
-```
-
 ### [华信短信平台](http://www.ipyy.com/)
 
 ```php
@@ -353,7 +340,7 @@ $easySms->send(13188888888, $message);
         'password' => '',
         'account'  => '',
         'ip'       => '',
-        'extno'    => '',
+        'ext_no'   => '',
     ],
 ```
 

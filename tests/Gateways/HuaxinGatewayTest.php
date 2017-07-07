@@ -26,7 +26,7 @@ class HuaxinGatewayTest extends TestCase
             'password' => 'mock-password',
             'account' => 'mock-account',
             'ip' => '127.0.0.1',
-            'extno' => '',
+            'ext_no' => '',
         ];
         $gateway = \Mockery::mock(HuaxinGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 

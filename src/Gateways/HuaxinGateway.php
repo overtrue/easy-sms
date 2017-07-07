@@ -19,7 +19,7 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class HuaxinGateway.
  *
- * @see http://ip/smsJson.aspx
+ * @see http://www.ipyy.com/help/
  */
 class HuaxinGateway extends Gateway
 {
@@ -50,11 +50,11 @@ class HuaxinGateway extends Gateway
             'content' => $message->getContent(),
             'sendTime' => '',
             'action' => 'send',
-            'extno' => $config->get('extno'),
+            'extno' => $config->get('ext_no'),
         ]);
 
         if ($result['returnstatus'] !== 'Success') {
-            throw new GatewayErrorException($result['message'], 500);
+            throw new GatewayErrorException($result['message'], 500, $result);
         }
 
         return $result;
