@@ -46,16 +46,16 @@ class DreamNetGateway extends Gateway
         $arr = explode(',', $to);
 
         $result = $this->post($endpoint, [
-            'userId'     => $config->get('user_id'),
-            'password'   => $config->get('password'),
+            'userId' => $config->get('user_id'),
+            'password' => $config->get('password'),
             'pszSubPort' => $config->get('psz_sub_port'),
-            'pszMobis'   => $to,
-            'pszMsg'     => $message->getContent(),
+            'pszMobis' => $to,
+            'pszMsg' => $message->getContent(),
             'iMobiCount' => count($arr),
-            'MsgId'      => $message->getMsgId()
+            'MsgId' => $message->getMsgId(),
         ]);
 
-        if (! $result) {
+        if (!$result) {
             throw new GatewayErrorException('xml解析失败', 500);
         }
 

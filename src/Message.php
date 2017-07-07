@@ -40,7 +40,7 @@ class Message implements MessageInterface
     protected $template;
 
     /**
-     * message serial number
+     * message serial number.
      *
      * @var string
      */

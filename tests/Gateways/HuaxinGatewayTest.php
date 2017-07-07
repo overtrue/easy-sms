@@ -22,46 +22,46 @@ class HuaxinGatewayTest extends TestCase
     public function testSend()
     {
         $config = [
-            'user_id'  => 'mock-user-id',
+            'user_id' => 'mock-user-id',
             'password' => 'mock-password',
-            'account'  => 'mock-account',
-            'ip'       => '127.0.0.1',
-            'extno'    => '',
+            'account' => 'mock-account',
+            'ip' => '127.0.0.1',
+            'extno' => '',
         ];
         $gateway = \Mockery::mock(HuaxinGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('post')->with('http://127.0.0.1/smsJson.aspx', [
-            'userid'    => 'mock-user-id',
-            'password'   => 'mock-password',
-            'account'    => 'mock-account',
-            'mobile'     => 18188888888,
-            'content'    => '【TIGERB】This is a test message.',
-            'sendTime'   => '',
-            'action'     => 'send',
-            'extno'      => '',
+            'userid' => 'mock-user-id',
+            'password' => 'mock-password',
+            'account' => 'mock-account',
+            'mobile' => 18188888888,
+            'content' => '【TIGERB】This is a test message.',
+            'sendTime' => '',
+            'action' => 'send',
+            'extno' => '',
         ])->andReturn([
-            'returnstatus'  => 'Success',
-            'message'       => '操作成功',
-            'remainpoint'   => '100',
-            'taskID'        => '1504080852350206',
-            'successCounts' => '1'
+            'returnstatus' => 'Success',
+            'message' => '操作成功',
+            'remainpoint' => '100',
+            'taskID' => '1504080852350206',
+            'successCounts' => '1',
         ], [
-            'returnstatus'  => 'Faild',
-            'message'       => '操作失败',
-            'remainpoint'   => '0',
-            'taskID'        => '0',
-            'successCounts' => '0'
+            'returnstatus' => 'Faild',
+            'message' => '操作失败',
+            'remainpoint' => '0',
+            'taskID' => '0',
+            'successCounts' => '0',
         ])->times(2);
 
         $message = new Message(['content' => '【TIGERB】This is a test message.']);
-        $config  = new Config($config);
+        $config = new Config($config);
         $this->assertSame(
             [
-                'returnstatus'  => 'Success',
-                'message'       => '操作成功',
-                'remainpoint'   => '100',
-                'taskID'        => '1504080852350206',
-                'successCounts' => '1'
+                'returnstatus' => 'Success',
+                'message' => '操作成功',
+                'remainpoint' => '100',
+                'taskID' => '1504080852350206',
+                'successCounts' => '1',
             ],
             $gateway->send(18188888888, $message, $config)
         );

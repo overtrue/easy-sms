@@ -43,14 +43,14 @@ class HuaxinGateway extends Gateway
         );
 
         $result = $this->post($endpoint, [
-            'userid'     => $config->get('user_id'),
-            'account'    => $config->get('account'),
-            'password'   => $config->get('password'),
-            'mobile'     => $to,
-            'content'    => $message->getContent(),
-            'sendTime'   => '',
-            'action'     => 'send',
-            'extno'      => $config->get('extno'),
+            'userid' => $config->get('user_id'),
+            'account' => $config->get('account'),
+            'password' => $config->get('password'),
+            'mobile' => $to,
+            'content' => $message->getContent(),
+            'sendTime' => '',
+            'action' => 'send',
+            'extno' => $config->get('extno'),
         ]);
 
         if ($result['returnstatus'] !== 'Success') {
