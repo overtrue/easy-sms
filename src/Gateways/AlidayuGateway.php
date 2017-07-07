@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -48,9 +50,9 @@ class AlidayuGateway extends Gateway
             'sms_type' => 'normal',
             'sms_free_sign_name' => $config->get('sign_name'),
             'app_key' => $config->get('app_key'),
-            'sms_template_code' => $message->getTemplate(),
+            'sms_template_code' => $message->getTemplate($this),
             'rec_num' => strval($to),
-            'sms_param' => json_encode($message->getData()),
+            'sms_param' => json_encode($message->getData($this)),
         ];
 
         $params['sign'] = $this->generateSign($params);
