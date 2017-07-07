@@ -43,6 +43,8 @@
 - [聚合数据](https://www.juhe.cn)
 - [SendCloud](http://www.sendcloud.net/)
 - [百度云](https://cloud.baidu.com/)
+- [梦网科技](http://www.montnets.com/)
+- [华信短信平台](http://www.ipyy.com/)
 
 
 ## 环境需求
@@ -63,12 +65,12 @@ use Overtrue\EasySms\EasySms;
 $config = [
     // HTTP 请求的超时时间（秒）
     'timeout' => 5.0,
-    
+
     // 默认发送配置
     'default' => [
         // 网关调用策略，默认：顺序调用
         'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
-        
+
         // 默认可用的发送网关
         'gateways' => [
             'yunpian', 'aliyun', 'alidayu',
@@ -96,9 +98,9 @@ $config = [
 $easySms = new EasySms($config);
 
 $easySms->send(13188888888, [
-    'content'  => '您的验证码为: 6379', 
-    'template' => 'SMS_001', 
-    'data' => [ 
+    'content'  => '您的验证码为: 6379',
+    'template' => 'SMS_001',
+    'data' => [
         'code' => 6379
     ],
 ]);
@@ -120,9 +122,9 @@ $easySms->send(13188888888, [
 
 ```php
 $easySms->send(13188888888, [
-    'content'  => '您的验证码为: 6379', 
-    'template' => 'SMS_001', 
-    'data' => [ 
+    'content'  => '您的验证码为: 6379',
+    'template' => 'SMS_001',
+    'data' => [
         'code' => 6379
     ],
  ], ['yunpian', 'juhe']); // 这里的网关配置将会覆盖全局默认值
@@ -173,9 +175,9 @@ $easySms->extend('mygateway', function($gatewayConfig){
 });
 
 $easySms->send(13188888888, [
-    'content'  => '您的验证码为: 6379', 
-    'template' => 'SMS_001', 
-    'data' => [ 
+    'content'  => '您的验证码为: 6379',
+    'template' => 'SMS_001',
+    'data' => [
         'code' => 6379
     ],
 ]);
@@ -202,19 +204,19 @@ class OrderPaidMessage extends Message
     {
         $this->order = $order;
     }
-        
+
     // 定义直接使用内容发送平台的内容
     public function getContent(GatewayInterface $gateway = null)
     {
         return sprintf('您的订单:%s, 已经完成付款', $this->order->no);    
     }
-    
+
     // 定义使用模板发送方式平台所需要的模板 ID
     public function getTemplate(GatewayInterface $gateway = null)
     {
-        return 'SMS_003'; 
+        return 'SMS_003';
     }
-        
+
     // 模板参数
     public function getData(GatewayInterface $gateway = null)
     {
