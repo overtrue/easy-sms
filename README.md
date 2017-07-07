@@ -354,6 +354,8 @@ $easySms->send(13188888888, $message);
 
 ### [华信短信平台](http://www.ipyy.com/)
 
+短信内容使用 `content`
+
 ```php
     'huaxin' => [
         'user_id'  => '',
