@@ -45,8 +45,11 @@ class SendcloudGateway extends Gateway
             'templateId' => $message->getTemplate(),
             'phone' => is_array($to) ? implode(',', $to) : $to,
             'vars' => $this->formatTemplateVars($message->getData()),
-            'timestamp' => time(),
         ];
+
+        if ($config->get('timestamp', false)) {
+            $params['timestamp'] = time() * 1000;
+        }
 
         $params['signature'] = $this->sign($params, $config->get('sms_key'));
 

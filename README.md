@@ -337,6 +337,7 @@ $easySms->send(13188888888, $message);
     'sendcloud' => [
         'sms_user' => '',
         'sms_key' => '',
+        'timestamp' => false, // 是否启用时间戳
     ],
 ```
 ### [百度云](https://cloud.baidu.com/)
