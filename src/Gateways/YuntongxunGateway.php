@@ -51,9 +51,9 @@ class YuntongxunGateway extends Gateway
         $result = $this->request('post', $endpoint, [
             'json' => [
                 'to' => $to,
-                'templateId' => (int) ($this->config->get('debug') ? self::DEBUG_TEMPLATE_ID : $message->getTemplate()),
+                'templateId' => (int) ($this->config->get('debug') ? self::DEBUG_TEMPLATE_ID : $message->getTemplate($this)),
                 'appId' => $config->get('app_id'),
-                'datas' => $message->getData(),
+                'datas' => $message->getData($this),
             ],
             'headers' => [
                 'Accept' => 'application/json',

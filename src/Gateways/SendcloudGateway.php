@@ -42,9 +42,9 @@ class SendcloudGateway extends Gateway
     {
         $params = [
             'smsUser' => $config->get('sms_user'),
-            'templateId' => $message->getTemplate(),
+            'templateId' => $message->getTemplate($this),
             'phone' => is_array($to) ? implode(',', $to) : $to,
-            'vars' => $this->formatTemplateVars($message->getData()),
+            'vars' => $this->formatTemplateVars($message->getData($this)),
         ];
 
         if ($config->get('timestamp', false)) {
@@ -75,7 +75,7 @@ class SendcloudGateway extends Gateway
             $formatted[sprintf('%%%s%%', trim($key, '%'))] = $value;
         }
 
-        return json_encode($formatted);
+        return json_encode($formatted, JSON_FORCE_OBJECT);
     }
 
     /**

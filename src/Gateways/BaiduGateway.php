@@ -47,8 +47,8 @@ class BaiduGateway extends Gateway
         $params = [
             'invokeId' => $config->get('invoke_id'),
             'phoneNumber' => $to,
-            'templateCode' => $message->getTemplate(),
-            'contentVar' => $message->getData(),
+            'templateCode' => $message->getTemplate($this),
+            'contentVar' => $message->getData($this),
         ];
 
         $datetime = date('Y-m-d\TH:i:s\Z');

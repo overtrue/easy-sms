@@ -37,8 +37,8 @@ class ErrorlogGateway extends Gateway
             date('Y-m-d H:i:s'),
             $to,
             $message->getContent(),
-            $message->getTemplate(),
-            json_encode($message->getData())
+            $message->getTemplate($this),
+            json_encode($message->getData($this))
         );
 
         $file = $this->config->get('file', ini_get('error_log'));

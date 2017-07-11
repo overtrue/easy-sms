@@ -46,7 +46,7 @@ class SubmailGateway extends Gateway
             'signature' => $config->get('app_key'),
             'project' => $config->get('project'),
             'to' => $to,
-            'vars' => json_encode($message->getData()),
+            'vars' => json_encode($message->getData($this), JSON_FORCE_OBJECT),
         ]);
 
         if ($result['status'] != 'success') {

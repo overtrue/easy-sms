@@ -58,8 +58,8 @@ class AliyunGateway extends Gateway
             'Version' => self::ENDPOINT_VERSION,
             'PhoneNumbers' => strval($to),
             'SignName' => $config->get('sign_name'),
-            'TemplateCode' => $message->getTemplate(),
-            'TemplateParam' => json_encode($message->getData()),
+            'TemplateCode' => $message->getTemplate($this),
+            'TemplateParam' => json_encode($message->getData($this), JSON_FORCE_OBJECT),
         ];
 
         $params['Signature'] = $this->generateSign($params);
