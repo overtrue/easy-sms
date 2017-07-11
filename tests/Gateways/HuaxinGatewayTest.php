@@ -35,7 +35,7 @@ class HuaxinGatewayTest extends TestCase
             'password' => 'mock-password',
             'account' => 'mock-account',
             'mobile' => 18188888888,
-            'content' => '【TIGERB】This is a test message.',
+            'content' => 'This is a test message.',
             'sendTime' => '',
             'action' => 'send',
             'extno' => '',
@@ -53,7 +53,7 @@ class HuaxinGatewayTest extends TestCase
             'successCounts' => '0',
         ])->times(2);
 
-        $message = new Message(['content' => '【TIGERB】This is a test message.']);
+        $message = new Message(['content' => 'This is a test message.']);
         $config = new Config($config);
         $this->assertSame(
             [

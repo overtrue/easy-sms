@@ -35,7 +35,6 @@ class SendcloudGatewayTest extends TestCase
         ];
         $gateway->shouldReceive('post')
             ->with(sprintf(SendcloudGateway::ENDPOINT_TEMPLATE, 'send'), \Mockery::on(function ($params) use ($expected, $config) {
-                $expected['timestamp'] = $params['timestamp'];
                 ksort($expected);
                 $signString = [];
                 foreach ($expected as $key => $value) {
@@ -49,8 +48,8 @@ class SendcloudGatewayTest extends TestCase
                     && $params['templateId'] == $expected['templateId']
                     && $params['phone'] == $expected['phone']
                     && $params['vars'] == $expected['vars']
-                    && $params['timestamp'] >= time()
                     && $params['signature'] == $expectedSignature
+                    && !isset($params['timestamp'])
                 ;
             }))
             ->andReturn([
@@ -64,7 +63,7 @@ class SendcloudGatewayTest extends TestCase
             ])->times(2);
 
         $message = new Message([
-                'content' => 'This is a huyi test message.',
+                'content' => 'This is a test message.',
                 'template' => 'mock-tpl-id',
                 'data' => [
                     'code' => 1234,
@@ -82,6 +81,42 @@ class SendcloudGatewayTest extends TestCase
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(400);
         $this->expectExceptionMessage('手机号不存在');
+
+        $gateway->send(18188888888, $message, $config);
+    }
+
+    public function testTimestampConfig()
+    {
+        $config = [
+            'sms_user' => 'mock-user',
+            'sms_key' => 'mock-key',
+            'timestamp' => true,
+        ];
+        $gateway = \Mockery::mock(SendcloudGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
+
+        $gateway->shouldReceive('post')
+            ->with(sprintf(SendcloudGateway::ENDPOINT_TEMPLATE, 'send'), \Mockery::on(function($params) {
+                return isset($params['timestamp']) && strlen($params['timestamp']) == 13 && $params['timestamp'] <= time() * 1000;
+            }))->andReturn([
+                'message' => '操作成功',
+                'result' => true,
+                'statusCode' => 200,
+            ]);
+
+        $config = new Config($config);
+        $message = new Message([
+            'content' => 'This is a test message.',
+            'template' => 'mock-tpl-id',
+            'data' => [
+                'code' => 1234,
+            ],
+        ]);
+
+        $this->assertSame([
+            'message' => '操作成功',
+            'result' => true,
+            'statusCode' => 200,
+        ], $gateway->send(18188888888, $message, $config));
 
         $gateway->send(18188888888, $message, $config);
     }

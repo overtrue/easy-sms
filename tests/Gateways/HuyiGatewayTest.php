@@ -30,7 +30,7 @@ class HuyiGatewayTest extends TestCase
         $params = [
             'account' => 'mock-api-id',
             'mobile' => strval(18188888888),
-            'content' => 'This is a huyi test message.',
+            'content' => 'This is a test message.',
             'format' => 'json',
         ];
         $gateway->shouldReceive('post')->with('http://106.ihuyi.com/webservice/sms.php?method=Submit', \Mockery::subset($params))
@@ -42,7 +42,7 @@ class HuyiGatewayTest extends TestCase
                 'msg' => 'mock-err-msg',
             ])->times(2);
 
-        $message = new Message(['content' => 'This is a huyi test message.']);
+        $message = new Message(['content' => 'This is a test message.']);
         $config = new Config($config);
 
         $this->assertSame([
