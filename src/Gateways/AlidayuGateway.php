@@ -61,12 +61,12 @@ class AlidayuGateway extends Gateway
 
         if (!empty($result['error_response'])) {
             if (isset($result['error_response']['sub_msg'])) {
-                $errorMsg = $result['error_response']['sub_msg'];
+                $message = $result['error_response']['sub_msg'];
             } else {
-                $errorMsg = $result['error_response']['msg'];
+                $message = $result['error_response']['msg'];
             }
 
-            throw new GatewayErrorException($errorMsg, $result['error_response']['code'], $result);
+            throw new GatewayErrorException($message, $result['error_response']['code'], $result);
         }
 
         return $result;
