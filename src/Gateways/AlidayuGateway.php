@@ -31,9 +31,9 @@ class AlidayuGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * @param array|int|string $to
+     * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return array
      *
