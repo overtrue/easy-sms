@@ -60,7 +60,13 @@ class AlidayuGateway extends Gateway
         $result = $this->post(self::ENDPOINT_URL, $params);
 
         if (!empty($result['error_response'])) {
-            throw new GatewayErrorException($result['error_response']['sub_msg'], $result['error_response']['code'], $result);
+            if(isset($result['error_response']['sub_msg'])){
+                $errorMsg = $result['error_response']['sub_msg'];
+            }else{
+                $errorMsg = $result['error_response']['msg'];
+            }
+
+            throw new GatewayErrorException($errorMsg, $result['error_response']['code'], $result);
         }
 
         return $result;
