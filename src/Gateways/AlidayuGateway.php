@@ -42,17 +42,17 @@ class AlidayuGateway extends Gateway
     public function send($to, MessageInterface $message, Config $config)
     {
         $params = [
-            'method' => self::ENDPOINT_METHOD,
-            'format' => self::ENDPOINT_FORMAT,
-            'v' => self::ENDPOINT_VERSION,
-            'sign_method' => 'md5',
-            'timestamp' => date('Y-m-d H:i:s'),
-            'sms_type' => 'normal',
+            'method'             => self::ENDPOINT_METHOD,
+            'format'             => self::ENDPOINT_FORMAT,
+            'v'                  => self::ENDPOINT_VERSION,
+            'sign_method'        => 'md5',
+            'timestamp'          => date('Y-m-d H:i:s'),
+            'sms_type'           => 'normal',
             'sms_free_sign_name' => $config->get('sign_name'),
-            'app_key' => $config->get('app_key'),
-            'sms_template_code' => $message->getTemplate($this),
-            'rec_num' => strval($to),
-            'sms_param' => json_encode($message->getData($this)),
+            'app_key'            => $config->get('app_key'),
+            'sms_template_code'  => $message->getTemplate($this),
+            'rec_num'            => strval($to),
+            'sms_param'          => json_encode($message->getData($this)),
         ];
 
         $params['sign'] = $this->generateSign($params);
@@ -60,9 +60,9 @@ class AlidayuGateway extends Gateway
         $result = $this->post(self::ENDPOINT_URL, $params);
 
         if (!empty($result['error_response'])) {
-            if(isset($result['error_response']['sub_msg'])){
+            if (isset($result['error_response']['sub_msg'])) {
                 $errorMsg = $result['error_response']['sub_msg'];
-            }else{
+            } else {
                 $errorMsg = $result['error_response']['msg'];
             }
 
