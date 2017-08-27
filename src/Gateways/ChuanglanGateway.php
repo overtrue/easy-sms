@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use function GuzzleHttp\json_encode;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
