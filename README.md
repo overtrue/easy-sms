@@ -374,8 +374,8 @@ $easySms->send(13188888888, $message);
 
 ```php
     'chuanglan' => [
-        'un'  => '',
-        'pw' => '',
+        'api_username'  => '',
+        'api_password' => '',
     ],
 ```
 
