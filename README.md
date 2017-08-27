@@ -44,6 +44,7 @@
 - [SendCloud](http://www.sendcloud.net/)
 - [百度云](https://cloud.baidu.com/)
 - [华信短信平台](http://www.ipyy.com/)
+- [253云通讯（创蓝）](https://www.253.com/)
 
 
 ## 环境需求
@@ -364,6 +365,17 @@ $easySms->send(13188888888, $message);
         'account'  => '',
         'ip'       => '',
         'ext_no'   => '',
+    ],
+```
+
+### [253云通讯（创蓝）](https://www.253.com/)
+
+短信内容使用 `content`
+
+```php
+    'chuanglan' => [
+        'un'  => '',
+        'pw' => '',
     ],
 ```
 
