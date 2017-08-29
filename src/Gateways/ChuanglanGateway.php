@@ -39,8 +39,8 @@ class ChuanglanGateway extends Gateway
     public function send($to, MessageInterface $message, Config $config)
     {
         $params = [
-            'un' => $config->get('api_username'),
-            'pw' => $config->get('api_password'),
+            'un' => $config->get('username'),
+            'pw' => $config->get('password'),
             'phone' => $to,
             'msg' => $message->getContent(),
         ];
@@ -49,7 +49,7 @@ class ChuanglanGateway extends Gateway
 
         $formatResult = $this->formatResult($result);
 
-        if ($formatResult[1]) {
+        if (!empty($formatResult[1])) {
             throw new GatewayErrorException($result, $formatResult[1], $formatResult);
         }
 
