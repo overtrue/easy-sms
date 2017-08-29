@@ -64,6 +64,7 @@ class ChuanglanGateway extends Gateway
     protected function formatResult($result)
     {
         $result = str_replace("\n", ',', $result);
+
         return explode(',', $result);
     }
 }

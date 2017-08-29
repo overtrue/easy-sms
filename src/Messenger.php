@@ -74,12 +74,14 @@ class Messenger
                     'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
                 ];
                 $hasSucceed = true;
+
                 break;
             } catch (GatewayErrorException $e) {
                 $results[$gateway] = [
                     'status' => self::STATUS_ERRED,
                     'exception' => $e,
                 ];
+
                 continue;
             }
         }
