@@ -52,7 +52,7 @@ class HuyiGateway extends Gateway
 
         $result = $this->post(self::ENDPOINT_URL, $params);
 
-        if ($result['code'] != self::SUCCESS_CODE) {
+        if (self::SUCCESS_CODE != $result['code']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 

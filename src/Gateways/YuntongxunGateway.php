@@ -62,7 +62,7 @@ class YuntongxunGateway extends Gateway
             ],
         ]);
 
-        if ($result['statusCode'] != self::SUCCESS_CODE) {
+        if (self::SUCCESS_CODE != $result['statusCode']) {
             throw new GatewayErrorException($result['statusCode'], $result['statusCode'], $result);
         }
 

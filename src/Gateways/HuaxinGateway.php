@@ -51,7 +51,7 @@ class HuaxinGateway extends Gateway
             'extno' => $config->get('ext_no'),
         ]);
 
-        if ($result['returnstatus'] !== 'Success') {
+        if ('Success' !== $result['returnstatus']) {
             throw new GatewayErrorException($result['message'], 400, $result);
         }
 

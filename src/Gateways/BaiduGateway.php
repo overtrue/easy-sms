@@ -66,7 +66,7 @@ class BaiduGateway extends Gateway
 
         $result = $this->request('post', self::buildEndpoint($config), ['headers' => $headers, 'json' => $params]);
 
-        if ($result['code'] != self::SUCCESS_CODE) {
+        if (self::SUCCESS_CODE != $result['code']) {
             throw new GatewayErrorException($result['message'], $result['code'], $result);
         }
 

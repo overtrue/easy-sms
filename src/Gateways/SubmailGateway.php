@@ -49,7 +49,7 @@ class SubmailGateway extends Gateway
             'vars' => json_encode($message->getData($this), JSON_FORCE_OBJECT),
         ]);
 
-        if ($result['status'] != 'success') {
+        if ('success' != $result['status']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 
