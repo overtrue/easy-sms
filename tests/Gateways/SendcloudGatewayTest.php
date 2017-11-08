@@ -96,7 +96,7 @@ class SendcloudGatewayTest extends TestCase
 
         $gateway->shouldReceive('post')
             ->with(sprintf(SendcloudGateway::ENDPOINT_TEMPLATE, 'send'), \Mockery::on(function ($params) {
-                return isset($params['timestamp']) && strlen($params['timestamp']) == 13 && $params['timestamp'] <= time() * 1000;
+                return isset($params['timestamp']) && 13 == strlen($params['timestamp']) && $params['timestamp'] <= time() * 1000;
             }))->andReturn([
                 'message' => '操作成功',
                 'result' => true,

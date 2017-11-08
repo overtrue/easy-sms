@@ -66,7 +66,7 @@ class AliyunGateway extends Gateway
 
         $result = $this->get(self::ENDPOINT_URL, $params);
 
-        if ($result['Code'] != 'OK') {
+        if ('OK' != $result['Code']) {
             throw new GatewayErrorException($result['Message'], $result['Code'], $result);
         }
 
