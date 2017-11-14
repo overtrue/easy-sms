@@ -44,7 +44,7 @@ class LuosimaoGateway extends Gateway
 
         $result = $this->post($endpoint, [
             'mobile' => $to,
-            'message' => $message->getContent(),
+            'message' => $message->getContent($this),
         ], [
             'Authorization' => 'Basic '.base64_encode('api:key-'.$config->get('api_key')),
         ]);

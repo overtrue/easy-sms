@@ -45,7 +45,7 @@ class HuaxinGateway extends Gateway
             'account' => $config->get('account'),
             'password' => $config->get('password'),
             'mobile' => $to,
-            'content' => $message->getContent(),
+            'content' => $message->getContent($this),
             'sendTime' => '',
             'action' => 'send',
             'extno' => $config->get('ext_no'),

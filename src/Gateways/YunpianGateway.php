@@ -45,7 +45,7 @@ class YunpianGateway extends Gateway
         $result = $this->post($endpoint, [
             'apikey' => $config->get('api_key'),
             'mobile' => $to,
-            'text' => $message->getContent(),
+            'text' => $message->getContent($this),
         ]);
 
         if ($result['code']) {
