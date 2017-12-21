@@ -26,7 +26,9 @@ class YunpianGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_TEMPLATE = 'https://%s.yunpian.com/%s/%s/%s.%s';
+
     const ENDPOINT_VERSION = 'v2';
+
     const ENDPOINT_FORMAT = 'json';
 
     /**

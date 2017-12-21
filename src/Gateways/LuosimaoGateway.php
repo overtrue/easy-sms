@@ -26,7 +26,9 @@ class LuosimaoGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_TEMPLATE = 'https://%s.luosimao.com/%s/%s.%s';
+
     const ENDPOINT_VERSION = 'v1';
+
     const ENDPOINT_FORMAT = 'json';
 
     /**

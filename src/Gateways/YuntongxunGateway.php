@@ -26,11 +26,17 @@ class YuntongxunGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_TEMPLATE = 'https://%s:%s/%s/%s/%s/%s/%s?sig=%s';
+
     const SERVER_IP = 'app.cloopen.com';
+
     const DEBUG_SERVER_IP = 'sandboxapp.cloopen.com';
+
     const DEBUG_TEMPLATE_ID = 1;
+
     const SERVER_PORT = '8883';
+
     const SDK_VERSION = '2013-12-26';
+
     const SUCCESS_CODE = '000000';
 
     /**

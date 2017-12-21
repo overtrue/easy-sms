@@ -17,6 +17,7 @@ namespace Overtrue\EasySms\Contracts;
 interface MessageInterface
 {
     const TEXT_MESSAGE = 'text';
+
     const VOICE_MESSAGE = 'voice';
 
     /**

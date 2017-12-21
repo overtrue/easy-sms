@@ -26,8 +26,11 @@ class AlidayuGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_URL = 'https://eco.taobao.com/router/rest';
+
     const ENDPOINT_METHOD = 'alibaba.aliqin.fc.sms.num.send';
+
     const ENDPOINT_VERSION = '2.0';
+
     const ENDPOINT_FORMAT = 'json';
 
     /**
