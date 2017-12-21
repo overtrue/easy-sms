@@ -26,7 +26,9 @@ class HuyiGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_URL = 'http://106.ihuyi.com/webservice/sms.php?method=Submit';
+
     const ENDPOINT_FORMAT = 'json';
+
     const SUCCESS_CODE = 2;
 
     /**

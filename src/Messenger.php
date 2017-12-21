@@ -22,6 +22,7 @@ use Overtrue\EasySms\Support\Config;
 class Messenger
 {
     const STATUS_SUCCESS = 'success';
+
     const STATUS_FAILURE = 'failure';
 
     /**

@@ -26,9 +26,13 @@ class BaiduGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_HOST = 'sms.bj.baidubce.com';
+
     const ENDPOINT_URI = '/bce/v2/message';
+
     const BCE_AUTH_VERSION = 'bce-auth-v1';
+
     const DEFAULT_EXPIRATION_IN_SECONDS = 1800; //签名有效期默认1800秒
+
     const SUCCESS_CODE = 1000;
 
     /**

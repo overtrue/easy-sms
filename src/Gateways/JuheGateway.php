@@ -26,6 +26,7 @@ class JuheGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_URL = 'http://v.juhe.cn/sms/send';
+
     const ENDPOINT_FORMAT = 'json';
 
     /**
