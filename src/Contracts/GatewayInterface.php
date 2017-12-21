@@ -26,6 +26,8 @@ interface GatewayInterface
      * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return array
+     *
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
      */
     public function send($to, MessageInterface $message, Config $config);
 }

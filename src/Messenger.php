@@ -22,7 +22,7 @@ use Overtrue\EasySms\Support\Config;
 class Messenger
 {
     const STATUS_SUCCESS = 'success';
-    const STATUS_ERRED = 'erred';
+    const STATUS_FAILURE = 'failure';
 
     /**
      * @var \Overtrue\EasySms\EasySms
@@ -48,6 +48,7 @@ class Messenger
      *
      * @return array
      *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
     public function send($to, $message, array $gateways = [])
@@ -66,19 +67,19 @@ class Messenger
         $strategyAppliedGateways = $this->easySms->strategy()->apply($gateways);
 
         $results = [];
-        $hasSucceed = false;
+        $isSuccessful = false;
         foreach ($strategyAppliedGateways as $gateway) {
             try {
                 $results[$gateway] = [
                     'status' => self::STATUS_SUCCESS,
                     'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
                 ];
-                $hasSucceed = true;
+                $isSuccessful = true;
 
                 break;
             } catch (GatewayErrorException $e) {
                 $results[$gateway] = [
-                    'status' => self::STATUS_ERRED,
+                    'status' => self::STATUS_FAILURE,
                     'exception' => $e,
                 ];
 
@@ -86,7 +87,7 @@ class Messenger
             }
         }
 
-        if (!$hasSucceed) {
+        if (!$isSuccessful) {
             throw new NoGatewayAvailableException($results);
         }
 
