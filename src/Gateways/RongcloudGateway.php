@@ -80,8 +80,8 @@ class RongcloudGateway extends Gateway
 
                 break;
             case 'verifyCode':
-                if (! array_key_exists('code', $message->getData())
-                    or ! array_key_exists('sessionId', $message->getData())) {
+                if (!array_key_exists('code', $message->getData())
+                    or !array_key_exists('sessionId', $message->getData())) {
                     throw new GatewayErrorException('"code" or "sessionId" is not set', 0);
                 }
                 $params = [
