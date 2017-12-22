@@ -140,7 +140,7 @@ $easySms->send(13188888888, [
         'result' => [...] // 平台返回值
     ],
     'juhe' => [
-        'status' => 'erred',
+        'status' => 'failure',
         'exception' => \Overtrue\EasySms\Exceptions\GatewayErrorException 对象
     ],
     //...
