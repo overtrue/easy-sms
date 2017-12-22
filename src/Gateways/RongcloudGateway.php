@@ -63,7 +63,7 @@ class RongcloudGateway extends Gateway
             'App-Key' => $config->get('app_key'),
             'Timestamp' => time(),
             ];
-        $headers['Signature'] = $$this->generateSign($headers, $config);
+        $headers['Signature'] = $this->generateSign($headers, $config);
 
         switch ($action) {
             case 'sendCode':
@@ -83,6 +83,15 @@ class RongcloudGateway extends Gateway
                     'code' => $data['code'],
                     'sessionId' => $data['sessionId'],
                 ];
+
+                break;
+            case 'sendNotify':
+                $params = [
+                    'mobile' => $to,
+                    'region' => self::ENDPOINT_REGION,
+                    'templateId' => $message->getTemplate($this),
+                    ];
+                $params = array_merge($params, $data);
 
                 break;
             default:
