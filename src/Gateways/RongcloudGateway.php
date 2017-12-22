@@ -38,8 +38,6 @@ class RongcloudGateway extends Gateway
 
     const SUCCESS_CODE = 200;
 
-    private $action;
-
     /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
@@ -51,23 +49,21 @@ class RongcloudGateway extends Gateway
      */
     public function send($to, MessageInterface $message, Config $config)
     {
-        if (array_key_exists('action', $message->getData())) {
-            $action = $message->getData()['action'];
+        $data = $message->getData();
+
+        if (array_key_exists('action', $data)) {
+            $action = $data['action'];
         } else {
             $action = self::ENDPOINT_ACTION;
         }
         $endpoint = $this->buildEndpoint($action);
 
-        srand((float) microtime() * 1000000);
-        $nonce = rand();
-        $timestamp = time();
-
         $headers = [
-            'Nonce' => $nonce,
+            'Nonce' => uniqid(),
             'App-Key' => $config->get('app_key'),
-            'Timestamp' => $timestamp,
+            'Timestamp' => time(),
             ];
-        $signature = $this->generateSign($this->getHeadersToSign($headers, ['Nonce', 'Timestamp']), $config);
+        $signature = $this->generateSign($headers, $config);
         $headers['Signature'] = $signature;
 
         switch ($action) {
@@ -80,13 +76,13 @@ class RongcloudGateway extends Gateway
 
                 break;
             case 'verifyCode':
-                if (!array_key_exists('code', $message->getData())
-                    or !array_key_exists('sessionId', $message->getData())) {
+                if (!array_key_exists('code', $data)
+                    or !array_key_exists('sessionId', $data)) {
                     throw new GatewayErrorException('"code" or "sessionId" is not set', 0);
                 }
                 $params = [
-                    'code' => $message->getData()['code'],
-                    'sessionId' => $message->getData()['sessionId'],
+                    'code' => $data['code'],
+                    'sessionId' => $data['sessionId'],
                 ];
 
                 break;
@@ -120,24 +116,9 @@ class RongcloudGateway extends Gateway
     }
 
     /**
-     * Get the headers to sign.
-     *
-     * @param array $headers
-     * @param array $keys
-     *
-     * @return array
-     */
-    protected function getHeadersToSign(array $headers, array $keys)
-    {
-        return array_intersect_key($headers, array_flip($keys));
-    }
-
-    /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $resource
-     * @param string $function
+     * @param string $action
      *
      * @return string
      */
