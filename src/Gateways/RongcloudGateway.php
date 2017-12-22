@@ -63,8 +63,7 @@ class RongcloudGateway extends Gateway
             'App-Key' => $config->get('app_key'),
             'Timestamp' => time(),
             ];
-        $signature = $this->generateSign($headers, $config);
-        $headers['Signature'] = $signature;
+        $headers['Signature'] = $$this->generateSign($headers, $config);
 
         switch ($action) {
             case 'sendCode':
