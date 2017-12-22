@@ -45,6 +45,7 @@
 - [百度云](https://cloud.baidu.com/)
 - [华信短信平台](http://www.ipyy.com/)
 - [253云通讯（创蓝）](https://www.253.com/)
+- [融云](http://www.rongcloud.cn)
 
 
 ## 环境需求
@@ -377,6 +378,17 @@ $easySms->send(13188888888, $message);
         'username'  => '',
         'password' => '',
     ],
+```
+
+### [融云](http://www.rongcloud.cn)
+
+短信分为两大类，验证类和通知类短信。 发送验证类短信使用 `template` + `data`
+
+```php
+    'rongcloud' => [
+        'app_key' => '',
+        'app_secret' => '',
+    ]
 ```
 
 ## License
