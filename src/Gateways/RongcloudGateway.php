@@ -107,6 +107,7 @@ class RongcloudGateway extends Gateway
      * Generate Sign.
      *
      * @param array $params
+     * @param \Overtrue\EasySms\Support\Config $config
      *
      * @return string
      */
