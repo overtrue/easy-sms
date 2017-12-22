@@ -21,6 +21,7 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
  * Class RongcloudGateway.
  *
  * @author Darren Gao <realgaodacheng@gmail.com>
+ *
  * @see http://www.rongcloud.cn/docs/sms_service.html#send_sms_code
  */
 class RongcloudGateway extends Gateway
@@ -57,7 +58,7 @@ class RongcloudGateway extends Gateway
         }
         $endpoint = $this->buildEndpoint($action);
 
-        srand((double)microtime()*1000000);
+        srand((float) microtime() * 1000000);
         $nonce = rand();
         $timestamp = time();
 
@@ -76,6 +77,7 @@ class RongcloudGateway extends Gateway
                     'region' => self::ENDPOINT_REGION,
                     'templateId' => $message->getTemplate($this),
                 ];
+
                 break;
             case 'verifyCode':
                 if (! array_key_exists('code', $message->getData())
@@ -86,6 +88,7 @@ class RongcloudGateway extends Gateway
                     'code' => $message->getData()['code'],
                     'sessionId' => $message->getData()['sessionId'],
                 ];
+
                 break;
             default:
                 throw new GatewayErrorException(sprintf('action: %s not supported', $action));
