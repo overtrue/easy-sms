@@ -65,7 +65,7 @@ class TianyiwuxianGateway extends Gateway
 
         $result = json_decode($result, true);
 
-        if ($result['returnstatus'] !== self::SUCCESS_STATUS || $result['code'] !== self::SUCCESS_CODE) {
+        if (self::SUCCESS_STATUS !== $result['returnstatus'] || self::SUCCESS_CODE !== $result['code']) {
             throw new GatewayErrorException($result['remark'], $result['code']);
         }
 
