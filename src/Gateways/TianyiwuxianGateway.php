@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use GuzzleHttp\Exception\ClientException;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
