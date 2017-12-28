@@ -19,6 +19,17 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class AliyunGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $gateway = $this->getMockBuilder(AliyunGateway::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $gateway->method('getName')
+            ->willReturn('aliyun');
+
+        $this->assertSame('aliyun', $gateway->getName());
+    }
+
     public function testSend()
     {
         $config = [

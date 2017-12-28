@@ -55,9 +55,11 @@ class EasySmsTest extends TestCase
         $easySms->setDefaultGateway(DummyInvalidGatewayForTest::class);
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            sprintf('Gateway "%s" not inherited from %s.',
+            sprintf(
+                'Gateway "%s" not inherited from %s.',
                 DummyInvalidGatewayForTest::class,
-                GatewayInterface::class)
+                GatewayInterface::class
+            )
         );
         $easySms->gateway();
     }
@@ -94,6 +96,10 @@ class EasySmsTest extends TestCase
 
 class DummyGatewayForTest implements GatewayInterface
 {
+    public function getName()
+    {
+        return 'name';
+    }
     public function send($to, MessageInterface $message, Config $config)
     {
         return 'send-result';

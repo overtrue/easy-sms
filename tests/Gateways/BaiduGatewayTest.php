@@ -19,6 +19,17 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class BaiduGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $gateway = $this->getMockBuilder(BaiduGateway::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $gateway->method('getName')
+            ->willReturn('baidu');
+
+        $this->assertSame('baidu', $gateway->getName());
+    }
+
     public function testSend()
     {
         $config = [
@@ -33,7 +44,8 @@ class BaiduGatewayTest extends TestCase
             'invokeId' => $config['invoke_id'],
             'contentVar' => ['mock-data-1', 'mock-data-2'],
         ];
-        $gateway->shouldReceive('request')->with('post',
+        $gateway->shouldReceive('request')->with(
+            'post',
             \Mockery::on(function ($api) {
                 return 0 == strpos($api, 'http://'.BaiduGateway::ENDPOINT_HOST.BaiduGateway::ENDPOINT_URI);
             }),
@@ -42,10 +54,12 @@ class BaiduGatewayTest extends TestCase
                 ksort($expected);
 
                 return $params['json'] == $expected;
-            }))
+            })
+        )
             ->andReturn(
                 ['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'],
-                ['code' => 100, 'message' => 'mock-msg'])
+                ['code' => 100, 'message' => 'mock-msg']
+            )
             ->twice();
 
         $message = new Message([

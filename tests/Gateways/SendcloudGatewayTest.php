@@ -19,6 +19,17 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class SendcloudGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $gateway = $this->getMockBuilder(SendcloudGateway::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $gateway->method('getName')
+            ->willReturn('sendcloud');
+
+        $this->assertSame('sendcloud', $gateway->getName());
+    }
+
     public function testSend()
     {
         $config = [

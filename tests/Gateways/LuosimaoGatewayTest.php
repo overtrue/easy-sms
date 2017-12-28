@@ -19,6 +19,17 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class LuosimaoGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $gateway = $this->getMockBuilder(LuosimaoGateway::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $gateway->method('getName')
+            ->willReturn('luosimao');
+
+        $this->assertSame('luosimao', $gateway->getName());
+    }
+
     public function testSend()
     {
         $config = [
