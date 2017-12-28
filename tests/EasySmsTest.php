@@ -100,6 +100,7 @@ class DummyGatewayForTest implements GatewayInterface
     {
         return 'name';
     }
+
     public function send($to, MessageInterface $message, Config $config)
     {
         return 'send-result';
