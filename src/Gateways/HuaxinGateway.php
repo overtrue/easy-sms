@@ -28,6 +28,16 @@ class HuaxinGateway extends Gateway
     const ENDPOINT_TEMPLATE = 'http://%s/smsJson.aspx';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'huaxin';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config

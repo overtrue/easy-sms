@@ -30,6 +30,16 @@ class SubmailGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'submail';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config

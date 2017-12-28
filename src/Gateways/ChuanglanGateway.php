@@ -28,6 +28,16 @@ class ChuanglanGateway extends Gateway
     const ENDPOINT_URL = 'https://sms.253.com/msg/send';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'chuanglan';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config

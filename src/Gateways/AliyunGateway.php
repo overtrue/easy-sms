@@ -42,6 +42,16 @@ class AliyunGateway extends Gateway
     const ENDPOINT_SIGNATURE_VERSION = '1.0';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'aliyun';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config

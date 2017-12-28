@@ -28,6 +28,16 @@ class SendcloudGateway extends Gateway
     const ENDPOINT_TEMPLATE = 'http://www.sendcloud.net/smsapi/%s';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'sendcloud';
+    }
+
+    /**
      * Send a short message.
      *
      * @param int|string|array                             $to

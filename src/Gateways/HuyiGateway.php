@@ -32,6 +32,16 @@ class HuyiGateway extends Gateway
     const SUCCESS_CODE = 2;
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'huyi';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config

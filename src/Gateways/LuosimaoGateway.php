@@ -32,6 +32,16 @@ class LuosimaoGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'luosimao';
+    }
+
+    /**
      * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config             $config
