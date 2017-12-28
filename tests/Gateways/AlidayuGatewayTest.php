@@ -21,13 +21,7 @@ class AlidayuGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(AlidayuGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('alidayu');
-
-        $this->assertSame('alidayu', $gateway->getName());
+        $this->assertSame('alidayu', (new AlidayuGateway([]))->getName());
     }
 
     public function testSend()

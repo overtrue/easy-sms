@@ -21,13 +21,7 @@ class SendcloudGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(SendcloudGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('sendcloud');
-
-        $this->assertSame('sendcloud', $gateway->getName());
+        $this->assertSame('sendcloud', (new SendcloudGateway([]))->getName());
     }
 
     public function testSend()

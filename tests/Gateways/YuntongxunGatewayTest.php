@@ -21,13 +21,7 @@ class YuntongxunGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(YuntongxunGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('yuntongxun');
-
-        $this->assertSame('yuntongxun', $gateway->getName());
+        $this->assertSame('yuntongxun', (new YuntongxunGateway([]))->getName());
     }
 
     public function testSend()

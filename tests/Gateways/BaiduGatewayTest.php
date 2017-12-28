@@ -21,13 +21,7 @@ class BaiduGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(BaiduGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('baidu');
-
-        $this->assertSame('baidu', $gateway->getName());
+        $this->assertSame('baidu', (new BaiduGateway([]))->getName());
     }
 
     public function testSend()

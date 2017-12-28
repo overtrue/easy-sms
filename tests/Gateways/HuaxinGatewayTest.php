@@ -21,13 +21,7 @@ class HuaxinGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(HuaxinGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('huaxin');
-
-        $this->assertSame('huaxin', $gateway->getName());
+        $this->assertSame('huaxin', (new HuaxinGateway([]))->getName());
     }
 
     public function testSend()

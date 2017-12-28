@@ -21,13 +21,7 @@ class HuyiGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(HuyiGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('huyi');
-
-        $this->assertSame('huyi', $gateway->getName());
+        $this->assertSame('huyi', (new HuyiGateway([]))->getName());
     }
 
     public function testSend()

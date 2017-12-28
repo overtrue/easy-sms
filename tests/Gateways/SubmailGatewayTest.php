@@ -21,13 +21,7 @@ class SubmailGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(SubmailGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('submail');
-
-        $this->assertSame('submail', $gateway->getName());
+        $this->assertSame('submail', (new SubmailGateway([]))->getName());
     }
 
     public function testSend()

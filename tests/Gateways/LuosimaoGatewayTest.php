@@ -21,13 +21,7 @@ class LuosimaoGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $gateway = $this->getMockBuilder(LuosimaoGateway::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $gateway->method('getName')
-            ->willReturn('luosimao');
-
-        $this->assertSame('luosimao', $gateway->getName());
+        $this->assertSame('luosimao', (new LuosimaoGateway([]))->getName());
     }
 
     public function testSend()
