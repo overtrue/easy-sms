@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class SendcloudGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('sendcloud', (new SendcloudGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

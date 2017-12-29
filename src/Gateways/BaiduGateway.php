@@ -36,6 +36,16 @@ class BaiduGateway extends Gateway
     const SUCCESS_CODE = 1000;
 
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'baidu';
+    }
+
+    /**
      * Send message.
      *
      * @param array|int|string                             $to

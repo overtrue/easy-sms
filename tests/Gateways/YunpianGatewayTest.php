@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YunpianGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('yunpian', (new YunpianGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

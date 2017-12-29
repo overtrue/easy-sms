@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class LuosimaoGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('luosimao', (new LuosimaoGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

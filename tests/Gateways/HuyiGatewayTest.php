@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class HuyiGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('huyi', (new HuyiGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

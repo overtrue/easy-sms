@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class AlidayuGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('alidayu', (new AlidayuGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

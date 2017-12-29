@@ -84,4 +84,12 @@ abstract class Gateway implements GatewayInterface
 
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return '';
+    }
 }
