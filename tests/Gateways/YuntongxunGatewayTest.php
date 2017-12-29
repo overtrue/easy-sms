@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YuntongxunGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('yuntongxun', (new YuntongxunGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [
@@ -30,7 +35,8 @@ class YuntongxunGatewayTest extends TestCase
         ];
         $gateway = \Mockery::mock(YuntongxunGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->shouldReceive('request')->with('post',
+        $gateway->shouldReceive('request')->with(
+            'post',
             \Mockery::on(function ($api) {
                 return 0 === strpos($api, 'https://app.cloopen.com:8883/2013-12-26/Accounts/mock-account-sid/SMS/TemplateSMS?sig=');
             }),
@@ -42,7 +48,8 @@ class YuntongxunGatewayTest extends TestCase
                         'datas' => ['mock-data-1', 'mock-data-2'],
                     ] && $params['headers']['Accept'] == 'application/json'
                         && $params['headers']['Content-Type'] == 'application/json;charset=utf-8';
-            }))
+            })
+        )
         ->andReturn([
             'statusCode' => YuntongxunGateway::SUCCESS_CODE,
         ], [

@@ -19,6 +19,13 @@ use Overtrue\EasySms\Support\Config;
 interface GatewayInterface
 {
     /**
+     * Get gateway name.
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
      * Send a short message.
      *
      * @param int|string|array                             $to

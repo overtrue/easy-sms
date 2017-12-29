@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class JuheGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('juhe', (new JuheGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [

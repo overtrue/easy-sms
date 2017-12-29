@@ -19,6 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class SubmailGatewayTest extends TestCase
 {
+    public function testGetName()
+    {
+        $this->assertSame('submail', (new SubmailGateway([]))->getName());
+    }
+
     public function testSend()
     {
         $config = [
