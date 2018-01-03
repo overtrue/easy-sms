@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
@@ -9,7 +18,8 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 use GuzzleHttp\Exception\ClientException;
 
 /**
- * Class TwilioGateway
+ * Class TwilioGateway.
+ *
  *  @see https://www.twilio.com/docs/api/messaging/send-messages
  */
 class TwilioGateway extends Gateway
@@ -20,7 +30,7 @@ class TwilioGateway extends Gateway
 
     protected $errorStatuses = [
         'failed',
-        'undelivered'
+        'undelivered',
     ];
 
     public function getName()
@@ -43,9 +53,9 @@ class TwilioGateway extends Gateway
             $result = $this->request('post', $endpoint, [
                 'auth' => [
                     $accountSid,
-                    $config->get('token')
+                    $config->get('token'),
                 ],
-                'form_params' => $params
+                'form_params' => $params,
             ]);
             if (in_array($result['status'], $this->errorStatuses) || !is_null($result['error_code'])) {
                 throw new GatewayErrorException($result['message'], $result['error_code'], $result);
@@ -53,13 +63,15 @@ class TwilioGateway extends Gateway
         } catch (ClientException $e) {
             throw new GatewayErrorException($e->getMessage(), $e->getCode());
         }
+
         return $result;
     }
 
     /**
-     * build endpoint url
+     * build endpoint url.
      *
      * @param string $accountSid
+     *
      * @return string
      */
     protected function buildEndPoint($accountSid)
