@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
-use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\TwilioGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Support\Config;
