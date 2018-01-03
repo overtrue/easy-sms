@@ -47,8 +47,8 @@ class TwilioGateway extends Gateway
                 ],
                 'form_params' => $params
             ]);
-            if (in_array($result['status'], $this->errorStatuses)) {
-                throw new GatewayErrorException($result['message'], 400, $result);
+            if (in_array($result['status'], $this->errorStatuses) || !is_null($result['error_code'])) {
+                throw new GatewayErrorException($result['message'], $result['error_code'], $result);
             }
         } catch (ClientException $e) {
             throw new GatewayErrorException($e->getMessage(), $e->getCode());
