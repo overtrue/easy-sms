@@ -115,7 +115,7 @@ class RongcloudGateway extends Gateway
                 throw new GatewayErrorException($result['errorMessage'], $result['code'], $result);
             }
         } catch (ClientException $e) {
-            return new GatewayErrorException($e->getMessage(), $e->getCode());
+            throw new GatewayErrorException($e->getMessage(), $e->getCode());
         }
 
         return $result;
