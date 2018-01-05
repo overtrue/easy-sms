@@ -404,6 +404,19 @@ $easySms->send(13188888888, $message);
     ]
 ```
 
+### [twilio](https://www.twilio.com)
+
+短信使用 `content`  
+发送对象需要 使用`+`添加区号
+
+```php
+    'twilio' => [
+        'account_sid' => '', // sid
+        'from' => '', // 发送的号码 可以在控制台购买
+        'token' => '', // apitoken
+    ],
+```
+
 ## License
 
 MIT
