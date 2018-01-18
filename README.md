@@ -47,6 +47,7 @@
 - [253云通讯（创蓝）](https://www.253.com/)
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
+- [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
 
 ## 环境需求
@@ -414,6 +415,17 @@ $easySms->send(13188888888, $message);
         'account_sid' => '', // sid
         'from' => '', // 发送的号码 可以在控制台购买
         'token' => '', // apitoken
+    ],
+```
+
+### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
+
+短信内容使用 `content`。
+
+```php
+    'qcloud' => [
+        'sdk_app_id' => '', // SDK APP ID
+        'app_key' => '', // APP KEY
     ],
 ```
 
