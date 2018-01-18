@@ -50,13 +50,13 @@ class QcloudGatewayTest extends TestCase
                     'errmsg' => 'OK',
                     'ext' => '',
                     'sid' => 3310228982,
-                    'fee' => 1
+                    'fee' => 1,
                 ], [
                     'result' => 1001,
                     'errmsg' => 'sig校验失败',
                 ])->twice();
 
-        $message = new Message(['data' => [ 'type' => 0 ], 'content' => 'This is a test message.']);
+        $message = new Message(['data' => ['type' => 0], 'content' => 'This is a test message.']);
 
         $config = new Config($config);
 
@@ -65,7 +65,7 @@ class QcloudGatewayTest extends TestCase
             'errmsg' => 'OK',
             'ext' => '',
             'sid' => 3310228982,
-            'fee' => 1
+            'fee' => 1,
         ], $gateway->send(18888888888, $message, $config));
 
         $this->expectException(GatewayErrorException::class);

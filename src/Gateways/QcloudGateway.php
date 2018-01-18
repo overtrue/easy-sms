@@ -70,14 +70,14 @@ class QcloudGateway extends Gateway
 
         $params['sig'] = $this->generateSign($params, $random);
 
-        $url = self::ENDPOINT_URL . self::ENDPOINT_METHOD . '?sdkappid=' . $config->get('sdk_app_id') . '&random=' . $random;
+        $url = self::ENDPOINT_URL.self::ENDPOINT_METHOD.'?sdkappid='.$config->get('sdk_app_id').'&random='.$random;
 
         $result = $this->request('post', $url, [
             'headers' => ['Accept' => 'application/json'],
             'json' => $params,
         ]);
 
-        if ($result['result'] != 0) {
+        if (0 != $result['result']) {
             throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
         }
 
@@ -87,7 +87,7 @@ class QcloudGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
+     * @param array  $params
      * @param string $random
      *
      * @return string
@@ -96,7 +96,7 @@ class QcloudGateway extends Gateway
     {
         ksort($params);
 
-        return hash("sha256", sprintf('appkey=%s&random=%s&time=%s&mobile=%s',
+        return hash('sha256', sprintf('appkey=%s&random=%s&time=%s&mobile=%s',
                                 $this->config->get('app_key'),
                                 $random,
                                 $params['time'],
