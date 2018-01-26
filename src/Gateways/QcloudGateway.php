@@ -96,10 +96,12 @@ class QcloudGateway extends Gateway
     {
         ksort($params);
 
-        return hash('sha256', sprintf('appkey=%s&random=%s&time=%s&mobile=%s',
-                                $this->config->get('app_key'),
-                                $random,
-                                $params['time'],
-                                $params['tel']['mobile']), false);
+        return hash('sha256', sprintf(
+            'appkey=%s&random=%s&time=%s&mobile=%s',
+            $this->config->get('app_key'),
+            $random,
+            $params['time'],
+            $params['tel']['mobile']
+        ), false);
     }
 }
