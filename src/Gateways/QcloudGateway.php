@@ -56,7 +56,7 @@ class QcloudGateway extends Gateway
     {
         $params = [
             'tel' => [
-                'nationcode' => $message->getData($this)['notioncode'] ?? '86',
+                'nationcode' => $message->getData($this)['nationcode'] ?? '86',
                 'mobile' => $to,
             ],
             'type' => $message->getData($this)['type'] ?? 0,
