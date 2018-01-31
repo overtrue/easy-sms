@@ -52,7 +52,7 @@ class AvatardataGateway extends Gateway
         $params = [
             'mobile'     => $to,
             'templateId' => $message->getTemplate($this),
-            'param'      => $message->getData($this),
+            'param'      => implode(',', $message->getData($this)),
             'dtype'      => self::ENDPOINT_FORMAT,
             'key'        => $config->get('app_key'),
         ];

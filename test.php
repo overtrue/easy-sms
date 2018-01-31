@@ -29,7 +29,7 @@ $config = [
             'file' => 'easy-sms.log',
         ],
         'avatardata' => [
-            'app_key' => 'f01afaedc02843a88033fda8a4bd24f6',
+            'app_key' => '',
         ],
     ],
 ];
@@ -37,10 +37,12 @@ $config = [
 $easySms = new EasySms($config);
 
 try {
-    $easySms->send(18001390000, [
-        'content'  => '感谢您注册{1}，您的验证码是{2}。',
-        'template' => '99a0f574f8f0442483e6************',
-        'data'     => '秋林拾叶,3160',                      //多个参数使用英文逗号分隔
+    $easySms->send(18210907055, [
+        'content'  => '感谢您注册秋林拾叶，您的验证码是520。',
+        'template' => '99a0f574f8f0442483e6ab8055978b17',
+        'data'     => [
+            '秋林拾叶', '520'
+        ],
     ]);
 } catch (Exception $exception) {
     echo $exception->getMessage();
