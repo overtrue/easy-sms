@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/easy-sms.
  *
@@ -39,9 +40,9 @@ class AvatardataGateway extends Gateway
     }
 
     /**
-     * @param array|int|string $to
+     * @param array|int|string                             $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param \Overtrue\EasySms\Support\Config             $config
      *
      * @return array
      *
@@ -50,11 +51,11 @@ class AvatardataGateway extends Gateway
     public function send($to, MessageInterface $message, Config $config)
     {
         $params = [
-            'mobile'     => $to,
+            'mobile' => $to,
             'templateId' => $message->getTemplate($this),
-            'param'      => implode(',', $message->getData($this)),     //多参数用'a,b,c'或'a','b','c'
-            'dtype'      => self::ENDPOINT_FORMAT,
-            'key'        => $config->get('app_key'),
+            'param' => implode(',', $message->getData($this)),
+            'dtype' => self::ENDPOINT_FORMAT,
+            'key' => $config->get('app_key'),
         ];
 
         $result = $this->get(self::ENDPOINT_URL, $params);
