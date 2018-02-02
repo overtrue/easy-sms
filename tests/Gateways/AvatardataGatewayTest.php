@@ -51,7 +51,7 @@ class AvatardataGatewayTest extends TestCase
             'content' => 'This is a test message.',
             'template' => 'mock-tpl-id',
             'data' => [
-                '1234'
+                '1234',
             ],
         ]);
 
