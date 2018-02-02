@@ -66,7 +66,7 @@ class QcloudGateway extends Gateway
             'ext' => '',
         ];
 
-        $random = str_random(10);
+        $random = time();
 
         $params['sig'] = $this->generateSign($params, $random);
 
