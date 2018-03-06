@@ -260,6 +260,6 @@ class EasySms
      */
     protected function callCustomCreator($gateway)
     {
-        return call_user_func($this->customCreators[$gateway], $this->config->get($gateway, []));
+        return call_user_func($this->customCreators[$gateway], $this->config->get("gateways.{$gateway}", []));
     }
 }
