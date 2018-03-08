@@ -48,6 +48,7 @@
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
+- [阿凡达数据](http://www.avatardata.cn/)
 
 
 ## 环境需求
@@ -420,11 +421,21 @@ $easySms->send(13188888888, $message);
 
 ### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
-短信内容使用 `content`。
+短信内容使用 `content`
 
 ```php
     'qcloud' => [
         'sdk_app_id' => '', // SDK APP ID
+        'app_key' => '', // APP KEY
+    ],
+```
+
+### [阿凡达数据](http://www.avatardata.cn/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'avatardata' => [
         'app_key' => '', // APP KEY
     ],
 ```

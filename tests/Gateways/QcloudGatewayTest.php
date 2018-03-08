@@ -21,7 +21,7 @@ class QcloudGatewayTest extends TestCase
 {
     public function testGetName()
     {
-        $this->assertSame('tencent', (new QcloudGateway([]))->getName());
+        $this->assertSame('qcloud', (new QcloudGateway([]))->getName());
     }
 
     public function testSend()
