@@ -76,6 +76,9 @@ class EasySms
      * @param array                                              $gateways
      *
      * @return array
+     *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
+     * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
     public function send($to, $message, array $gateways = [])
     {
@@ -88,6 +91,8 @@ class EasySms
      * @param string|null $name
      *
      * @return \Overtrue\EasySms\Contracts\GatewayInterface
+     *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
     public function gateway($name = null)
     {
@@ -158,7 +163,7 @@ class EasySms
      *
      * @return string
      *
-     * @throws if no default gateway configured
+     * @throws \RuntimeException if no default gateway configured
      */
     public function getDefaultGateway()
     {
@@ -199,6 +204,8 @@ class EasySms
      * @throws \InvalidArgumentException
      *
      * @return GatewayInterface
+     *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
     protected function createGateway($name)
     {
@@ -223,6 +230,8 @@ class EasySms
      * @param array  $config
      *
      * @return \Overtrue\EasySms\Contracts\GatewayInterface
+     *
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
     protected function makeGateway($gateway, $config)
     {

@@ -11,11 +11,11 @@
 
 namespace Overtrue\EasySms\Gateways;
 
+use GuzzleHttp\Exception\ClientException;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
-use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class TwilioGateway.
