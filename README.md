@@ -12,14 +12,6 @@
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/license" alt="License"></a>
 </p>
 
-<p align="center">
-  <br>
-  <b>创造不息，交付不止</b>
-  <br>
-  <a href="https://www.yousails.com">
-    <img src="https://yousails.com/banners/brand.png" width=350>
-  </a>
-</p>
 
 ## 特点
 
