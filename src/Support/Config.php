@@ -52,8 +52,8 @@ class Config implements ArrayAccess
         if (isset($config[$key])) {
             return $config[$key];
         }
-        
-        if (strpos($key, '.') === false) {
+
+        if (false === strpos($key, '.')) {
             return $default;
         }
 
