@@ -52,6 +52,10 @@ class Config implements ArrayAccess
         if (isset($config[$key])) {
             return $config[$key];
         }
+        
+        if (strpos($key, '.') === false) {
+            return $default;
+        }
 
         foreach (explode('.', $key) as $segment) {
             if (!is_array($config) || !array_key_exists($segment, $config)) {
