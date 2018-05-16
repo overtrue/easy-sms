@@ -55,7 +55,7 @@ class HuyiGateway extends Gateway
         $params = [
             'account' => $config->get('api_id'),
             'mobile' => strval($to),
-            'content' => $message->getContent(),
+            'content' => $message->getContent($this),
             'time' => time(),
             'format' => self::ENDPOINT_FORMAT,
         ];
