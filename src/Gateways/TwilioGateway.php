@@ -46,7 +46,7 @@ class TwilioGateway extends Gateway
         $params = [
             'To' => $to,
             'From' => $config->get('from'),
-            'Body' => $message->getContent(),
+            'Body' => $message->getContent($this),
         ];
 
         try {

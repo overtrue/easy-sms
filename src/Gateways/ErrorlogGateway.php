@@ -46,7 +46,7 @@ class ErrorlogGateway extends Gateway
             "[%s] to: %s | message: \"%s\"  | template: \"%s\" | data: %s\n",
             date('Y-m-d H:i:s'),
             $to,
-            $message->getContent(),
+            $message->getContent($this),
             $message->getTemplate($this),
             json_encode($message->getData($this))
         );

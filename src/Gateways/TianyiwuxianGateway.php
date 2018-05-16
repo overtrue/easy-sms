@@ -55,7 +55,7 @@ class TianyiwuxianGateway extends Gateway
             'type' => self::ENDPOINT_TYPE,
             'rece' => self::ENDPOINT_FORMAT,
             'mobile' => $to,
-            'message' => $message->getContent(),
+            'message' => $message->getContent($this),
             'username' => $config->get('username'),
             'password' => strtoupper(md5($config->get('password'))),
         ];
