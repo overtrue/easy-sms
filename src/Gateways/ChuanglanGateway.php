@@ -52,7 +52,7 @@ class ChuanglanGateway extends Gateway
             'un' => $config->get('username'),
             'pw' => $config->get('password'),
             'phone' => $to,
-            'msg' => $message->getContent(),
+            'msg' => $message->getContent($this),
         ];
 
         $result = $this->get(self::ENDPOINT_URL, $params);
