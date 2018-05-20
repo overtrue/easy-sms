@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 use Overtrue\EasySms\Support\Config;
 
@@ -42,19 +43,17 @@ class Messenger
     /**
      * Send a message.
      *
-     * @param string|array                                              $to
-     * @param string|array|\Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param array                                                     $gateways
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param array                                            $gateways
      *
      * @return array
      *
      * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
-    public function send($to, $message, array $gateways = [])
+    public function send(PhoneNumberInterface $to, MessageInterface $message, array $gateways = [])
     {
-        $message = $this->formatMessage($message);
-
         if (empty($gateways)) {
             $gateways = $message->getGateways();
         }
@@ -95,27 +94,6 @@ class Messenger
         }
 
         return $results;
-    }
-
-    /**
-     * @param array|string|\Overtrue\EasySms\Contracts\MessageInterface $message
-     *
-     * @return \Overtrue\EasySms\Contracts\MessageInterface
-     */
-    protected function formatMessage($message)
-    {
-        if (!($message instanceof MessageInterface)) {
-            if (!is_array($message)) {
-                $message = [
-                    'content' => strval($message),
-                    'template' => strval($message),
-                ];
-            }
-
-            $message = new Message($message);
-        }
-
-        return $message;
     }
 
     /**

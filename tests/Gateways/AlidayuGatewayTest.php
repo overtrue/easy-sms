@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\AlidayuGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class AlidayuGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('alidayu', (new AlidayuGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -43,7 +39,7 @@ class AlidayuGatewayTest extends TestCase
             'sms_free_sign_name' => 'mock-api-sign-name',
             'app_key' => 'mock-api-key',
             'sms_template_code' => 'mock-template-code',
-            'rec_num' => strval(18888888888),
+            'rec_num' => strval(new PhoneNumber(18888888888)),
             'sms_param' => json_encode(['code' => '123456', 'time' => '15']),
         ];
         $gateway->shouldReceive('post')
@@ -75,12 +71,12 @@ class AlidayuGatewayTest extends TestCase
 
         $this->assertSame([
             'success_response' => 'mock-result',
-        ], $gateway->send(18888888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('mock-msg');
 
-        $gateway->send(18888888888, $message, $config);
+        $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
 }

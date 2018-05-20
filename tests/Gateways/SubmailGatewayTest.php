@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\SubmailGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class SubmailGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('submail', (new SubmailGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -37,7 +33,7 @@ class SubmailGatewayTest extends TestCase
             'appid' => 'mock-app-id',
             'signature' => 'mock-app-key',
             'project' => 'mock-project',
-            'to' => 18188888888,
+            'to' => new PhoneNumber(18188888888),
             'vars' => json_encode(['code' => '123456', 'time' => '15']),
         ])->andReturn([
             'status' => 'success',
@@ -58,12 +54,12 @@ class SubmailGatewayTest extends TestCase
             'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',
             'fee' => 1,
             'sms_credits' => 14197,
-        ], $gateway->send(18188888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('mock-err-msg');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

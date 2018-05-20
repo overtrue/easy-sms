@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -28,32 +29,23 @@ class SendcloudGateway extends Gateway
     const ENDPOINT_TEMPLATE = 'http://www.sendcloud.net/smsapi/%s';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sendcloud';
-    }
-
-    /**
      * Send a short message.
      *
-     * @param int|string|array                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
      * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
             'smsUser' => $config->get('sms_user'),
             'templateId' => $message->getTemplate($this),
-            'phone' => is_array($to) ? implode(',', $to) : $to,
+            'msgType' => $to->getIDDCode() ? 2 : 0,
+            'phone' => $to->getNumber(),
             'vars' => $this->formatTemplateVars($message->getData($this)),
         ];
 

@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -19,7 +20,7 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class YunpianGateway.
  *
- * @see https://www.yunpian.com/api2.0/api-domestic/single_send.html
+ * @see https://www.yunpian.com/doc/zh_CN/intl/single_send.html
  */
 class YunpianGateway extends Gateway
 {
@@ -32,31 +33,21 @@ class YunpianGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'yunpian';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $endpoint = $this->buildEndpoint('sms', 'sms', 'single_send');
 
         $result = $this->post($endpoint, [
             'apikey' => $config->get('api_key'),
-            'mobile' => $to,
+            'mobile' => $to->getUniversalNumber(),
             'text' => $message->getContent($this),
         ]);
 

@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -30,28 +31,18 @@ class JuheGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'juhe';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'mobile' => $to,
+            'mobile' => $to->getNumber(),
             'tpl_id' => $message->getTemplate($this),
             'tpl_value' => $this->formatTemplateVars($message->getData($this)),
             'dtype' => self::ENDPOINT_FORMAT,

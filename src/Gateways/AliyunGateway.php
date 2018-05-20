@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -42,25 +43,15 @@ class AliyunGateway extends Gateway
     const ENDPOINT_SIGNATURE_VERSION = '1.0';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'aliyun';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
             'RegionId' => self::ENDPOINT_REGION_ID,
@@ -72,7 +63,7 @@ class AliyunGateway extends Gateway
             'Timestamp' => $this->getTimestamp(),
             'Action' => self::ENDPOINT_METHOD,
             'Version' => self::ENDPOINT_VERSION,
-            'PhoneNumbers' => strval($to),
+            'PhoneNumbers' => strval($to->getZeroPrefixedNumber()),
             'SignName' => $config->get('sign_name'),
             'TemplateCode' => $message->getTemplate($this),
             'TemplateParam' => json_encode($message->getData($this), JSON_FORCE_OBJECT),

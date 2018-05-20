@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\BaiduGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class BaiduGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('baidu', (new BaiduGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -62,12 +58,12 @@ class BaiduGatewayTest extends TestCase
         ]);
 
         $config = new Config($config);
-        $this->assertSame(['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'], $gateway->send(18888888888, $message, $config));
+        $this->assertSame(['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('mock-msg');
 
-        $gateway->send(18888888888, $message, $config);
+        $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
 }

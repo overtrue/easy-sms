@@ -13,6 +13,7 @@ namespace Overtrue\EasySms\Gateways;
 
 use GuzzleHttp\Exception\ClientException;
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -38,13 +39,22 @@ class TwilioGateway extends Gateway
         return 'twilio';
     }
 
-    public function send($to, MessageInterface $message, Config $config)
+    /**
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
+     *
+     * @return array
+     *
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
+     */
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $accountSid = $config->get('account_sid');
         $endpoint = $this->buildEndPoint($accountSid);
 
         $params = [
-            'To' => $to,
+            'To' => $to->getUniversalNumber(),
             'From' => $config->get('from'),
             'Body' => $message->getContent($this),
         ];

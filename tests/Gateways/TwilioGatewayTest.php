@@ -13,16 +13,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Gateways\TwilioGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class TwilioGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('twilio', (new TwilioGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -51,6 +47,6 @@ class TwilioGatewayTest extends TestCase
             'body' => '【twilio】This is a test message.',
             'sid' => 'mock-api-account-sid',
             'error_code' => null,
-        ], $gateway->send('+8618888888888', $message, $config));
+        ], $gateway->send(new PhoneNumber(18888888888, 86), $message, $config));
     }
 }

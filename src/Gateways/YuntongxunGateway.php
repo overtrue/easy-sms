@@ -12,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -40,25 +41,15 @@ class YuntongxunGateway extends Gateway
     const SUCCESS_CODE = '000000';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'yuntongxun';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $datetime = date('YmdHis');
 

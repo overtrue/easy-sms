@@ -178,6 +178,25 @@ $easySms->send(13188888888, [
 ]);
 ```
 
+## 国际短信
+
+国际短信与国内短信的区别是号码前面需要加国际码，但是由于各平台对国际号码的写法不一致，所以在发送国际短信的时候有一点区别：
+
+```php
+use Overtrue\EasySms\PhoneNumber;
+
+// 发送到国际码为 31 的国际号码
+$number = new PhoneNumber(13188888888, 31);
+
+$easySms->send($number, [
+    'content'  => '您的验证码为: 6379',
+    'template' => 'SMS_001',
+    'data' => [
+        'code' => 6379
+    ],
+]);
+```
+
 ## 定义短信
 
 你可以根据发送场景的不同，定义不同的短信类，从而实现一处定义多处调用，你可以继承 `Overtrue\EasySms\Message` 来定义短信模型：

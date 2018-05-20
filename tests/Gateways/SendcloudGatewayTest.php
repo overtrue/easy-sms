@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\SendcloudGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class SendcloudGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('sendcloud', (new SendcloudGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -35,6 +31,7 @@ class SendcloudGatewayTest extends TestCase
         $expected = [
             'smsUser' => 'mock-user',
             'templateId' => 'mock-tpl-id',
+            'msgType' => 0,
             'phone' => 18188888888,
             'vars' => json_encode(['%code%' => 1234]),
         ];
@@ -81,13 +78,13 @@ class SendcloudGatewayTest extends TestCase
             'message' => '操作成功',
             'result' => true,
             'statusCode' => 200,
-        ], $gateway->send(18188888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(400);
         $this->expectExceptionMessage('手机号不存在');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
     public function testTimestampConfig()
@@ -121,8 +118,8 @@ class SendcloudGatewayTest extends TestCase
             'message' => '操作成功',
             'result' => true,
             'statusCode' => 200,
-        ], $gateway->send(18188888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

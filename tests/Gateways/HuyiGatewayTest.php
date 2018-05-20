@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\HuyiGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class HuyiGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('huyi', (new HuyiGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -34,7 +30,7 @@ class HuyiGatewayTest extends TestCase
 
         $params = [
             'account' => 'mock-api-id',
-            'mobile' => strval(18188888888),
+            'mobile' => 18188888888,
             'content' => 'This is a test message.',
             'format' => 'json',
         ];
@@ -53,12 +49,12 @@ class HuyiGatewayTest extends TestCase
         $this->assertSame([
             'code' => HuyiGateway::SUCCESS_CODE,
             'msg' => 'mock-result',
-        ], $gateway->send(18188888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(1234);
         $this->expectExceptionMessage('mock-err-msg');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

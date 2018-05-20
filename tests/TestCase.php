@@ -12,9 +12,8 @@
 namespace Overtrue\EasySms\Tests;
 
 use Mockery;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class TestCase extends PHPUnitTestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

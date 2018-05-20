@@ -90,6 +90,6 @@ abstract class Gateway implements GatewayInterface
      */
     public function getName()
     {
-        return '';
+        return \strtolower(str_replace([__NAMESPACE__.'\\', 'Gateway'], '', \get_class($this)));
     }
 }

@@ -13,10 +13,12 @@ namespace Overtrue\EasySms\Tests;
 
 use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Messenger;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use RuntimeException;
 
@@ -76,14 +78,31 @@ class EasySmsTest extends TestCase
 
     public function testSend()
     {
-        $message = new Message(['content' => 'hello']);
+        $messenger = \Mockery::mock(Messenger::class);
+        $messenger->allows()->send(\Mockery::on(function ($number) {
+            return $number instanceof PhoneNumber && !empty($number->getNumber());
+        }), \Mockery::on(function ($message) {
+            return $message instanceof MessageInterface && !empty($message->getContent());
+        }), [])->andReturn('send-result');
 
         $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
-        $messenger = \Mockery::mock(Messenger::class);
-        $messenger->shouldReceive('send')->with('mock-number', $message, [])->andReturn('send-result');
         $easySms->shouldReceive('getMessenger')->andReturn($messenger);
 
-        $this->assertSame('send-result', $easySms->send('mock-number', $message, []));
+        // simple
+        $this->assertSame('send-result', $easySms->send('18888888888', ['content' => 'hello']));
+
+        // message object
+        $message = new Message(['content' => 'hello']);
+        $this->assertSame('send-result', $easySms->send('18888888888', $message, []));
+
+        // phone number object
+        $number = new PhoneNumber('18888888888', 35);
+        $message = new Message(['content' => 'hello']);
+        $messenger = \Mockery::mock(Messenger::class);
+        $messenger->expects()->send($number, $message, [])->andReturn('mock-result');
+        $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
+        $easySms->shouldReceive('getMessenger')->andReturn($messenger);
+        $this->assertSame('mock-result', $easySms->send($number, $message));
     }
 
     public function testGetMessenger()
@@ -101,7 +120,7 @@ class DummyGatewayForTest implements GatewayInterface
         return 'name';
     }
 
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         return 'send-result';
     }

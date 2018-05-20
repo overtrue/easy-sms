@@ -13,6 +13,8 @@ namespace Overtrue\EasySms;
 
 use Closure;
 use Overtrue\EasySms\Contracts\GatewayInterface;
+use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Contracts\StrategyInterface;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Strategies\OrderStrategy;
@@ -82,7 +84,45 @@ class EasySms
      */
     public function send($to, $message, array $gateways = [])
     {
+        $to = $this->formatPhoneNumber($to);
+        $message = $this->formatMessage($message);
+
         return $this->getMessenger()->send($to, $message, $gateways);
+    }
+
+    /**
+     * @param string|\Overtrue\EasySms\Contracts\PhoneNumberInterface $number
+     *
+     * @return \Overtrue\EasySms\PhoneNumber
+     */
+    protected function formatPhoneNumber($number)
+    {
+        if ($number instanceof PhoneNumberInterface) {
+            return $number;
+        }
+
+        return new PhoneNumber(intval($number));
+    }
+
+    /**
+     * @param array|string|\Overtrue\EasySms\Contracts\MessageInterface $message
+     *
+     * @return \Overtrue\EasySms\Contracts\MessageInterface
+     */
+    protected function formatMessage($message)
+    {
+        if (!($message instanceof MessageInterface)) {
+            if (!is_array($message)) {
+                $message = [
+                    'content' => strval($message),
+                    'template' => strval($message),
+                ];
+            }
+
+            $message = new Message($message);
+        }
+
+        return $message;
     }
 
     /**

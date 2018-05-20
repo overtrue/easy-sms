@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\HuaxinGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class HuaxinGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('huaxin', (new HuaxinGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -39,7 +35,7 @@ class HuaxinGatewayTest extends TestCase
             'userid' => 'mock-user-id',
             'password' => 'mock-password',
             'account' => 'mock-account',
-            'mobile' => 18188888888,
+            'mobile' => new PhoneNumber(18188888888),
             'content' => 'This is a test message.',
             'sendTime' => '',
             'action' => 'send',
@@ -68,13 +64,13 @@ class HuaxinGatewayTest extends TestCase
                 'taskID' => '1504080852350206',
                 'successCounts' => '1',
             ],
-            $gateway->send(18188888888, $message, $config)
+            $gateway->send(new PhoneNumber(18188888888), $message, $config)
         );
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(400);
         $this->expectExceptionMessage('操作失败');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

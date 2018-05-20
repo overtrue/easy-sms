@@ -14,16 +14,12 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\YuntongxunGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 class YuntongxunGatewayTest extends TestCase
 {
-    public function testGetName()
-    {
-        $this->assertSame('yuntongxun', (new YuntongxunGateway([]))->getName());
-    }
-
     public function testSend()
     {
         $config = [
@@ -42,7 +38,7 @@ class YuntongxunGatewayTest extends TestCase
             }),
             \Mockery::on(function ($params) {
                 return $params['json'] == [
-                        'to' => 18188888888,
+                        'to' => '18188888888',
                         'templateId' => 5589,
                         'appId' => 'mock-app-id',
                         'datas' => ['mock-data-1', 'mock-data-2'],
@@ -61,12 +57,12 @@ class YuntongxunGatewayTest extends TestCase
 
         $this->assertSame([
              'statusCode' => YuntongxunGateway::SUCCESS_CODE,
-         ], $gateway->send(18188888888, $message, $config));
+         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('100');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

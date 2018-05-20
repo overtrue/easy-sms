@@ -13,6 +13,7 @@ namespace Overtrue\EasySms\Gateways;
 
 use GuzzleHttp\Exception\ClientException;
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -39,46 +40,31 @@ class RongcloudGateway extends Gateway
     const SUCCESS_CODE = 200;
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'rongcloud';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = $message->getData();
-
-        if (array_key_exists('action', $data)) {
-            $action = $data['action'];
-        } else {
-            $action = self::ENDPOINT_ACTION;
-        }
+        $action = array_key_exists('action', $data) ? $data['action'] : self::ENDPOINT_ACTION;
         $endpoint = $this->buildEndpoint($action);
 
         $headers = [
             'Nonce' => uniqid(),
             'App-Key' => $config->get('app_key'),
             'Timestamp' => time(),
-            ];
+        ];
         $headers['Signature'] = $this->generateSign($headers, $config);
 
         switch ($action) {
             case 'sendCode':
                 $params = [
-                    'mobile' => $to,
+                    'mobile' => $to->getNumber(),
                     'region' => self::ENDPOINT_REGION,
                     'templateId' => $message->getTemplate($this),
                 ];
@@ -97,7 +83,7 @@ class RongcloudGateway extends Gateway
                 break;
             case 'sendNotify':
                 $params = [
-                    'mobile' => $to,
+                    'mobile' => $to->getNumber(),
                     'region' => self::ENDPOINT_REGION,
                     'templateId' => $message->getTemplate($this),
                     ];

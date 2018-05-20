@@ -12,14 +12,15 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class AlidayuGateway.
+ * Class QcloudGateway.
  *
- * @see https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=xxxxx&random=xxxx
+ * @see https://cloud.tencent.com/document/product/382/13297
  */
 class QcloudGateway extends Gateway
 {
@@ -34,32 +35,23 @@ class QcloudGateway extends Gateway
     const ENDPOINT_FORMAT = 'json';
 
     /**
-     * Get gateway name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'qcloud';
-    }
-
-    /**
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
+        $type = !empty($message->getData($this)['type']) ? $message->getData($this)['type'] : 0;
         $params = [
             'tel' => [
-                'nationcode' => $message->getData($this)['nationcode'] ?? '86',
-                'mobile' => $to,
+                'nationcode' => $to->getIDDCode() ?: 86,
+                'mobile' => $to->getNumber(),
             ],
-            'type' => $message->getData($this)['type'] ?? 0,
+            'type' => $type,
             'msg' => $message->getContent($this),
             'time' => time(),
             'extend' => '',
