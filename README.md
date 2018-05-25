@@ -131,10 +131,12 @@ $easySms->send(13188888888, [
 ```php
 [
     'yunpian' => [
+        'gateway' => 'yunpian',
         'status' => 'success',
         'result' => [...] // 平台返回值
     ],
     'juhe' => [
+        'gateway' => 'juhe',
         'status' => 'failure',
         'exception' => \Overtrue\EasySms\Exceptions\GatewayErrorException 对象
     ],
@@ -143,6 +145,15 @@ $easySms->send(13188888888, [
 ```
 
 如果所选网关列表均发送失败时，将会抛出 `Overtrue\EasySms\Exceptions\NoGatewayAvailableException` 异常，你可以使用 `$e->results` 获取发送结果。
+
+你也可以使用 `$e` 提供的更多便捷方法：
+
+```php
+$e->getResults();               // 返回所有 API 的结果，结构同上
+$e->getExceptions();            // 返回所有调用异常列表
+$e->getException($gateway);     // 返回指定网关名称的异常对象
+$e->getLastException();         // 获取最后一个失败的异常对象 
+```
 
 ## 自定义网关
 

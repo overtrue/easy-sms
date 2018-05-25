@@ -26,6 +26,11 @@ class NoGatewayAvailableException extends Exception
     public $results = [];
 
     /**
+     * @var array
+     */
+    public $exceptions = [];
+
+    /**
      * NoGatewayAvailableException constructor.
      *
      * @param array           $results
@@ -35,6 +40,42 @@ class NoGatewayAvailableException extends Exception
     public function __construct(array $results = [], $code = 0, Throwable $previous = null)
     {
         $this->results = $results;
-        parent::__construct('All the gateways have failed.', $code, $previous);
+        $this->exceptions = \array_column($results, 'exception', 'gateway');
+
+        parent::__construct('All the gateways have failed. You can get error details by `$exception->getExceptions()`', $code, $previous);
+    }
+
+    /**
+     * @return array
+     */
+    public function getResults()
+    {
+        return $this->results;
+    }
+
+    /**
+     * @param string $gateway
+     *
+     * @return mixed|null
+     */
+    public function getException($gateway)
+    {
+        return isset($this->exceptions[$gateway]) ? $this->exceptions[$gateway] : null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExceptions()
+    {
+        return $this->exceptions;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastException()
+    {
+        return $this->exceptions[end($this->exceptions)];
     }
 }

@@ -70,6 +70,7 @@ class Messenger
         foreach ($strategyAppliedGateways as $gateway) {
             try {
                 $results[$gateway] = [
+                    'gateway' => $gateway,
                     'status' => self::STATUS_SUCCESS,
                     'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($gateways[$gateway])),
                 ];
@@ -78,11 +79,13 @@ class Messenger
                 break;
             } catch (\Throwable $e) {
                 $results[$gateway] = [
+                    'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
                     'exception' => $e,
                 ];
             } catch (\Exception $e) {
                 $results[$gateway] = [
+                    'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
                     'exception' => $e,
                 ];
