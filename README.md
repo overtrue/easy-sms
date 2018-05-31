@@ -29,7 +29,7 @@
 - [云片](https://www.yunpian.com)
 - [Submail](https://www.mysubmail.com)
 - [螺丝帽](https://luosimao.com/)
-- [阿里大于](https://www.alidayu.com/)
+- [阿里大于](https://www.alidayu.com/)(不推荐使用，请使用阿里云)
 - [容联云通讯](http://www.yuntongxun.com)
 - [互亿无线](http://www.ihuyi.com)
 - [聚合数据](https://www.juhe.cn)
