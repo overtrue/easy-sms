@@ -29,7 +29,6 @@
 - [云片](https://www.yunpian.com)
 - [Submail](https://www.mysubmail.com)
 - [螺丝帽](https://luosimao.com/)
-- [阿里大于](https://www.alidayu.com/)(不推荐使用，请使用阿里云)
 - [容联云通讯](http://www.yuntongxun.com)
 - [互亿无线](http://www.ihuyi.com)
 - [聚合数据](https://www.juhe.cn)
@@ -40,6 +39,7 @@
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
+- [阿里大于](https://www.alidayu.com/)(不推荐使用，请使用阿里云)
 
 
 ## 环境需求
