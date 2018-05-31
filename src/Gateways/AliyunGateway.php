@@ -63,7 +63,7 @@ class AliyunGateway extends Gateway
             'Timestamp' => $this->getTimestamp(),
             'Action' => self::ENDPOINT_METHOD,
             'Version' => self::ENDPOINT_VERSION,
-            'PhoneNumbers' => strval($to->getZeroPrefixedNumber()),
+            'PhoneNumbers' => !\is_null($to->getIDDCode()) ? strval($to->getZeroPrefixedNumber()) : $to->getNumber(),
             'SignName' => $config->get('sign_name'),
             'TemplateCode' => $message->getTemplate($this),
             'TemplateParam' => json_encode($message->getData($this), JSON_FORCE_OBJECT),
