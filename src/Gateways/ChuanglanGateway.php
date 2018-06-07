@@ -20,13 +20,13 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class ChuanglanGateway.
  *
- * @see https://www.253.com/api-docs-1.html
+ * @see https://zz.253.com/v5.html#/api_doc
  */
 class ChuanglanGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://sms.253.com/msg/send';
+    const ENDPOINT_URL = 'https://sms.253.com/msg/send/json';
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
@@ -40,9 +40,9 @@ class ChuanglanGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'un' => $config->get('username'),
-            'pw' => $config->get('password'),
-            'phone' => $to->getIDDCode().$to->getNumber(),
+            'username' => $config->get('username'),
+            'password' => $config->get('password'),
+            'phone' => $to->getNumber(),
             'msg' => $message->getContent($this),
         ];
 
