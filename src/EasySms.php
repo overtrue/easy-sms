@@ -101,7 +101,7 @@ class EasySms
             return $number;
         }
 
-        return new PhoneNumber(intval($number));
+        return new PhoneNumber(trim($number));
     }
 
     /**
