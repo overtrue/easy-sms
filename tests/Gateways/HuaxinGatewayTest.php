@@ -35,7 +35,7 @@ class HuaxinGatewayTest extends TestCase
             'userid' => 'mock-user-id',
             'password' => 'mock-password',
             'account' => 'mock-account',
-            'mobile' => new PhoneNumber(18188888888),
+            'mobile' => 18188888888,
             'content' => 'This is a test message.',
             'sendTime' => '',
             'action' => 'send',
