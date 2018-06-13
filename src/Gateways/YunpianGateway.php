@@ -51,7 +51,7 @@ class YunpianGateway extends Gateway
                 'mobile' => $to->getUniversalNumber(),
                 'text' => $message->getContent($this),
             ],
-            'exceptions' => false
+            'exceptions' => false,
         ]);
 
         if ($result['code']) {
