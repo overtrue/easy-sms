@@ -40,13 +40,13 @@ class ChuanglanGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'username' => $config->get('username'),
+            'account' => $config->get('username'),
             'password' => $config->get('password'),
             'phone' => $to->getNumber(),
             'msg' => $message->getContent($this),
         ];
 
-        $result = $this->get(self::ENDPOINT_URL, $params);
+        $result = $this->postJson(self::ENDPOINT_URL, $params);
 
         $formatResult = $this->formatResult($result);
 
