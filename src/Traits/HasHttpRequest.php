@@ -52,7 +52,24 @@ trait HasHttpRequest
             'form_params' => $params,
         ]);
     }
-
+    
+    /**
+     * Make a postJson request.
+     *
+     * @param string $endpoint
+     * @param array  $params
+     * @param array  $headers
+     *
+     * @return array
+     */
+    protected function postJson($endpoint, $params = [], $headers = [])
+    {
+        return $this->request('post', $endpoint, [
+            'headers' => $headers,
+            'json' => $params,
+        ]);
+    }
+    
     /**
      * Make a http request.
      *
