@@ -27,27 +27,37 @@ class ChuanglanGateway extends Gateway
 {
     use HasHttpRequest;
 
+    /**
+     * URL模板
+     */
     const ENDPOINT_URL_TEMPLATE = 'https://%s.253.com/msg/send/json';
 
+    /**
+     * 验证码渠道code
+     */
     const CHANNEL_VALIDATE_CODE  = 'smsbj1';
+
+    /**
+     * 会员营销渠道code
+     */
     const CHANNEL_PROMOTION_CODE = 'smssh1';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
-     *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException
+     * @throws InvalidArgumentException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
             'username' => $config->get('username'),
             'password' => $config->get('password'),
-            'phone' => $to->getNumber(),
-            'msg' => $this->wrapChannelContent($message->getContent($this), $config),
+            'phone'    => $to->getNumber(),
+            'msg'      => $this->wrapChannelContent($message->getContent($this), $config),
         ];
 
         $result = $this->post($this->getEndpointUrl($config), $params);
@@ -62,11 +72,10 @@ class ChuanglanGateway extends Gateway
     }
 
     /**
-     * Gets the endpoint url.
+     * @param Config $config
      *
-     * @param      \Overtrue\EasySms\Support\Config  $config  The configuration
-     *
-     * @return     string                            The endpoint url.
+     * @return string
+     * @throws InvalidArgumentException
      */
     protected function getEndpointUrl(Config $config)
     {
@@ -75,11 +84,10 @@ class ChuanglanGateway extends Gateway
     }
 
     /**
-     * Gets the channel.
+     * @param Config $config
      *
-     * @throws     \Overtrue\EasySms\Exceptions\InvalidArgumentException  (description)
-     *
-     * @return     string                                                 The channel.
+     * @return mixed
+     * @throws InvalidArgumentException
      */
     protected function getChannel(Config $config)
     {
@@ -92,16 +100,13 @@ class ChuanglanGateway extends Gateway
     }
 
     /**
-     * wrap channel content
+     * @param string $content
+     * @param Config $config
      *
-     * @param      string                                                 $content  The content
-     * @param      \Overtrue\EasySms\Support\Config                       $config   The configuration
-     *
-     * @throws     \Overtrue\EasySms\Exceptions\InvalidArgumentException
-     *
-     * @return     string
+     * @return string|string
+     * @throws InvalidArgumentException
      */
-    protected function wrapChannelContent(string $content, Config $config)
+    protected function wrapChannelContent($content, Config $config)
     {
         $channel = $this->getChannel($config);
 
@@ -123,7 +128,7 @@ class ChuanglanGateway extends Gateway
     }
 
     /**
-     * @param $result  http return from 253 service
+     * @param string $result  http return from 253 service
      *
      * @return array
      */
