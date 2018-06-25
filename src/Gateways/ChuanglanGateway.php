@@ -33,12 +33,12 @@ class ChuanglanGateway extends Gateway
     const ENDPOINT_URL_TEMPLATE = 'https://%s.253.com/msg/send/json';
 
     /**
-     * 验证码渠道code
+     * 验证码渠道code.
      */
     const CHANNEL_VALIDATE_CODE  = 'smsbj1';
 
     /**
-     * 会员营销渠道code
+     * 会员营销渠道code.
      */
     const CHANNEL_PROMOTION_CODE = 'smssh1';
 
@@ -48,6 +48,7 @@ class ChuanglanGateway extends Gateway
      * @param Config               $config
      *
      * @return array
+     *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
      */
@@ -56,8 +57,8 @@ class ChuanglanGateway extends Gateway
         $params = [
             'username' => $config->get('username'),
             'password' => $config->get('password'),
-            'phone'    => $to->getNumber(),
-            'msg'      => $this->wrapChannelContent($message->getContent($this), $config),
+            'phone' => $to->getNumber(),
+            'msg' => $this->wrapChannelContent($message->getContent($this), $config),
         ];
 
         $result = $this->post($this->getEndpointUrl($config), $params);
@@ -75,6 +76,7 @@ class ChuanglanGateway extends Gateway
      * @param Config $config
      *
      * @return string
+     *
      * @throws InvalidArgumentException
      */
     protected function getEndpointUrl(Config $config)
@@ -87,6 +89,7 @@ class ChuanglanGateway extends Gateway
      * @param Config $config
      *
      * @return mixed
+     *
      * @throws InvalidArgumentException
      */
     protected function getChannel(Config $config)
@@ -104,13 +107,14 @@ class ChuanglanGateway extends Gateway
      * @param Config $config
      *
      * @return string|string
+     *
      * @throws InvalidArgumentException
      */
     protected function wrapChannelContent($content, Config $config)
     {
         $channel = $this->getChannel($config);
 
-        if ($channel == self::CHANNEL_PROMOTION_CODE) {
+        if (self::CHANNEL_PROMOTION_CODE == $channel) {
             $sign = (string) $config->get('sign', '');
             if (empty($sign)) {
                 throw new InvalidArgumentException('Invalid sign for ChuanglanGateway when using promotion channel');
@@ -121,14 +125,14 @@ class ChuanglanGateway extends Gateway
                 throw new InvalidArgumentException('Invalid unsubscribe for ChuanglanGateway when using promotion channel');
             }
 
-            $content = $sign . $content . $unsubscribe;
+            $content = $sign.$content.$unsubscribe;
         }
 
         return $content;
     }
 
     /**
-     * @param string $result  http return from 253 service
+     * @param string $result http return from 253 service
      *
      * @return array
      */
