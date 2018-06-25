@@ -82,6 +82,7 @@ class ChuanglanGateway extends Gateway
     protected function getEndpointUrl(Config $config)
     {
         $channel = $this->getChannel($config);
+
         return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
     }
 
@@ -95,6 +96,7 @@ class ChuanglanGateway extends Gateway
     protected function getChannel(Config $config)
     {
         $channel = $config->get('channel', self::CHANNEL_VALIDATE_CODE);
+
         if (in_array($channel, [self::CHANNEL_VALIDATE_CODE, self::CHANNEL_PROMOTION_CODE])) {
             throw new InvalidArgumentException('Invalid channel for ChuanglanGateway.');
         }
