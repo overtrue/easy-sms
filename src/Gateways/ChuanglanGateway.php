@@ -35,7 +35,7 @@ class ChuanglanGateway extends Gateway
     /**
      * 验证码渠道code.
      */
-    const CHANNEL_VALIDATE_CODE  = 'smsbj1';
+    const CHANNEL_VALIDATE_CODE = 'smsbj1';
 
     /**
      * 会员营销渠道code.
