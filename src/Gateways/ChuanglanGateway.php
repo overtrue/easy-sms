@@ -55,18 +55,16 @@ class ChuanglanGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'username' => $config->get('username'),
+            'account' => $config->get('account'),
             'password' => $config->get('password'),
             'phone' => $to->getNumber(),
             'msg' => $this->wrapChannelContent($message->getContent($this), $config),
         ];
 
-        $result = $this->post($this->getEndpointUrl($config), $params);
+        $result = $this->post($this->buildEndpoint($config), $params);
 
-        $formatResult = $this->formatResult($result);
-
-        if (!empty($formatResult[1])) {
-            throw new GatewayErrorException($result, $formatResult[1], $formatResult);
+        if (!isset($result['code']) || '0' != $result['code']) {
+            throw new GatewayErrorException(json_encode($result, JSON_UNESCAPED_UNICODE), isset($result['code']) ? $result['code'] : 0, $result);
         }
 
         return $result;
@@ -79,7 +77,7 @@ class ChuanglanGateway extends Gateway
      *
      * @throws InvalidArgumentException
      */
-    protected function getEndpointUrl(Config $config)
+    protected function buildEndpoint(Config $config)
     {
         $channel = $this->getChannel($config);
 
@@ -131,17 +129,5 @@ class ChuanglanGateway extends Gateway
         }
 
         return $content;
-    }
-
-    /**
-     * @param string $result http return from 253 service
-     *
-     * @return array
-     */
-    protected function formatResult($result)
-    {
-        $result = str_replace("\n", ',', $result);
-
-        return explode(',', $result);
     }
 }

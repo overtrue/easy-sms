@@ -399,7 +399,7 @@ $easySms->send(13188888888, $message);
 
 ```php
     'chuanglan' => [
-        'username' => '',
+        'account' => '',
         'password' => '',
 
         // \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_VALIDATE_CODE  => 验证码通道（默认）
