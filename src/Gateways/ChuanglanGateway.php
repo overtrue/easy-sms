@@ -13,6 +13,7 @@ namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
+use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -26,46 +27,107 @@ class ChuanglanGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://sms.253.com/msg/send/json';
+    /**
+     * URL模板
+     */
+    const ENDPOINT_URL_TEMPLATE = 'https://%s.253.com/msg/send/json';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
+     * 验证码渠道code.
+     */
+    const CHANNEL_VALIDATE_CODE = 'smsbj1';
+
+    /**
+     * 会员营销渠道code.
+     */
+    const CHANNEL_PROMOTION_CODE = 'smssh1';
+
+    /**
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException
+     * @throws InvalidArgumentException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'username' => $config->get('username'),
+            'account' => $config->get('account'),
             'password' => $config->get('password'),
             'phone' => $to->getNumber(),
-            'msg' => $message->getContent($this),
+            'msg' => $this->wrapChannelContent($message->getContent($this), $config),
         ];
 
-        $result = $this->get(self::ENDPOINT_URL, $params);
+        $result = $this->postJson($this->buildEndpoint($config), $params);
 
-        $formatResult = $this->formatResult($result);
-
-        if (!empty($formatResult[1])) {
-            throw new GatewayErrorException($result, $formatResult[1], $formatResult);
+        if (!isset($result['code']) || '0' != $result['code']) {
+            throw new GatewayErrorException(json_encode($result, JSON_UNESCAPED_UNICODE), isset($result['code']) ? $result['code'] : 0, $result);
         }
 
         return $result;
     }
 
     /**
-     * @param $result  http return from 253 service
+     * @param Config $config
      *
-     * @return array
+     * @return string
+     *
+     * @throws InvalidArgumentException
      */
-    protected function formatResult($result)
+    protected function buildEndpoint(Config $config)
     {
-        $result = str_replace("\n", ',', $result);
+        $channel = $this->getChannel($config);
 
-        return explode(',', $result);
+        return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
+    }
+
+    /**
+     * @param Config $config
+     *
+     * @return mixed
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function getChannel(Config $config)
+    {
+        $channel = $config->get('channel', self::CHANNEL_VALIDATE_CODE);
+
+        if (!in_array($channel, [self::CHANNEL_VALIDATE_CODE, self::CHANNEL_PROMOTION_CODE])) {
+            throw new InvalidArgumentException('Invalid channel for ChuanglanGateway.');
+        }
+
+        return $channel;
+    }
+
+    /**
+     * @param string $content
+     * @param Config $config
+     *
+     * @return string|string
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function wrapChannelContent($content, Config $config)
+    {
+        $channel = $this->getChannel($config);
+
+        if (self::CHANNEL_PROMOTION_CODE == $channel) {
+            $sign = (string) $config->get('sign', '');
+            if (empty($sign)) {
+                throw new InvalidArgumentException('Invalid sign for ChuanglanGateway when using promotion channel');
+            }
+
+            $unsubscribe = (string) $config->get('unsubscribe', '');
+            if (empty($unsubscribe)) {
+                throw new InvalidArgumentException('Invalid unsubscribe for ChuanglanGateway when using promotion channel');
+            }
+
+            $content = $sign.$content.$unsubscribe;
+        }
+
+        return $content;
     }
 }
