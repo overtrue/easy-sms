@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bostin
- * Date: 2018/6/26
- * Time: 14:00
+
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\EasySms\Tests\Gateways;
-
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
@@ -18,15 +20,12 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 /**
- * Class ChuanglanGatewayTest
- * @package Overtrue\EasySms\Tests\Gateways
+ * Class ChuanglanGatewayTest.
  */
 class ChuanglanGatewayTest extends TestCase
 {
     /**
-     * 发送验证码通道短信
-     *
-     * @return void
+     * 发送验证码通道短信.
      */
     public function testSendValidateCodeSMS()
     {
@@ -78,9 +77,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 发送营销通道短信
-     *
-     * @return void
+     * 发送营销通道短信.
      */
     public function testSendPromotionSMS()
     {
@@ -134,9 +131,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * buildEndpoint
-     *
-     * @return void
+     * buildEndpoint.
      *
      * @throws \ReflectionException
      */
@@ -160,9 +155,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 获取通道
-     *
-     * @return void
+     * 获取通道.
      *
      * @throws \ReflectionException
      */
@@ -184,9 +177,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 无效通道
-     *
-     * @return void
+     * 无效通道.
      *
      * @throws \ReflectionException
      */
@@ -205,9 +196,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 验证码通道
-     *
-     * @return void
+     * 验证码通道.
      *
      * @throws \ReflectionException
      */
@@ -226,9 +215,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 营销通道
-     *
-     * @return void
+     * 营销通道.
      *
      * @throws \ReflectionException
      */
@@ -251,9 +238,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 营销通道 -- 缺少签名
-     *
-     * @return void
+     * 营销通道 -- 缺少签名.
      *
      * @throws \ReflectionException
      */
@@ -278,9 +263,7 @@ class ChuanglanGatewayTest extends TestCase
     }
 
     /**
-     * 营销通道 -- 缺少退订
-     *
-     * @return void
+     * 营销通道 -- 缺少退订.
      *
      * @throws \ReflectionException
      */
