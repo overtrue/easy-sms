@@ -97,7 +97,7 @@ class ChuanglanGateway extends Gateway
     {
         $channel = $config->get('channel', self::CHANNEL_VALIDATE_CODE);
 
-        if (in_array($channel, [self::CHANNEL_VALIDATE_CODE, self::CHANNEL_PROMOTION_CODE])) {
+        if (!in_array($channel, [self::CHANNEL_VALIDATE_CODE, self::CHANNEL_PROMOTION_CODE])) {
             throw new InvalidArgumentException('Invalid channel for ChuanglanGateway.');
         }
 
