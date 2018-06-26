@@ -36,9 +36,9 @@ class ChuanglanGatewayTest extends TestCase
             'channel' => ChuanglanGateway::CHANNEL_VALIDATE_CODE,
         ];
 
-        $gateway = \Mockery::mock(ChuanglanGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(ChuanglanGateway::class.'[postJson]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->shouldReceive('post')
+        $gateway->shouldReceive('postJson')
             ->with('https://smsbj1.253.com/msg/send/json', [
                 'account' => 'mock-account',
                 'password' => 'mock-password',
@@ -92,9 +92,9 @@ class ChuanglanGatewayTest extends TestCase
             'unsubscribe' => '回TD退订',
         ];
 
-        $gateway = \Mockery::mock(ChuanglanGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(ChuanglanGateway::class.'[postJson]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->shouldReceive('post')
+        $gateway->shouldReceive('postJson')
             ->with('https://smssh1.253.com/msg/send/json', [
                 'account' => 'mock-account',
                 'password' => 'mock-password',

@@ -61,7 +61,7 @@ class ChuanglanGateway extends Gateway
             'msg' => $this->wrapChannelContent($message->getContent($this), $config),
         ];
 
-        $result = $this->post($this->buildEndpoint($config), $params);
+        $result = $this->postJson($this->buildEndpoint($config), $params);
 
         if (!isset($result['code']) || '0' != $result['code']) {
             throw new GatewayErrorException(json_encode($result, JSON_UNESCAPED_UNICODE), isset($result['code']) ? $result['code'] : 0, $result);
