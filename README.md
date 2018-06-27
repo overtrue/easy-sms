@@ -40,7 +40,7 @@
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 - [阿里大于](https://www.alidayu.com/)(不推荐使用，请使用阿里云)
-
+- [阿凡达数据](http://www.avatardata.cn/)
 
 ## 环境需求
 
@@ -455,6 +455,16 @@ $easySms->send(13188888888, $message);
 ```php
     'qcloud' => [
         'sdk_app_id' => '', // SDK APP ID
+        'app_key' => '', // APP KEY
+    ],
+```
+
+### [阿凡达数据](http://www.avatardata.cn/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'avatardata' => [
         'app_key' => '', // APP KEY
     ],
 ```
