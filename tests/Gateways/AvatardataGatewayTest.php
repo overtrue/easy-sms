@@ -25,28 +25,28 @@ class AvatardataGatewayTest extends TestCase
         $config = [
             'app_key' => 'mock-key',
         ];
-        $gateway = \Mockery::mock(AvatardataGateway::class . '[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AvatardataGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
 
         $params = [
-            'mobile'     => 18888888888,
+            'mobile' => 18888888888,
             'templateId' => 'mock-tpl-id',
-            'param'      => implode(',', ['1234']),
-            'dtype'      => AvatardataGateway::ENDPOINT_FORMAT,
-            'key'        => 'mock-key',
+            'param' => implode(',', ['1234']),
+            'dtype' => AvatardataGateway::ENDPOINT_FORMAT,
+            'key' => 'mock-key',
         ];
         $gateway->shouldReceive('get')->with(AvatardataGateway::ENDPOINT_URL, $params)
             ->andReturn([
-                'reason'     => 'Success',
+                'reason' => 'Success',
                 'error_code' => 0,
             ], [
-                'reason'     => '错误的请求KEY',
+                'reason' => '错误的请求KEY',
                 'error_code' => 10001,
             ])->times(2);
 
         $message = new Message([
-            'content'  => 'This is a test message.',
+            'content' => 'This is a test message.',
             'template' => 'mock-tpl-id',
-            'data'     => [
+            'data' => [
                 '1234',
             ],
         ]);
@@ -54,7 +54,7 @@ class AvatardataGatewayTest extends TestCase
         $config = new Config($config);
 
         $this->assertSame([
-            'reason'     => 'Success',
+            'reason' => 'Success',
             'error_code' => 0,
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 

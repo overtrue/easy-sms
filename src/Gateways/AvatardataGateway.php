@@ -32,8 +32,8 @@ class AvatardataGateway extends Gateway
 
     /**
      * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
-     * @param Config $config
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      *
@@ -42,11 +42,11 @@ class AvatardataGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'mobile'     => $to->getNumber(),
+            'mobile' => $to->getNumber(),
             'templateId' => $message->getTemplate($this),
-            'param'      => implode(',', $message->getData($this)),
-            'dtype'      => self::ENDPOINT_FORMAT,
-            'key'        => $config->get('app_key'),
+            'param' => implode(',', $message->getData($this)),
+            'dtype' => self::ENDPOINT_FORMAT,
+            'key' => $config->get('app_key'),
         ];
 
         $result = $this->get(self::ENDPOINT_URL, $params);
