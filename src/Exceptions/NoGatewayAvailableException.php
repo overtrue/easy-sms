@@ -76,6 +76,6 @@ class NoGatewayAvailableException extends Exception
      */
     public function getLastException()
     {
-        return $this->exceptions[end($this->exceptions)];
+        return end($this->exceptions);
     }
 }
