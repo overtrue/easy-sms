@@ -25,12 +25,15 @@ class YunpianGatewayTest extends TestCase
         $config = [
             'api_key' => 'mock-api-key',
         ];
-        $gateway = \Mockery::mock(YunpianGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(YunpianGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->shouldReceive('post')->with('https://sms.yunpian.com/v2/sms/single_send.json', [
-            'apikey' => 'mock-api-key',
-            'mobile' => '18188888888',
-            'text' => '【overtrue】This is a test message.',
+        $gateway->shouldReceive('request')->with('post', 'https://sms.yunpian.com/v2/sms/single_send.json', [
+            'form_params' => [
+                'apikey' => 'mock-api-key',
+                'mobile' => '18188888888',
+                'text' => '【overtrue】This is a test message.',
+            ],
+            'exceptions' => false,
         ])->andReturn([
             'code' => 0,
             'msg' => '发送成功',
