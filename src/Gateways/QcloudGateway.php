@@ -57,7 +57,12 @@ class QcloudGateway extends Gateway
             'extend' => '',
             'ext' => '',
         ];
-
+        if (!is_null($message->getTemplate($this)) && is_array($message->getData($this))) {
+            unset($params['msg']);
+            $params['params'] = array_values($message->getData($this));
+            $params['tpl_id'] = $message->getTemplate($this);
+            $params['sign'] = $config->get('sign_name');
+        }
         $random = substr(uniqid(), -10);
 
         $params['sig'] = $this->generateSign($params, $random);
