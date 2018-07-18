@@ -39,7 +39,6 @@
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
-- [阿里大于](https://www.alidayu.com/)(不推荐使用，请使用阿里云)
 - [阿凡达数据](http://www.avatardata.cn/)
 
 ## 环境需求
@@ -68,7 +67,7 @@ $config = [
 
         // 默认可用的发送网关
         'gateways' => [
-            'yunpian', 'aliyun', 'alidayu',
+            'yunpian', 'aliyun',
         ],
     ],
     // 可用的网关配置
@@ -84,9 +83,7 @@ $config = [
             'access_key_secret' => '',
             'sign_name' => '',
         ],
-        'alidayu' => [
-            //...
-        ],
+        //...
     ],
 ];
 
@@ -273,18 +270,6 @@ $easySms->send(13188888888, $message);
     'aliyun' => [
         'access_key_id' => '',
         'access_key_secret' => '',
-        'sign_name' => '',
-    ],
-```
-
-### [阿里大于](https://www.alidayu.com/)
-
-短信内容使用 `template` + `data`
-
-```php
-    'alidayu' => [
-        'app_key' => '',
-        'app_secret' => '',
         'sign_name' => '',
     ],
 ```
