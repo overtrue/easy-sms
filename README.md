@@ -441,6 +441,7 @@ $easySms->send(13188888888, $message);
     'qcloud' => [
         'sdk_app_id' => '', // SDK APP ID
         'app_key' => '', // APP KEY
+        'sign' => '', // 短信签名，如果使用默认签名，该字段可缺省
     ],
 ```
 
