@@ -61,7 +61,7 @@ class QcloudGateway extends Gateway
             unset($params['msg']);
             $params['params'] = array_values($message->getData($this));
             $params['tpl_id'] = $message->getTemplate($this);
-            $params['sign'] = $config->get('sign_name');
+            $params['sign'] = $config->get('sign_name') ? $config->get('sign_name') : '';
         }
         $random = substr(uniqid(), -10);
 
