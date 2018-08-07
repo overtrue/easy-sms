@@ -58,6 +58,7 @@ class MwGateway extends Gateway
             $temp['msg'] = 'error';
         }
         $temp['real_code'] = $result[0];
+
         return $temp;
     }
 }
