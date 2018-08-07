@@ -29,11 +29,10 @@ class MwGatewayTest extends TestCase
         $gateway = \Mockery::mock(MwGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
-            ->andReturn(
-                [
-                    'code' => 1,
-                    'msg' => 'success'
-                ]);
+            ->andReturn([
+                'code' => 1,
+                'msg' => 'success'
+            ]);
         $message = new Message(['content' => 'This is a test messageoo']);
         $config = new Config($config);
         $this->assertSame([

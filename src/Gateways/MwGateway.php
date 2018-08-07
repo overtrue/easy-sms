@@ -39,17 +39,17 @@ class MwGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'query' => ['userId' => $config->get('userId'),
-                'password' => $config->get('password'),
-                'pszMobis' => $to->getUniversalNumber(),
-                'pszMsg' => $message->getContent($this),
-                'iMobiCount' => 1,
-                'pszSubPort' => $config->get('pszSubPort')]
+            'query' =>
+                ['userId' => $config->get('userId'),
+                    'password' => $config->get('password'),
+                    'pszMobis' => $to->getUniversalNumber(),
+                    'pszMsg' => $message->getContent($this),
+                    'iMobiCount' => 1,
+                    'pszSubPort' => $config->get('pszSubPort')
+                ]
         ];
         $result = $this->request('get', self::ENDPOINT_TEMPLATE, $params);
-
         $temp = [];
-
         if (isset($result['code'])) {
             return $result;
         }
