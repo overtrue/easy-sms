@@ -17,7 +17,6 @@ use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
-
 class MwGatewayTest extends TestCase
 {
     public function testSend()

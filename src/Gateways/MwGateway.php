@@ -27,7 +27,6 @@ class MwGateway extends Gateway
 
     const ENDPOINT_TEMPLATE = 'http://61.145.229.28:8806/MWGate/wmgw.asmx/MongateSendSubmit';
 
-
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
