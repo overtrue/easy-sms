@@ -24,14 +24,14 @@ class MwGatewayTest extends TestCase
         $config = [
             'userId' => 'userId',
             'password' => 'password',
-            'pszSubPort' => 'pszSubPort'
+            'pszSubPort' => 'pszSubPort',
         ];
-        $gateway = \Mockery::mock(MwGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(MwGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn([
                 'code' => 1,
-                'msg' => 'success'
+                'msg' => 'success',
             ]);
         $message = new Message(['content' => 'This is a test messageoo']);
         $config = new Config($config);

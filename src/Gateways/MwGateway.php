@@ -29,24 +29,21 @@ class MwGateway extends Gateway
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
-     *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'query' =>
-                ['userId' => $config->get('userId'),
+            'query' => ['userId' => $config->get('userId'),
                     'password' => $config->get('password'),
                     'pszMobis' => $to->getUniversalNumber(),
                     'pszMsg' => $message->getContent($this),
                     'iMobiCount' => 1,
-                    'pszSubPort' => $config->get('pszSubPort')
-                ]
+                    'pszSubPort' => $config->get('pszSubPort'),
+                ],
         ];
         $result = $this->request('get', self::ENDPOINT_TEMPLATE, $params);
         $temp = [];
