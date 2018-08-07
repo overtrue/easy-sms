@@ -56,10 +56,10 @@ class MwGateway extends Gateway
         }
         if (abs(intval($result[0])) > 100000) {
             $temp['code'] = 1;
-            $temp['msg'] = "success";
+            $temp['msg'] = 'success';
         } else {
             $temp['code'] = -1;
-            $temp['msg'] = "error";
+            $temp['msg'] = 'error';
         }
         $temp['real_code'] = $result[0];
         return $temp;
