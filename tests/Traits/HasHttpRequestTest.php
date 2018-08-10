@@ -78,7 +78,7 @@ class HasHttpRequestTest extends TestCase
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(5.0, $object->getBaseOptions()['timeout']);
-        
+
         // timeout overwrite
         $object = \Mockery::mock(DummyTimeoutClassForHasHttpRequestTrait::class)
                 ->makePartial()
@@ -150,8 +150,9 @@ class DummyTimeoutClassForHasHttpRequestTrait
     {
         return 'http://mock-uri';
     }
-    
-    public function getTimeout() {
+
+    public function getTimeout()
+    {
         return 30.0;
     }
 }
