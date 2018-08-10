@@ -39,6 +39,7 @@ abstract class Gateway implements GatewayInterface
     public function __construct(array $config)
     {
         $this->config = new Config($config);
+        $this->timeout = $this->getTimeout();
     }
 
     /**
