@@ -48,7 +48,7 @@ class SubmailGateway extends Gateway
         $result = $this->post($endpoint, [
             'appid' => $config->get('app_id'),
             'signature' => $config->get('app_key'),
-            'project' => $data['project'] ?? $config->get('project'),
+            'project' => !empty($data['project']) ? $data['project'] : $config->get('project'),
             'to' => $to->getUniversalNumber(),
             'vars' => json_encode($data, JSON_FORCE_OBJECT),
         ]);
