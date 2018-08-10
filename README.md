@@ -292,7 +292,7 @@ $easySms->send(13188888888, $message);
     'submail' => [
         'app_id' => '',
         'app_key' => '',
-        'project' => '',
+        'project' => '', // 默认 project，可在发送时 data 中指定
     ],
 ```
 
