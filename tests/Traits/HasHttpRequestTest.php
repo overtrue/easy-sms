@@ -78,6 +78,15 @@ class HasHttpRequestTest extends TestCase
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(5.0, $object->getBaseOptions()['timeout']);
+        
+        // timeout overwrite
+        $object = \Mockery::mock(DummyTimeoutClassForHasHttpRequestTrait::class)
+                ->makePartial()
+                ->shouldAllowMockingProtectedMethods();
+        $object->allows()->getBaseOptions(anyArgs())->passthru();
+
+        $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
+        $this->assertSame(30.0, $object->getBaseOptions()['timeout']);
     }
 
     public function testUnwrapResponseWithJsonResponse()
@@ -130,5 +139,19 @@ class DummyClassForHasHttpRequestTrait
     public function getBaseUri()
     {
         return 'http://mock-uri';
+    }
+}
+
+class DummyTimeoutClassForHasHttpRequestTrait
+{
+    use HasHttpRequest;
+
+    public function getBaseUri()
+    {
+        return 'http://mock-uri';
+    }
+    
+    public function getTimeout() {
+        return 30.0;
     }
 }
