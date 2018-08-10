@@ -77,7 +77,7 @@ class SubmailGatewayTest extends TestCase
             'signature' => 'mock-app-key',
             'project' => 'mock-project',
             'to' => new PhoneNumber(18188888888),
-            'vars' => json_encode(['code' => '123456', 'time' => '15']),
+            'vars' => json_encode(['code' => '123456', 'time' => '15', 'project' => 'mock-project']),
         ])->andReturn([
             'status' => 'success',
             'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',
