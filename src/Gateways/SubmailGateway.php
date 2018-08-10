@@ -42,13 +42,15 @@ class SubmailGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $endpoint = $this->buildEndpoint($to->getIDDCode() ? 'internationalsms/xsend' : 'message/xsend');
+        
+        $data = $message->getData($this);
 
         $result = $this->post($endpoint, [
             'appid' => $config->get('app_id'),
             'signature' => $config->get('app_key'),
-            'project' => $config->get('project'),
+            'project' => $data['project'] ?? $config->get('project'),
             'to' => $to->getUniversalNumber(),
-            'vars' => json_encode($message->getData($this), JSON_FORCE_OBJECT),
+            'vars' => json_encode($data, JSON_FORCE_OBJECT),
         ]);
 
         if ('success' != $result['status']) {
