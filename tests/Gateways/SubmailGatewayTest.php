@@ -62,8 +62,9 @@ class SubmailGatewayTest extends TestCase
 
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
-    
-    public function testProject() {
+
+    public function testProject()
+    {
         $config = [
             'app_id' => 'mock-app-id',
             'app_key' => 'mock-app-key',
