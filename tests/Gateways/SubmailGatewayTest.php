@@ -62,9 +62,8 @@ class SubmailGatewayTest extends TestCase
 
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
-
-    public function testProject()
-    {
+    
+    public function testProject() {
         $config = [
             'app_id' => 'mock-app-id',
             'app_key' => 'mock-app-key',
@@ -83,11 +82,7 @@ class SubmailGatewayTest extends TestCase
             'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',
             'fee' => 1,
             'sms_credits' => 14197,
-        ], [
-            'status' => 'error',
-            'code' => 100,
-            'msg' => 'mock-err-msg',
-        ])->times(2);
+        ]);
 
         $message = new Message(['data' => ['code' => '123456', 'time' => '15', 'project' => 'mock-project']]);
         $config = new Config($config);
@@ -98,11 +93,5 @@ class SubmailGatewayTest extends TestCase
             'fee' => 1,
             'sms_credits' => 14197,
         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
-
-        $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(100);
-        $this->expectExceptionMessage('mock-err-msg');
-
-        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }
