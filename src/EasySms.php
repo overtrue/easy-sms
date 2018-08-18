@@ -321,6 +321,7 @@ class EasySms
      * @param array $gateways
      *
      * @return array
+     *
      * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
     protected function formatGateways(array $gateways)
