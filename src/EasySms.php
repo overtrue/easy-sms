@@ -86,43 +86,13 @@ class EasySms
     {
         $to = $this->formatPhoneNumber($to);
         $message = $this->formatMessage($message);
+        $gateways = empty($gateways) ? $message->getGateways() : $gateways;
 
-        return $this->getMessenger()->send($to, $message, $gateways);
-    }
-
-    /**
-     * @param string|\Overtrue\EasySms\Contracts\PhoneNumberInterface $number
-     *
-     * @return \Overtrue\EasySms\PhoneNumber
-     */
-    protected function formatPhoneNumber($number)
-    {
-        if ($number instanceof PhoneNumberInterface) {
-            return $number;
+        if (empty($gateways)) {
+            $gateways = $this->config->get('default.gateways', []);
         }
 
-        return new PhoneNumber(trim($number));
-    }
-
-    /**
-     * @param array|string|\Overtrue\EasySms\Contracts\MessageInterface $message
-     *
-     * @return \Overtrue\EasySms\Contracts\MessageInterface
-     */
-    protected function formatMessage($message)
-    {
-        if (!($message instanceof MessageInterface)) {
-            if (!is_array($message)) {
-                $message = [
-                    'content' => strval($message),
-                    'template' => strval($message),
-                ];
-            }
-
-            $message = new Message($message);
-        }
-
-        return $message;
+        return $this->getMessenger()->send($to, $message, $this->formatGateways($gateways));
     }
 
     /**
@@ -310,5 +280,67 @@ class EasySms
     protected function callCustomCreator($gateway)
     {
         return call_user_func($this->customCreators[$gateway], $this->config->get("gateways.{$gateway}", []));
+    }
+
+    /**
+     * @param string|\Overtrue\EasySms\Contracts\PhoneNumberInterface $number
+     *
+     * @return \Overtrue\EasySms\PhoneNumber
+     */
+    protected function formatPhoneNumber($number)
+    {
+        if ($number instanceof PhoneNumberInterface) {
+            return $number;
+        }
+
+        return new PhoneNumber(trim($number));
+    }
+
+    /**
+     * @param array|string|\Overtrue\EasySms\Contracts\MessageInterface $message
+     *
+     * @return \Overtrue\EasySms\Contracts\MessageInterface
+     */
+    protected function formatMessage($message)
+    {
+        if (!($message instanceof MessageInterface)) {
+            if (!is_array($message)) {
+                $message = [
+                    'content' => strval($message),
+                    'template' => strval($message),
+                ];
+            }
+
+            $message = new Message($message);
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param array $gateways
+     *
+     * @return array
+     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
+     */
+    protected function formatGateways(array $gateways)
+    {
+        $formatted = [];
+
+        foreach ($gateways as $gateway => $setting) {
+            if (is_int($gateway) && is_string($setting)) {
+                $gateway = $setting;
+                $setting = [];
+            }
+
+            $formatted[$gateway] = $setting;
+            $globalSettings = $this->config->get("gateways.{$gateway}", []);
+
+            if (is_string($gateway) && !empty($globalSettings) && is_array($setting)) {
+                $formatted[$gateway] = array_merge($globalSettings, $setting);
+            }
+        }
+
+        return $this->strategy()->apply($formatted);
     }
 }

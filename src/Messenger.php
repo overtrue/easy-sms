@@ -49,25 +49,14 @@ class Messenger
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, array $gateways = [])
     {
-        if (empty($gateways)) {
-            $gateways = $message->getGateways();
-        }
-
-        if (empty($gateways)) {
-            $gateways = $this->easySms->getConfig()->get('default.gateways', []);
-        }
-
-        $gateways = $this->formatGateways($gateways);
-        $strategyAppliedGateways = $this->easySms->strategy()->apply($gateways);
-
         $results = [];
         $isSuccessful = false;
-        foreach ($strategyAppliedGateways as $gateway) {
+
+        foreach ($gateways as $gateway) {
             try {
                 $results[$gateway] = [
                     'gateway' => $gateway,
@@ -97,32 +86,5 @@ class Messenger
         }
 
         return $results;
-    }
-
-    /**
-     * @param array $gateways
-     *
-     * @return array
-     */
-    protected function formatGateways(array $gateways)
-    {
-        $formatted = [];
-        $config = $this->easySms->getConfig();
-
-        foreach ($gateways as $gateway => $setting) {
-            if (is_int($gateway) && is_string($setting)) {
-                $gateway = $setting;
-                $setting = [];
-            }
-
-            $formatted[$gateway] = $setting;
-            $globalSetting = $config->get("gateways.{$gateway}", []);
-
-            if (is_string($gateway) && !empty($globalSetting) && is_array($setting)) {
-                $formatted[$gateway] = array_merge($globalSetting, $setting);
-            }
-        }
-
-        return $formatted;
     }
 }
