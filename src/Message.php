@@ -92,7 +92,7 @@ class Message implements MessageInterface
      */
     public function getTemplate(GatewayInterface $gateway = null)
     {
-        return is_callable($this->template) ? $this->template($gateway): $this->template;
+        return is_callable($this->template) ? $this->template($gateway) : $this->template;
     }
 
     /**
