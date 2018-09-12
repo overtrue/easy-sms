@@ -306,8 +306,8 @@ class EasySms
         if (!($message instanceof MessageInterface)) {
             if (!is_array($message)) {
                 $message = [
-                    'content' => strval($message),
-                    'template' => strval($message),
+                    'content' => $message,
+                    'template' => $message,
                 ];
             }
 

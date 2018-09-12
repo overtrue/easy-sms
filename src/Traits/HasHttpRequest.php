@@ -118,7 +118,7 @@ trait HasHttpRequest
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return array
+     * @return ResponseInterface|array|string
      */
     protected function unwrapResponse(ResponseInterface $response)
     {

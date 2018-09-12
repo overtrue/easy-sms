@@ -105,6 +105,26 @@ class EasySmsTest extends TestCase
         $this->assertSame('mock-result', $easySms->send($number, $message));
     }
 
+    public function testFormatMessage()
+    {
+        $easySms = \Mockery::mock(EasySms::class.'[formatMessage]', [[]])->makePartial()->shouldAllowMockingProtectedMethods();
+
+        // text
+        $message = $easySms->formatMessage('文本');
+
+        $this->assertSame('文本', $message->getContent());
+        $this->assertSame('文本', $message->getTemplate());
+
+        // callback
+        $message = $easySms->formatMessage([
+            'content' => function(){ return 'content';},
+            'template' => function(){ return 'template';},
+        ]);
+
+        $this->assertSame('content', $message->getContent());
+        $this->assertSame('template', $message->getTemplate());
+    }
+
     public function testGetMessenger()
     {
         $easySms = new EasySms([]);
