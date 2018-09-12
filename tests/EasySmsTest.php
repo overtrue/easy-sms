@@ -117,8 +117,12 @@ class EasySmsTest extends TestCase
 
         // callback
         $message = $easySms->formatMessage([
-            'content' => function(){ return 'content';},
-            'template' => function(){ return 'template';},
+            'content' => function () {
+                return 'content';
+            },
+            'template' => function () {
+                return 'template';
+            },
         ]);
 
         $this->assertSame('content', $message->getContent());
