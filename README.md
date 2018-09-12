@@ -108,6 +108,58 @@ $easySms->send(13188888888, [
 
 所以，在使用过程中你可以根据所要使用的平台定义发送的内容。
 
+```php
+$easySms->send(13188888888, [
+    'content'  => '您的验证码为: 6379',
+    'template' => 'SMS_001',
+    'data' => [
+        'code' => 6379
+    ],
+]);
+```
+
+你也可以使用闭包来返回对应的值：
+
+```php
+$easySms->send(13188888888, [
+    'content'  => function($gateway){
+        return '您的验证码为: 6379';
+    },
+    'template' => function($gateway){
+        return 'SMS_001';
+    },
+    'data' => function($gateway){
+        return [
+            'code' => 6379
+        ];
+    },
+]);
+```
+
+你可以根据 `$gateway` 参数类型来判断返回值，例如：
+
+```php
+$easySms->send(13188888888, [
+    'content'  => function($gateway){
+        if ($gateway->getName() == 'yunpian') {
+            return '云片专用验证码：1235';
+        }
+        return '您的验证码为: 6379';
+    },
+    'template' => function($gateway){
+        if ($gateway->getName() == 'aliyun') {
+            return 'TP2818';
+        }
+        return 'SMS_001';
+    },
+    'data' => function($gateway){
+        return [
+            'code' => 6379
+        ];
+    },
+]);
+```
+
 ## 发送网关
 
 默认使用 `default` 中的设置来发送，如果某一条短信你想要覆盖默认的设置。在 `send` 方法中使用第三个参数即可：
