@@ -61,7 +61,7 @@ class Messenger
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_SUCCESS,
-                    'result' => $this->easySms->gateway($gateway)->send($to, $message,new Config($this->easySms->getConfig()->get("gateways.{$gateway}"))),
+                    'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($this->easySms->getConfig()->get("gateways.{$gateway}"))),
                 ];
                 $isSuccessful = true;
 
