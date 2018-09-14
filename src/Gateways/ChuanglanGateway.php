@@ -13,8 +13,8 @@ namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
-use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 

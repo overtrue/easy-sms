@@ -145,13 +145,13 @@ class ChuanglanGatewayTest extends TestCase
         $config = ['channel' => ChuanglanGateway::CHANNEL_VALIDATE_CODE];
         $config = new Config($config);
         $endpoint = 'https://smsbj1.253.com/msg/send/json';
-        $this->assertEquals($endpoint, $method->invoke($gateway, $config));
+        $this->assertSame($endpoint, $method->invoke($gateway, $config));
 
         // 营销通道
         $config = ['channel' => ChuanglanGateway::CHANNEL_PROMOTION_CODE];
         $config = new Config($config);
         $endpoint = 'https://smssh1.253.com/msg/send/json';
-        $this->assertEquals($endpoint, $method->invoke($gateway, $config));
+        $this->assertSame($endpoint, $method->invoke($gateway, $config));
     }
 
     /**
@@ -168,12 +168,12 @@ class ChuanglanGatewayTest extends TestCase
         // 验证码通道
         $config = ['channel' => ChuanglanGateway::CHANNEL_VALIDATE_CODE];
         $config = new Config($config);
-        $this->assertEquals(ChuanglanGateway::CHANNEL_VALIDATE_CODE, $method->invoke($gateway, $config));
+        $this->assertSame(ChuanglanGateway::CHANNEL_VALIDATE_CODE, $method->invoke($gateway, $config));
 
         // 营销通道
         $config = ['channel' => ChuanglanGateway::CHANNEL_PROMOTION_CODE];
         $config = new Config($config);
-        $this->assertEquals(ChuanglanGateway::CHANNEL_PROMOTION_CODE, $method->invoke($gateway, $config));
+        $this->assertSame(ChuanglanGateway::CHANNEL_PROMOTION_CODE, $method->invoke($gateway, $config));
     }
 
     /**
@@ -211,7 +211,7 @@ class ChuanglanGatewayTest extends TestCase
         // 验证码通道
         $config = ['channel' => ChuanglanGateway::CHANNEL_VALIDATE_CODE];
         $config = new Config($config);
-        $this->assertEquals('这是短信内容。', $method->invoke($gateway, $content, $config));
+        $this->assertSame('这是短信内容。', $method->invoke($gateway, $content, $config));
     }
 
     /**
@@ -234,7 +234,7 @@ class ChuanglanGatewayTest extends TestCase
             'unsubscribe' => '回TD退订',
         ];
         $config = new Config($config);
-        $this->assertEquals('【通讯云】这是短信内容。回TD退订', $method->invoke($gateway, $content, $config));
+        $this->assertSame('【通讯云】这是短信内容。回TD退订', $method->invoke($gateway, $content, $config));
     }
 
     /**

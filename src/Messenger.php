@@ -14,7 +14,6 @@ namespace Overtrue\EasySms;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
-use Overtrue\EasySms\Support\Config;
 
 /**
  * Class Messenger.
@@ -56,23 +55,23 @@ class Messenger
         $results = [];
         $isSuccessful = false;
 
-        foreach ($gateways as $gateway) {
+        foreach ($gateways as $gateway => $config) {
             try {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_SUCCESS,
-                    'result' => $this->easySms->gateway($gateway)->send($to, $message, new Config($this->easySms->getConfig()->get("gateways.{$gateway}"))),
+                    'result' => $this->easySms->gateway($gateway)->send($to, $message, $config),
                 ];
                 $isSuccessful = true;
 
                 break;
-            } catch (\Throwable $e) {
+            } catch (\Exception $e) {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
                     'exception' => $e,
                 ];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,

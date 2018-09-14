@@ -42,8 +42,8 @@ class YuntongxunGatewayTest extends TestCase
                         'templateId' => 5589,
                         'appId' => 'mock-app-id',
                         'datas' => ['mock-data-1', 'mock-data-2'],
-                    ] && $params['headers']['Accept'] == 'application/json'
-                        && $params['headers']['Content-Type'] == 'application/json;charset=utf-8';
+                    ] && 'application/json' == $params['headers']['Accept']
+                        && 'application/json;charset=utf-8' == $params['headers']['Content-Type'];
             })
         )
         ->andReturn([

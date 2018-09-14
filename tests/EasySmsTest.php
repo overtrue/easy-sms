@@ -135,6 +135,50 @@ class EasySmsTest extends TestCase
 
         $this->assertInstanceOf(Messenger::class, $easySms->getMessenger());
     }
+
+    public function testFormatGateways()
+    {
+        $config = [
+            'gateways' => [
+                'foo' => [
+                    'a' => 'b',
+                ],
+                'bar' => [
+                    'c' => 'd',
+                ],
+            ],
+        ];
+
+        $easySms = \Mockery::mock(EasySms::class.'[formatMessage]', [$config])->makePartial()->shouldAllowMockingProtectedMethods();
+
+        // gateway names
+        $gateways = $easySms->formatGateways(['foo', 'bar']);
+
+        $this->assertCount(2, $gateways);
+        $this->arrayHasKey('foo', $gateways);
+        $this->arrayHasKey('bar', $gateways);
+        $this->assertSame('b', $gateways['foo']->get('a'));
+        $this->assertSame('d', $gateways['bar']->get('c'));
+
+        // gateway names && override config
+        $gateways = $easySms->formatGateways(['foo', 'bar' => ['c' => 'e']]);
+
+        $this->assertCount(2, $gateways);
+        $this->arrayHasKey('foo', $gateways);
+        $this->arrayHasKey('bar', $gateways);
+        $this->assertSame('b', $gateways['foo']->get('a'));
+        $this->assertSame('e', $gateways['bar']->get('c'));
+
+        // gateway names && append config
+        $gateways = $easySms->formatGateways(['foo' => ['f' => 'g'], 'bar' => ['c' => 'e']]);
+
+        $this->assertCount(2, $gateways);
+        $this->arrayHasKey('foo', $gateways);
+        $this->arrayHasKey('bar', $gateways);
+        $this->assertSame('b', $gateways['foo']->get('a'));
+        $this->assertSame('g', $gateways['foo']->get('f'));
+        $this->assertSame('e', $gateways['bar']->get('c'));
+    }
 }
 
 class DummyGatewayForTest implements GatewayInterface

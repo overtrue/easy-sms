@@ -338,10 +338,16 @@ class EasySms
             $globalSettings = $this->config->get("gateways.{$gateway}", []);
 
             if (is_string($gateway) && !empty($globalSettings) && is_array($setting)) {
-                $formatted[$gateway] = array_merge($globalSettings, $setting);
+                $formatted[$gateway] = new Config(array_merge($globalSettings, $setting));
             }
         }
 
-        return $this->strategy()->apply($formatted);
+        $result = [];
+
+        foreach ($this->strategy()->apply($formatted) as $name) {
+            $result[$name] = $formatted[$name];
+        }
+
+        return $result;
     }
 }
