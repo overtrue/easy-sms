@@ -326,6 +326,18 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
+### [阿里云Rest](https://www.aliyun.com/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'aliyun' => [
+        'app_key' => '',
+        'app_secret_key' => '',
+        'sign_name' => '',
+    ],
+```
+
 ### [云片](https://www.yunpian.com)
 
 短信内容使用 `content`
