@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
@@ -9,8 +18,7 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class AliyunrestGateway
- * @package Overtrue\EasySms\Gateways
+ * Class AliyunrestGateway.
  */
 class AliyunrestGateway extends Gateway
 {
@@ -30,8 +38,9 @@ class AliyunrestGateway extends Gateway
 
     /**
      * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
-     * @param Config $config
+     * @param MessageInterface     $message
+     * @param Config               $config
+     *
      * @return array|void
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
@@ -42,7 +51,7 @@ class AliyunrestGateway extends Gateway
             'format' => self::ENDPOINT_FORMAT,
             'sign_method' => self::ENDPOINT_SIGNATURE_METHOD,
             'method' => self::ENDPOINT_METHOD,
-            'timestamp' => date("Y-m-d H:i:s"),
+            'timestamp' => date('Y-m-d H:i:s'),
             'partner_id' => self::ENDPOINT_PARTNER_ID,
         ];
 
@@ -67,15 +76,17 @@ class AliyunrestGateway extends Gateway
 
     /**
      * @param array $params
+     *
      * @return string
      */
     protected function getEndpointUrl($params)
     {
-        return self::ENDPOINT_URL . '?' . http_build_query($params);
+        return self::ENDPOINT_URL.'?'.http_build_query($params);
     }
 
     /**
      * @param array $params
+     *
      * @return string
      */
     protected function generateSign($params)
@@ -84,7 +95,7 @@ class AliyunrestGateway extends Gateway
 
         $stringToBeSigned = $this->config->get('app_secret_key');
         foreach ($params as $k => $v) {
-            if (!is_array($v) && "@" != substr($v, 0, 1)) {
+            if (!is_array($v) && '@' != substr($v, 0, 1)) {
                 $stringToBeSigned .= "$k$v";
             }
         }
@@ -93,5 +104,4 @@ class AliyunrestGateway extends Gateway
 
         return strtoupper(md5($stringToBeSigned));
     }
-
 }

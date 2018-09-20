@@ -19,8 +19,7 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 /**
- * Class AliyunrestGatewayTest
- * @package Overtrue\EasySms\Tests\Gateways
+ * Class AliyunrestGatewayTest.
  */
 class AliyunrestGatewayTest extends TestCase
 {
@@ -32,7 +31,7 @@ class AliyunrestGatewayTest extends TestCase
             'format' => 'json',
             'sign_method' => 'md5',
             'method' => 'alibaba.aliqin.fc.sms.num.send',
-            'timestamp' => date("Y-m-d H:i:s"),
+            'timestamp' => date('Y-m-d H:i:s'),
             'partner_id' => 'EasySms',
         ];
         $config = [
@@ -49,24 +48,25 @@ class AliyunrestGatewayTest extends TestCase
             'rec_num' => strval(new PhoneNumber(18888888888)),
             'sms_template_code' => 'mock-template-code',
         ];
-        $gateway = \Mockery::mock(AliyunrestGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(AliyunrestGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
         $gateway->shouldReceive('post')->with(\Mockery::on(function ($url) use ($urlParams) {
             $url = implode('&', array_filter(explode('&', $url), function ($s) {
-                return substr($s, 0, 5) != 'sign=';
+                return 'sign=' != substr($s, 0, 5);
             }));
-            return $url == 'http://gw.api.taobao.com/router/rest?' . http_build_query($urlParams);
+
+            return $url == 'http://gw.api.taobao.com/router/rest?'.http_build_query($urlParams);
         }), \Mockery::on(function ($params) use ($expected) {
             return $params == $expected;
         }))->andReturn([
             'alibaba_aliqin_fc_sms_num_send_response' => [
                 'result' => [
-                    'err_code' => '0', 'msg' => 'mock-result', 'success' => true
+                    'err_code' => '0', 'msg' => 'mock-result', 'success' => true,
                 ],
-            ]], [
+            ], ], [
             'error_response' => [
                 'code' => 15,
-                'msg' => 'mock-err-msg'
-            ]])->twice();;
+                'msg' => 'mock-err-msg',
+            ], ])->twice();
 
         $message = new Message([
             'template' => 'mock-template-code',
@@ -78,9 +78,9 @@ class AliyunrestGatewayTest extends TestCase
         $this->assertSame([
             'alibaba_aliqin_fc_sms_num_send_response' => [
                 'result' => [
-                    'err_code' => '0', 'msg' => 'mock-result', 'success' => true
+                    'err_code' => '0', 'msg' => 'mock-result', 'success' => true,
                 ],
-            ]], $gateway->send(new PhoneNumber(18888888888), $message, $config));
+            ], ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(15);
