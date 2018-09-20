@@ -331,7 +331,7 @@ $easySms->send(13188888888, $message);
 短信内容使用 `template` + `data`
 
 ```php
-    'aliyun' => [
+    'aliyunrest' => [
         'app_key' => '',
         'app_secret_key' => '',
         'sign_name' => '',
