@@ -45,11 +45,15 @@ class YunpianGateway extends Gateway
     {
         $endpoint = $this->buildEndpoint('sms', 'sms', 'single_send');
 
+        $signature = $config->get('signature', '');
+
+        $content = $message->getContent($this);
+
         $result = $this->request('post', $endpoint, [
             'form_params' => [
                 'apikey' => $config->get('api_key'),
                 'mobile' => $to->getUniversalNumber(),
-                'text' => $message->getContent($this),
+                'text' => 0 === \stripos($content, '【') ? $content : $signature.$content,
             ],
             'exceptions' => false,
         ]);
