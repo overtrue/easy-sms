@@ -345,6 +345,7 @@ $easySms->send(13188888888, $message);
 ```php
     'yunpian' => [
         'api_key' => '',
+        'signature' => '【默认签名】', // 内容中无签名时使用
     ],
 ```
 
