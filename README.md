@@ -520,6 +520,48 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
+### [华为云 SMS](https://www.huaweicloud.com/product/msgsms.html)
+
+短信内容使用 `template` + `data`
+
+```php
+    'huawei' => [
+        'endpoint' => '', // APP接入地址
+        'app_key' => '', // APP KEY
+        'app_secret' => '', // APP SECRET
+        'from' => [
+            'default' => '1069012345', // 默认使用签名通道号
+            'custom' => 'csms12345', // 其他签名通道号 可以在 data 中定义 from 来指定
+            'abc' => 'csms67890', // 其他签名通道号
+            ...
+        ],
+        'callback' => '' // 短信状态回调地址
+    ],
+```
+
+使用默认签名通道 `default`
+
+```php
+$easySms->send(13188888888, [
+    'template' => 'SMS_001',
+    'data' => [
+        6379
+    ],
+]);
+```
+
+使用指定签名通道
+
+```php
+$easySms->send(13188888888, [
+    'template' => 'SMS_001',
+    'data' => [
+        6379,
+        'from' => 'custom' // 对应 config 中的 from 数组中 custom
+    ],
+]);
+```
+
 ## License
 
 MIT
