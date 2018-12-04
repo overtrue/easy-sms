@@ -40,7 +40,7 @@
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 - [阿凡达数据](http://www.avatardata.cn/)
-- [华为云通信](https://www.huaweicloud.com/product/msgsms.html)
+- [华为云](https://www.huaweicloud.com/product/msgsms.html)
 
 ## 环境需求
 
