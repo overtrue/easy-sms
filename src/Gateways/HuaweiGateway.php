@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms\Gateways;
 
 use GuzzleHttp\Exception\RequestException;
@@ -15,15 +24,17 @@ class HuaweiGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_HOST = 'https://api.rtc.huaweicloud.com:10443';
+
     const ENDPOINT_URI = '/sms/batchSendSms/v1';
+
     const SUCCESS_CODE = '000000';
 
     /**
-     * 发送信息
+     * 发送信息.
      *
      * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
-     * @param Config $config
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      *
@@ -60,7 +71,7 @@ class HuaweiGateway extends Gateway
             'to' => $to->getUniversalNumber(),
             'templateId' => $templateId,
             'templateParas' => json_encode($messageData),
-            'statusCallback' => $statusCallback
+            'statusCallback' => $statusCallback,
         ];
 
         try {
@@ -68,7 +79,7 @@ class HuaweiGateway extends Gateway
                 'headers' => $headers,
                 'form_params' => $params,
                 //为防止因HTTPS证书认证失败造成API调用失败，需要先忽略证书信任问题
-                'verify' => false
+                'verify' => false,
             ]);
         } catch (RequestException $e) {
             $result = $this->unwrapResponse($e->getResponse());
@@ -82,22 +93,25 @@ class HuaweiGateway extends Gateway
     }
 
     /**
-     * 构造 Endpoint
+     * 构造 Endpoint.
      *
      * @param Config $config
+     *
      * @return string
      */
     protected function getEndpoint(Config $config)
     {
         $endpoint = rtrim($config->get('endpoint', self::ENDPOINT_HOST), '/');
-        return $endpoint . self::ENDPOINT_URI;
+
+        return $endpoint.self::ENDPOINT_URI;
     }
 
     /**
-     * 获取请求 Headers 参数
+     * 获取请求 Headers 参数.
      *
      * @param string $appKey
      * @param string $appSecret
+     *
      * @return array
      */
     protected function getHeaders($appKey, $appSecret)
@@ -105,7 +119,7 @@ class HuaweiGateway extends Gateway
         return [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Authorization' => 'WSSE realm="SDP",profile="UsernameToken",type="Appkey"',
-            'X-WSSE' => $this->buildWsseHeader($appKey, $appSecret)
+            'X-WSSE' => $this->buildWsseHeader($appKey, $appSecret),
         ];
     }
 
@@ -114,14 +128,16 @@ class HuaweiGateway extends Gateway
      *
      * @param string $appKey
      * @param string $appSecret
+     *
      * @return string
      */
     protected function buildWsseHeader($appKey, $appSecret)
     {
         $now = date('Y-m-d\TH:i:s\Z');
         $nonce = uniqid();
-        $passwordDigest = base64_encode(hash('sha256', ($nonce . $now . $appSecret)));
-        return sprintf("UsernameToken Username=\"%s\",PasswordDigest=\"%s\",Nonce=\"%s\",Created=\"%s\"",
+        $passwordDigest = base64_encode(hash('sha256', ($nonce.$now.$appSecret)));
+
+        return sprintf('UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
             $appKey, $passwordDigest, $nonce, $now);
     }
 }

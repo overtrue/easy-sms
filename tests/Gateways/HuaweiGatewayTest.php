@@ -1,7 +1,15 @@
 <?php
 
-namespace Overtrue\EasySms\Tests\Gateways;
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\HuaweiGateway;
@@ -24,7 +32,7 @@ class HuaweiGatewayTest extends TestCase
             'from' => [
                 'default' => 'mock-default-from',
             ],
-            'callback' => 'mock-callback'
+            'callback' => 'mock-callback',
         ];
 
         $expectedParams = [
@@ -35,14 +43,13 @@ class HuaweiGatewayTest extends TestCase
             'statusCallback' => 'mock-callback',
         ];
 
-        $gateway = \Mockery::mock(HuaweiGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->with('post',
                 \Mockery::on(function ($endpoint) use ($config) {
-                    return $endpoint === $config['endpoint'] . '/sms/batchSendSms/v1';
-                })
-                ,
+                    return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
+                }),
                 \Mockery::on(function ($params) use ($expectedParams) {
                     ksort($params['form_params']);
                     ksort($expectedParams);
@@ -56,7 +63,7 @@ class HuaweiGatewayTest extends TestCase
 
         $message = new Message([
             'template' => 'mock-tpl-id',
-            'data' => ['mock-data-1', 'mock-data-2']
+            'data' => ['mock-data-1', 'mock-data-2'],
         ]);
 
         $config = new Config($config);
@@ -74,7 +81,7 @@ class HuaweiGatewayTest extends TestCase
     }
 
     /**
-     * 测试 自定义签名通道
+     * 测试 自定义签名通道.
      */
     public function testMultiFrom()
     {
@@ -86,7 +93,7 @@ class HuaweiGatewayTest extends TestCase
                 'default' => 'mock-default-from',
                 'custom' => 'mock-custom-from', // 配置自定义签名通道
             ],
-            'callback' => 'mock-callback'
+            'callback' => 'mock-callback',
         ];
 
         $expectedParams = [
@@ -97,14 +104,13 @@ class HuaweiGatewayTest extends TestCase
             'statusCallback' => 'mock-callback',
         ];
 
-        $gateway = \Mockery::mock(HuaweiGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->with('post',
                 \Mockery::on(function ($endpoint) use ($config) {
-                    return $endpoint === $config['endpoint'] . '/sms/batchSendSms/v1';
-                })
-                ,
+                    return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
+                }),
                 \Mockery::on(function ($params) use ($expectedParams) {
                     ksort($params['form_params']);
                     ksort($expectedParams);
@@ -121,8 +127,8 @@ class HuaweiGatewayTest extends TestCase
             'data' => [
                 'mock-data-1',
                 'mock-data-2',
-                'from' => 'custom' // 设置自定义签名通道
-            ]
+                'from' => 'custom', // 设置自定义签名通道
+            ],
         ]);
 
         $config = new Config($config);
@@ -140,7 +146,7 @@ class HuaweiGatewayTest extends TestCase
     }
 
     /**
-     * 测试 endpoint
+     * 测试 endpoint.
      *
      * @throws \ReflectionException
      */
@@ -149,13 +155,13 @@ class HuaweiGatewayTest extends TestCase
         $method = new \ReflectionMethod(HuaweiGateway::class, 'getEndpoint');
         $method->setAccessible(true);
 
-        $gateway = \Mockery::mock(HuaweiGateway::class . '[request]', [[]])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $defaultEndpoint = 'https://api.rtc.huaweicloud.com:10443/sms/batchSendSms/v1';
         $this->assertSame($defaultEndpoint, $method->invoke($gateway, new Config()));
 
         $config = new Config([
-            'endpoint' => 'mock-endpoint'
+            'endpoint' => 'mock-endpoint',
         ]);
         $endpoint = 'mock-endpoint/sms/batchSendSms/v1';
         $this->assertSame($endpoint, $method->invoke($gateway, $config));
