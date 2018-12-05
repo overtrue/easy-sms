@@ -36,7 +36,7 @@ class HuaweiGateway extends Gateway
      * @param MessageInterface     $message
      * @param Config               $config
      *
-     * @return array
+     * @return \Psr\Http\Message\ResponseInterface|array|string
      *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
@@ -63,7 +63,7 @@ class HuaweiGateway extends Gateway
         $channel = isset($channels[$from]) ? $channels[$from] : '';
 
         if (empty($channel)) {
-            throw new InvalidArgumentException("From Channel [{$from}] Not Exist");
+            throw new InvalidArgumentException(sprintf("From Channel [%s] Not Exist",$from));
         }
 
         $params = [

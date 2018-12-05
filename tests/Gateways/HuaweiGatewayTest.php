@@ -166,4 +166,64 @@ class HuaweiGatewayTest extends TestCase
         $endpoint = 'mock-endpoint/sms/batchSendSms/v1';
         $this->assertSame($endpoint, $method->invoke($gateway, $config));
     }
+
+    public function testGetHeader()
+    {
+
+        $gateway = \Mockery::mock(HuaweiGateway::class . '[buildWsseHeader]', [[]])->shouldAllowMockingProtectedMethods();
+
+        $wsse = sprintf('UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
+            'mock-app-key', 'mock-password-digest', 'mock-nonce', 'mock-time');
+        $gateway->shouldReceive('buildWsseHeader')
+            ->andReturn($wsse);
+
+        $method = new \ReflectionMethod(HuaweiGateway::class, 'getHeaders');
+        $method->setAccessible(true);
+
+
+        $config = [
+            'app_key' => 'mock-app-key',
+            'app_secret' => 'mock-app-secret',
+        ];
+        $this->assertSame([
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Authorization' => 'WSSE realm="SDP",profile="UsernameToken",type="Appkey"',
+            'X-WSSE' => 'UsernameToken Username="mock-app-key",PasswordDigest="mock-password-digest",Nonce="mock-nonce",Created="mock-time"'
+        ], $method->invokeArgs($gateway, [$config['app_key'], $config['app_secret']]));
+    }
+
+    public function testBuildWsseHeader()
+    {
+        $gateway = \Mockery::mock(HuaweiGateway::class, [[]])->shouldAllowMockingProtectedMethods();
+
+        $method = new \ReflectionMethod(HuaweiGateway::class, 'buildWsseHeader');
+        $method->setAccessible(true);
+
+        $appKey = 'mock-app-key';
+        $appSecret = 'mock-app-secret';
+        $nonce = 'mock-uniqid';
+        $now = 'mock-time';
+        $passwordDigest = 'NGM5ZWYzZTI0MTljM2YxZjM4Zjk3MTBlZDk4ZDlmMjNkNjU4YWMzOGE1NmEwYjk0Yjk3ZjU4YzhjMGUzMjJkZA==';
+
+        $expected = sprintf('UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
+            $appKey, $passwordDigest, $nonce, $now);
+
+        $this->assertSame($expected, $method->invokeArgs($gateway, [$appKey, $appSecret]));
+
+        $otherAppSecret = 'mock-other-app-secret';
+        $this->assertNotSame($expected, $method->invokeArgs($gateway, [$appKey, $otherAppSecret]));
+        $this->assertContains('mock-app-key', $method->invokeArgs($gateway, [$appKey, $otherAppSecret]));
+    }
+}
+
+namespace Overtrue\EasySms\Gateways;
+
+function date($format, $timestamp = null)
+{
+    return "mock-time";
+}
+
+function uniqid()
+{
+    return "mock-uniqid";
 }
