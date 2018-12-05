@@ -63,7 +63,7 @@ class HuaweiGateway extends Gateway
         $channel = isset($channels[$from]) ? $channels[$from] : '';
 
         if (empty($channel)) {
-            throw new InvalidArgumentException(sprintf("From Channel [%s] Not Exist",$from));
+            throw new InvalidArgumentException(sprintf("From Channel [%s] Not Exist", $from));
         }
 
         $params = [
