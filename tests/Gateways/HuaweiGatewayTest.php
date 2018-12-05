@@ -169,8 +169,7 @@ class HuaweiGatewayTest extends TestCase
 
     public function testGetHeader()
     {
-
-        $gateway = \Mockery::mock(HuaweiGateway::class . '[buildWsseHeader]', [[]])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(HuaweiGateway::class.'[buildWsseHeader]', [[]])->shouldAllowMockingProtectedMethods();
 
         $wsse = sprintf('UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
             'mock-app-key', 'mock-password-digest', 'mock-nonce', 'mock-time');
@@ -180,7 +179,6 @@ class HuaweiGatewayTest extends TestCase
         $method = new \ReflectionMethod(HuaweiGateway::class, 'getHeaders');
         $method->setAccessible(true);
 
-
         $config = [
             'app_key' => 'mock-app-key',
             'app_secret' => 'mock-app-secret',
@@ -188,7 +186,7 @@ class HuaweiGatewayTest extends TestCase
         $this->assertSame([
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Authorization' => 'WSSE realm="SDP",profile="UsernameToken",type="Appkey"',
-            'X-WSSE' => 'UsernameToken Username="mock-app-key",PasswordDigest="mock-password-digest",Nonce="mock-nonce",Created="mock-time"'
+            'X-WSSE' => 'UsernameToken Username="mock-app-key",PasswordDigest="mock-password-digest",Nonce="mock-nonce",Created="mock-time"',
         ], $method->invokeArgs($gateway, [$config['app_key'], $config['app_secret']]));
     }
 
@@ -220,10 +218,10 @@ namespace Overtrue\EasySms\Gateways;
 
 function date($format, $timestamp = null)
 {
-    return "mock-time";
+    return 'mock-time';
 }
 
 function uniqid()
 {
-    return "mock-uniqid";
+    return 'mock-uniqid';
 }
