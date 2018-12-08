@@ -45,10 +45,6 @@ class Config implements ArrayAccess
     {
         $config = $this->config;
 
-        if (is_null($key)) {
-            return null;
-        }
-
         if (isset($config[$key])) {
             return $config[$key];
         }
