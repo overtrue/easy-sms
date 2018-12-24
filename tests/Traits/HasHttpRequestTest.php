@@ -14,7 +14,7 @@ namespace Overtrue\EasySms\Tests\Traits;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Overtrue\EasySms\Traits\HasHttpRequest;
-use PHPUnit\Framework\TestCase;
+use Overtrue\EasySms\Tests\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class HasHttpRequestTest extends TestCase
