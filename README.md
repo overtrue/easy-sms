@@ -26,6 +26,7 @@
 ## 平台支持
 
 - [阿里云](https://www.aliyun.com/)
+- [阿里大于](https://api.alidayu.com/)
 - [云片](https://www.yunpian.com)
 - [Submail](https://www.mysubmail.com)
 - [螺丝帽](https://luosimao.com/)
