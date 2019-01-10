@@ -393,6 +393,7 @@ $easySms->send(13188888888, $message);
     'huyi' => [
         'api_id' => '',
         'api_key' => '',
+        'sign_name' => '',
     ],
 ```
 
