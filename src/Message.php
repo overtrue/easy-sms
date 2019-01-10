@@ -138,7 +138,7 @@ class Message implements MessageInterface
      */
     public function getData(GatewayInterface $gateway = null)
     {
-        return $this->data;
+        return is_callable($this->data) ? call_user_func($this->data, $gateway) : $this->data;
     }
 
     /**
