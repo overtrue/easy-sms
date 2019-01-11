@@ -49,7 +49,7 @@ class HuyiGateway extends Gateway
             'content' => $message->getContent($this),
             'time' => time(),
             'format' => self::ENDPOINT_FORMAT,
-            'sign' => $config->get('sign_name'),
+            'sign' => $config->get('signature'),
         ];
 
         $params['password'] = $this->generateSign($params);
