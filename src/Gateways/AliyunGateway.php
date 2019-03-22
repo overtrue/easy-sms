@@ -54,12 +54,10 @@ class AliyunGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = $message->getData($this);
-        if (array_key_exists('sign_name', $data)) {
-            $sign_name = $data['sign_name'];
-            unset($data['sign_name']);
-        } else {
-            $sign_name = $config->get('sign_name');
-        }
+        
+        $signName = $data['sign_name'] ?? $config->get('sign_name')
+            
+        unset($data['sign_name']);
 
         $params = [
             'RegionId' => self::ENDPOINT_REGION_ID,
@@ -72,7 +70,7 @@ class AliyunGateway extends Gateway
             'Action' => self::ENDPOINT_METHOD,
             'Version' => self::ENDPOINT_VERSION,
             'PhoneNumbers' => !\is_null($to->getIDDCode()) ? strval($to->getZeroPrefixedNumber()) : $to->getNumber(),
-            'SignName' => $sign_name,
+            'SignName' => $signName,
             'TemplateCode' => $message->getTemplate($this),
             'TemplateParam' => json_encode($data, JSON_FORCE_OBJECT),
         ];
