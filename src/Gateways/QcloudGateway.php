@@ -46,12 +46,10 @@ class QcloudGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = $message->getData($this);
-        if (array_key_exists('sign_name', $data)) {
-            $sign_name = $data['sign_name'];
-            unset($data['sign_name']);
-        } else {
-            $sign_name = $config->get('sign_name');
-        }
+        
+        $signName = $data['sign_name'] ?? $config->get('sign_name');
+            
+        unset($data['sign_name']);
 
         $type = !empty($data['type']) ? $data['type'] : 0;
         $params = [
@@ -69,7 +67,7 @@ class QcloudGateway extends Gateway
             unset($params['msg']);
             $params['params'] = array_values($data);
             $params['tpl_id'] = $message->getTemplate($this);
-            $params['sign'] = $sign_name;
+            $params['sign'] = $signName;
         }
         $random = substr(uniqid(), -10);
 
