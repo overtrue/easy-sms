@@ -54,9 +54,9 @@ class AliyunGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = $message->getData($this);
-        
+
         $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
-            
+
         unset($data['sign_name']);
 
         $params = [
