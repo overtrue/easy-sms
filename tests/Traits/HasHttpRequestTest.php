@@ -13,8 +13,8 @@ namespace Overtrue\EasySms\Tests\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Overtrue\EasySms\Traits\HasHttpRequest;
 use Overtrue\EasySms\Tests\TestCase;
+use Overtrue\EasySms\Traits\HasHttpRequest;
 use Psr\Http\Message\ResponseInterface;
 
 class HasHttpRequestTest extends TestCase

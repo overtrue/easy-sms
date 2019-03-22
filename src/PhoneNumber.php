@@ -83,7 +83,7 @@ class PhoneNumber implements \Overtrue\EasySms\Contracts\PhoneNumberInterface
     /**
      * @param string $prefix
      *
-     * @return null|string
+     * @return string|null
      */
     public function getPrefixedIDDCode($prefix)
     {

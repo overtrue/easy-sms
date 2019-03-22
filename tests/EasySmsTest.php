@@ -32,9 +32,17 @@ class EasySmsTest extends TestCase
 
         // invalid gateway
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Gateway "Overtrue\EasySms\Gateways\NotExistsGatewayNameGateway" not exists.');
+        $this->expectExceptionMessage('Class "Overtrue\EasySms\Gateways\NotExistsGatewayNameGateway" is a invalid easy-sms gateway.');
 
         $easySms->gateway('NotExistsGatewayName');
+    }
+
+    public function testGatewayNameConflicts()
+    {
+        $easySms = \Mockery::mock(EasySms::class.'[makeGateway]', [['default' => DummyGatewayForTest::class]]);
+
+        $this->expectExceptionMessage('Class "Overtrue\EasySms\Tests\DummyGatewayNotImplementsGatewayInterface" is a invalid easy-sms gateway.');
+        $easySms->makeGateway(DummyGatewayNotImplementsGatewayInterface::class, []);
     }
 
     public function testGatewayWithoutDefaultSetting()
@@ -58,9 +66,8 @@ class EasySmsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Gateway "%s" not inherited from %s.',
-                DummyInvalidGatewayForTest::class,
-                GatewayInterface::class
+                'Class "%s" is a invalid easy-sms gateway.',
+                DummyInvalidGatewayForTest::class
             )
         );
         $easySms->gateway();
@@ -179,6 +186,10 @@ class EasySmsTest extends TestCase
         $this->assertSame('g', $gateways['foo']->get('f'));
         $this->assertSame('e', $gateways['bar']->get('c'));
     }
+}
+
+class DummyGatewayNotImplementsGatewayInterface
+{
 }
 
 class DummyGatewayForTest implements GatewayInterface

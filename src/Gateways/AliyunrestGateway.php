@@ -67,7 +67,7 @@ class AliyunrestGateway extends Gateway
 
         $result = $this->post($this->getEndpointUrl($urlParams), $params);
 
-        if (isset($result['error_response']) && $result['error_response']['code'] != 0) {
+        if (isset($result['error_response']) && 0 != $result['error_response']['code']) {
             throw new GatewayErrorException($result['error_response']['msg'], $result['error_response']['code'], $result);
         }
 
