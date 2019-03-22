@@ -55,7 +55,7 @@ class AliyunGateway extends Gateway
     {
         $data = $message->getData($this);
         
-        $signName = $data['sign_name'] ?? $config->get('sign_name')
+        $signName = $data['sign_name'] ?? $config->get('sign_name');
             
         unset($data['sign_name']);
 
