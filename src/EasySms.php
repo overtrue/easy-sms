@@ -227,7 +227,7 @@ class EasySms
         }
 
         if (!($gateway instanceof GatewayInterface)) {
-            throw new InvalidArgumentException(\sprintf('Gateway "%s" must be inherit from %s.', $name, GatewayInterface::class));
+            throw new InvalidArgumentException(\sprintf('Gateway "%s" must implement interface %s.', $name, GatewayInterface::class));
         }
 
         return $gateway;
