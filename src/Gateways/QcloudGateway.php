@@ -50,6 +50,11 @@ class QcloudGateway extends Gateway
         $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name', '');
 
         unset($data['sign_name']);
+        
+        $msg = $message->getContent($this);
+        if (!empty($msg) && mb_substr($msg, 0, 1) != '【' && !empty($signName)) {
+            $msg = '【' . $signName . '】' . $msg;
+        }
 
         $type = !empty($data['type']) ? $data['type'] : 0;
         $params = [
@@ -58,7 +63,7 @@ class QcloudGateway extends Gateway
                 'mobile' => $to->getNumber(),
             ],
             'type' => $type,
-            'msg' => $message->getContent($this),
+            'msg' => $msg,
             'time' => time(),
             'extend' => '',
             'ext' => '',
