@@ -66,7 +66,7 @@ class EasySmsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Class "%s" is a invalid easy-sms gateway.',
+                'Class "Overtrue\EasySms\Gateways\%sGateway" is a invalid easy-sms gateway.',
                 DummyInvalidGatewayForTest::class
             )
         );

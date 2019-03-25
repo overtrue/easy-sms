@@ -261,6 +261,10 @@ class EasySms
      */
     protected function formatGatewayClassName($name)
     {
+        if (\class_exists($name) && \in_array(GatewayInterface::class, \class_implements($name))) {
+            return $name;
+        }
+
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
         return __NAMESPACE__."\\Gateways\\{$name}Gateway";
