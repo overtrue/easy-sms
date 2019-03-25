@@ -261,10 +261,6 @@ class EasySms
      */
     protected function formatGatewayClassName($name)
     {
-        if (\class_exists($name)) {
-            return $name;
-        }
-
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
         return __NAMESPACE__."\\Gateways\\{$name}Gateway";
