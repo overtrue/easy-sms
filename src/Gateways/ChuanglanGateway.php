@@ -31,7 +31,12 @@ class ChuanglanGateway extends Gateway
      * URL模板
      */
     const ENDPOINT_URL_TEMPLATE = 'https://%s.253.com/msg/send/json';
-
+    
+    /**
+     * 国际短信
+     */
+    const INT_URL = "http://intapi.253.com/send/json";
+    
     /**
      * 验证码渠道code.
      */
@@ -60,8 +65,13 @@ class ChuanglanGateway extends Gateway
             'phone' => $to->getNumber(),
             'msg' => $this->wrapChannelContent($message->getContent($this), $config),
         ];
+        $IDDCode = !empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
 
-        $result = $this->postJson($this->buildEndpoint($config), $params);
+        if ($IDDCode != 86) {
+            $params['mobile'] = $to->getIDDCode() . $to->getNumber();
+        }
+
+        $result = $this->postJson($this->buildEndpoint($config, $IDDCode), $params);
 
         if (!isset($result['code']) || '0' != $result['code']) {
             throw new GatewayErrorException(json_encode($result, JSON_UNESCAPED_UNICODE), isset($result['code']) ? $result['code'] : 0, $result);
@@ -72,12 +82,13 @@ class ChuanglanGateway extends Gateway
 
     /**
      * @param Config $config
+     * @param int $idDCode
      *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    protected function buildEndpoint(Config $config)
+    protected function buildEndpoint(Config $config, $idDCode = 86)
     {
         $channel = $this->getChannel($config);
 
@@ -93,6 +104,9 @@ class ChuanglanGateway extends Gateway
      */
     protected function getChannel(Config $config)
     {
+        if ($idDCode != 86) {
+            return self::INT_URL;
+        }
         $channel = $config->get('channel', self::CHANNEL_VALIDATE_CODE);
 
         if (!in_array($channel, [self::CHANNEL_VALIDATE_CODE, self::CHANNEL_PROMOTION_CODE])) {
