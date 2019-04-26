@@ -153,7 +153,7 @@ class BaiduGateway extends Gateway
     /**
      * 根据 指定的 keys 过滤应该参与签名的 header.
      *
-     * @param array $headers
+     * @param array    $headers
      * @param string[] $keys
      *
      * @return array
