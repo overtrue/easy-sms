@@ -60,7 +60,7 @@ class ChuanglanGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $IDDCode = !empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
-        
+
         $params = [
             'account' => $config->get('account'),
             'password' => $config->get('password'),
