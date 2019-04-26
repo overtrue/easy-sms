@@ -267,7 +267,7 @@ class EasySms
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__."\\Gateways\\{$name}Gateway";
+        return __NAMESPACE__."\\Gateways\\{$name}gateway";
     }
 
     /**

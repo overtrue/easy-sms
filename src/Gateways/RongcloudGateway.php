@@ -35,7 +35,7 @@ class RongcloudGateway extends Gateway
 
     const ENDPOINT_FORMAT = 'json';
 
-    const ENDPOINT_REGION = '86';  // 中国区，目前只支持此国别
+    const ENDPOINT_REGION = '86'; // 中国区，目前只支持此国别
 
     const SUCCESS_CODE = 200;
 

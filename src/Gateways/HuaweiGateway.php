@@ -112,7 +112,7 @@ class HuaweiGateway extends Gateway
      * @param string $appKey
      * @param string $appSecret
      *
-     * @return array
+     * @return string
      */
     protected function getHeaders($appKey, $appSecret)
     {
