@@ -59,13 +59,14 @@ class ChuanglanGateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
+        $IDDCode = !empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
+        
         $params = [
             'account' => $config->get('account'),
             'password' => $config->get('password'),
             'phone' => $to->getNumber(),
-            'msg' => $this->wrapChannelContent($message->getContent($this), $config),
+            'msg' => $this->wrapChannelContent($message->getContent($this), $config, $IDDCode),
         ];
-        $IDDCode = !empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
 
         if (86 != $IDDCode) {
             $params['mobile'] = $to->getIDDCode().$to->getNumber();
@@ -82,30 +83,30 @@ class ChuanglanGateway extends Gateway
 
     /**
      * @param Config $config
-     * @param int    $idDCode
+     * @param int    $IDDCode
      *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    protected function buildEndpoint(Config $config, $idDCode = 86)
+    protected function buildEndpoint(Config $config, $IDDCode = 86)
     {
-        $channel = $this->getChannel($config, $idDCode);
+        $channel = $this->getChannel($config, $IDDCode);
 
         return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
     }
 
     /**
      * @param Config $config
-     * @param int    $idDCode
+     * @param int    $IDDCode
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
      */
-    protected function getChannel(Config $config, $idDCode)
+    protected function getChannel(Config $config, $IDDCode)
     {
-        if (86 != $idDCode) {
+        if (86 != $IDDCode) {
             return self::INT_URL;
         }
         $channel = $config->get('channel', self::CHANNEL_VALIDATE_CODE);
@@ -120,14 +121,15 @@ class ChuanglanGateway extends Gateway
     /**
      * @param string $content
      * @param Config $config
+     * @param int    $IDDCode
      *
      * @return string|string
      *
      * @throws InvalidArgumentException
      */
-    protected function wrapChannelContent($content, Config $config)
+    protected function wrapChannelContent($content, Config $config, $IDDCode)
     {
-        $channel = $this->getChannel($config);
+        $channel = $this->getChannel($config, $IDDCode);
 
         if (self::CHANNEL_PROMOTION_CODE == $channel) {
             $sign = (string) $config->get('sign', '');
