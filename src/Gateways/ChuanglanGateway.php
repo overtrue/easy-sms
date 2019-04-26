@@ -90,19 +90,20 @@ class ChuanglanGateway extends Gateway
      */
     protected function buildEndpoint(Config $config, $idDCode = 86)
     {
-        $channel = $this->getChannel($config);
+        $channel = $this->getChannel($config, $idDCode);
 
         return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
     }
 
     /**
      * @param Config $config
+     * @param int    $idDCode
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
      */
-    protected function getChannel(Config $config)
+    protected function getChannel(Config $config, $idDCode)
     {
         if (86 != $idDCode) {
             return self::INT_URL;
