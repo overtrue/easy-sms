@@ -56,9 +56,9 @@ trait HasHttpRequest
     /**
      * Make a post request with json params.
      *
-     * @param       string $endpoint
-     * @param array $params
-     * @param array $headers
+     * @param string $endpoint
+     * @param array  $params
+     * @param array  $headers
      *
      * @return array
      */
