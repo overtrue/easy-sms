@@ -56,7 +56,7 @@ class BaiduGateway extends Gateway
             'contentVar' => $message->getData($this),
         ];
 
-        $datetime = date('Y-m-d\TH:i:s\Z');
+        $datetime = gmdate('Y-m-d\TH:i:s\Z');
 
         $headers = [
             'host' => self::ENDPOINT_HOST,
