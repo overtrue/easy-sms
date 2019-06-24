@@ -52,6 +52,12 @@
 $ composer require "overtrue/easy-sms"
 ```
 
+**For Laravel notification**
+
+如果你喜欢使用 [Laravel Notification](https://laravel.com/docs/5.8/notifications), 可以考虑直接使用朋友封装的拓展包：
+
+https://github.com/yangliulnn/easysms-notification-channel
+
 ## 使用
 
 ```php
