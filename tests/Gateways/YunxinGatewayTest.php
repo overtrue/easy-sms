@@ -48,12 +48,12 @@ class YunxinGatewayTest extends TestCase
             ->andReturn('mock-params');
 
         $gateway->shouldReceive('post')
-            ->with('https://api.netease.im/sms/sendcode.action',  'mock-params', 'mock-headers')
+            ->with('https://api.netease.im/sms/sendcode.action', 'mock-params', 'mock-headers')
             ->andReturn([
                 'code' => 200,
                 'msg' => 5,
                 'obj' => 6379,
-            ],[
+            ], [
                 'code' => 414,
                 'msg' => 'checksum',
             ])
@@ -103,10 +103,10 @@ class YunxinGatewayTest extends TestCase
             ->andReturn('mock-params');
 
         $gateway->shouldReceive('post')
-            ->with('https://api.netease.im/sms/verifycode.action',  'mock-params', 'mock-headers')
+            ->with('https://api.netease.im/sms/verifycode.action', 'mock-params', 'mock-headers')
             ->andReturn([
                 'code' => 200,
-            ],[
+            ], [
                 'code' => 414,
                 'msg' => 'checksum',
             ])
@@ -188,7 +188,7 @@ class YunxinGatewayTest extends TestCase
             'template' => 'mock-template-code',
             'data' => [
                 'code' => '123456',
-                'device_id' => 'mock-device-id'
+                'device_id' => 'mock-device-id',
             ],
         ]);
 

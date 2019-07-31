@@ -38,8 +38,8 @@ class YunxinGateway extends Gateway
      * Send a short message.
      *
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
@@ -56,9 +56,11 @@ class YunxinGateway extends Gateway
         switch ($action) {
             case 'sendCode':
                 $params = $this->buildSendCodeParams($to, $message, $config);
+
                 break;
             case 'verifyCode':
                 $params = $this->buildVerifyCodeParams($to, $message);
+
                 break;
             default:
                 throw new GatewayErrorException(sprintf('action: %s not supported', $action), 0);
@@ -72,6 +74,7 @@ class YunxinGateway extends Gateway
             if (!isset($result['code']) || self::SUCCESS_CODE !== $result['code']) {
                 $code = isset($result['code']) ? $result['code'] : 0;
                 $error = isset($result['msg']) ? $result['msg'] : json_encode($result, JSON_UNESCAPED_UNICODE);
+
                 throw new GatewayErrorException($error, $code);
             }
         } catch (\Exception $e) {
@@ -115,8 +118,8 @@ class YunxinGateway extends Gateway
 
     /**
      * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
-     * @param Config $config
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      */
@@ -137,7 +140,7 @@ class YunxinGateway extends Gateway
 
     /**
      * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
+     * @param MessageInterface     $message
      *
      * @return array
      *
