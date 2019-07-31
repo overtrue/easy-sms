@@ -41,6 +41,7 @@
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 - [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
+- [网易云信](https://yunxin.163.com/sms)
 
 ## 环境需求
 
@@ -566,6 +567,29 @@ $easySms->send(13188888888, [
     'data' => [
         6379,
         'from' => 'custom' // 对应 config 中的 from 数组中 custom
+    ],
+]);
+```
+
+### [网易云信](https://yunxin.163.com/sms)
+
+短信内容使用 `template` + `data`
+
+```php
+    'yunxin' => [
+        'app_key' => '',
+        'app_secret' => '',
+        'code_length' => 4, // 随机验证码长度，范围 4～10，默认为 4
+        'need_up' => false, // 是否需要支持短信上行
+    ],
+```
+
+```php
+$easySms->send(18598270525, [
+    'template' => 'SMS_001',    // 不填则使用默认模板
+    'data' => [
+        'code' => 8946, // 如果设置了该参数，则 code_length 参数无效
+        'action' => 'sendCode', // 默认为 `sendCode`，校验短信验证码使用 `verifyCode`
     ],
 ]);
 ```
