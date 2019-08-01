@@ -186,6 +186,21 @@ class EasySmsTest extends TestCase
         $this->assertSame('g', $gateways['foo']->get('f'));
         $this->assertSame('e', $gateways['bar']->get('c'));
     }
+
+    public function testCreateGatewayWithDefaultTimeout()
+    {
+        $easySms = new EasySms([
+            'timeout' => 10.0,
+        ]);
+
+        $gateway = $easySms->gateway('aliyun');
+
+        $this->assertSame(10.0, $gateway->getTimeout());
+
+        $gateway->setTimeout(9.0);
+
+        $this->assertSame(9.0, $gateway->getTimeout());
+    }
 }
 
 class DummyGatewayNotImplementsGatewayInterface

@@ -17,6 +17,7 @@ use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Contracts\StrategyInterface;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
+use Overtrue\EasySms\Gateways\Gateway;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 use Overtrue\EasySms\Support\Config;
 use RuntimeException;
@@ -223,7 +224,13 @@ class EasySms
             $gateway = $this->callCustomCreator($name);
         } else {
             $className = $this->formatGatewayClassName($name);
-            $gateway = $this->makeGateway($className, $this->config->get("gateways.{$name}", []));
+            $config = $this->config->get("gateways.{$name}", []);
+
+            if (!isset($config['timeout'])) {
+                $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
+            }
+
+            $gateway = $this->makeGateway($className, $config);
         }
 
         if (!($gateway instanceof GatewayInterface)) {
