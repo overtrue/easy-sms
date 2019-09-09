@@ -142,11 +142,11 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param array $data
+     * @param array|callable $data
      *
      * @return $this
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
 
