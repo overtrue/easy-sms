@@ -130,10 +130,21 @@ class EasySmsTest extends TestCase
             'template' => function () {
                 return 'template';
             },
+            'data' => function () {
+                return ['foo' => 'bar'];
+            },
         ]);
 
         $this->assertSame('content', $message->getContent());
         $this->assertSame('template', $message->getTemplate());
+        $this->assertSame(['foo' => 'bar'], $message->getData());
+
+        $func = function () {
+            return ['a' => 'b'];
+        };
+
+        $this->assertSame(['a' => 'b'], $message->setData($func)->getData());
+        $this->assertSame(['c' => 'd'], $message->setData(['c' => 'd'])->getData());
     }
 
     public function testGetMessenger()
