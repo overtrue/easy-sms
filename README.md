@@ -42,6 +42,7 @@
 - [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
+- [云之讯](https://www.ucpaas.com/index.html)
 
 ## 环境需求
 
@@ -585,11 +586,34 @@ $easySms->send(13188888888, [
 ```
 
 ```php
-$easySms->send(18598270525, [
+$easySms->send(18888888888, [
     'template' => 'SMS_001',    // 不填则使用默认模板
     'data' => [
         'code' => 8946, // 如果设置了该参数，则 code_length 参数无效
         'action' => 'sendCode', // 默认为 `sendCode`，校验短信验证码使用 `verifyCode`
+    ],
+]);
+```
+
+### [云之讯](https://www.ucpaas.com/index.html)
+
+短信内容使用 `template` + `data`
+
+```php
+    'yunzhixun' => [
+        'sid' => '',
+        'token' => '',
+        'app_id' => '',
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_001',
+    'data' => [
+        'params' => '8946,3',   // 模板参数，多个参数使用 `,` 分割，模板无参数时可为空
+        'uid' => 'hexianghui',  // 用户 ID，随状态报告返回，可为空
+        'mobiles' => '18888888888,188888888889',    // 批量发送短信，手机号使用 `,` 分割，不使用批量发送请不要设置该参数
     ],
 ]);
 ```
