@@ -461,6 +461,10 @@ $easySms->send(13188888888, $message);
     'chuanglan' => [
         'account' => '',
         'password' => '',
+        
+        // 国际短信时必填
+        'intel_account' => '',
+        'intel_password' => '',
 
         // \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_VALIDATE_CODE  => 验证码通道（默认）
         // \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_PROMOTION_CODE => 会员营销通道
