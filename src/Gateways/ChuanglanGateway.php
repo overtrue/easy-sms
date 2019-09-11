@@ -93,6 +93,10 @@ class ChuanglanGateway extends Gateway
     {
         $channel = $this->getChannel($config, $IDDCode);
 
+        if ($channel === self::INT_URL) {
+            return $channel;
+        }
+
         return sprintf(self::ENDPOINT_URL_TEMPLATE, $channel);
     }
 
