@@ -70,6 +70,8 @@ class ChuanglanGateway extends Gateway
 
         if (86 != $IDDCode) {
             $params['mobile'] = $to->getIDDCode().$to->getNumber();
+            $params['account'] = $config->get('intel_account');
+            $params['password'] = $config->get('intel_password');
         }
 
         $result = $this->postJson($this->buildEndpoint($config, $IDDCode), $params);
