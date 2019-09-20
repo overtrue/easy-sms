@@ -35,7 +35,7 @@ class KingttoGateway extends Gateway
      * @param MessageInterface     $message
      * @param Config               $config
      *
-     * @return array
+     * @return \Psr\Http\Message\ResponseInterface|array|string
      *
      * @throws GatewayErrorException
      */
