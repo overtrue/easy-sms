@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -14,43 +23,43 @@ class KingttoGatewayTest extends TestCase
     public function testSend()
     {
         $config = [
-            'userid'   => 'mock-id',
-            'account'  => 'mock-account',
+            'userid' => 'mock-id',
+            'account' => 'mock-account',
             'password' => 'mock-password',
         ];
 
-        $gateway = \Mockery::mock(KingttoGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(KingttoGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $params = [
-            'action'   => KingttoGateway::ENDPOINT_METHOD,
-            'userid'   => 'mock-id',
-            'account'  => 'mock-account',
+            'action' => KingttoGateway::ENDPOINT_METHOD,
+            'userid' => 'mock-id',
+            'account' => 'mock-account',
             'password' => 'mock-password',
-            'mobile'   => '18888888888',
-            'content'  => '【molin】This is a test message.',
+            'mobile' => '18888888888',
+            'content' => '【molin】This is a test message.',
         ];
 
         $gateway->shouldReceive('post')->with(KingttoGateway::ENDPOINT_URL, $params)
             ->andReturn([
-                "returnstatus"  => "Success",
-                "message"       => "ok",
-                "remainpoint"   => "56832",
-                "taskID"        => "106470408",
-                "successCounts" => "1",
+                'returnstatus' => 'Success',
+                'message' => 'ok',
+                'remainpoint' => '56832',
+                'taskID' => '106470408',
+                'successCounts' => '1',
             ], [
-                "returnstatus"  => "Faild",
-                "message"       => "mock-message",
-                "remainpoint"   => "0",
-                "taskID"        => "0",
-                "successCounts" => "0",
+                'returnstatus' => 'Faild',
+                'message' => 'mock-message',
+                'remainpoint' => '0',
+                'taskID' => '0',
+                'successCounts' => '0',
             ])->times(2);
 
         $this->assertSame([
-            "returnstatus"  => "Success",
-            "message"       => "ok",
-            "remainpoint"   => "56832",
-            "taskID"        => "106470408",
-            "successCounts" => "1",
+            'returnstatus' => 'Success',
+            'message' => 'ok',
+            'remainpoint' => '56832',
+            'taskID' => '106470408',
+            'successCounts' => '1',
         ], $gateway->send(new PhoneNumber('18888888888'), new Message([
             'content' => '【molin】This is a test message.',
         ]), new Config($config)));
