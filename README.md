@@ -43,6 +43,7 @@
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
 - [云之讯](https://www.ucpaas.com/index.html)
+- [凯信通](http://www.kingtto.cn/)
 
 ## 环境需求
 
@@ -514,7 +515,7 @@ $easySms->send(13188888888, $message);
 
 ### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
-短信内容使用 `content`。
+短信内容使用 `content`
 
 ```php
     'qcloud' => [
@@ -619,6 +620,24 @@ $easySms->send(18888888888, [
         'uid' => 'hexianghui',  // 用户 ID，随状态报告返回，可为空
         'mobiles' => '18888888888,188888888889',    // 批量发送短信，手机号使用 `,` 分割，不使用批量发送请不要设置该参数
     ],
+]);
+```
+
+### [凯信通](http://www.kingtto.cn/)
+
+短信内容使用 `content`
+
+```php
+    'kingtto'  => [
+        'userid'   => '',
+        'account'  => '',
+        'password' => '',
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'content'  => '您的验证码为: 6379',
 ]);
 ```
 
