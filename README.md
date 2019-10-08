@@ -44,6 +44,7 @@
 - [网易云信](https://yunxin.163.com/sms)
 - [云之讯](https://www.ucpaas.com/index.html)
 - [凯信通](http://www.kingtto.cn/)
+- [UE35.net](http://uesms.ue35.cn/)
 
 ## 环境需求
 
@@ -211,7 +212,7 @@ $easySms->send(13188888888, [
 $e->getResults();               // 返回所有 API 的结果，结构同上
 $e->getExceptions();            // 返回所有调用异常列表
 $e->getException($gateway);     // 返回指定网关名称的异常对象
-$e->getLastException();         // 获取最后一个失败的异常对象 
+$e->getLastException();         // 获取最后一个失败的异常对象
 ```
 
 ## 自定义网关
@@ -292,7 +293,7 @@ class OrderPaidMessage extends Message
     // 定义直接使用内容发送平台的内容
     public function getContent(GatewayInterface $gateway = null)
     {
-        return sprintf('您的订单:%s, 已经完成付款', $this->order->no);    
+        return sprintf('您的订单:%s, 已经完成付款', $this->order->no);
     }
 
     // 定义使用模板发送方式平台所需要的模板 ID
@@ -305,8 +306,8 @@ class OrderPaidMessage extends Message
     public function getData(GatewayInterface $gateway = null)
     {
         return [
-            'order_no' => $this->order->no    
-        ];    
+            'order_no' => $this->order->no
+        ];
     }
 }
 ```
@@ -462,18 +463,18 @@ $easySms->send(13188888888, $message);
     'chuanglan' => [
         'account' => '',
         'password' => '',
-        
+
         // 国际短信时必填
         'intel_account' => '',
         'intel_password' => '',
 
         // \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_VALIDATE_CODE  => 验证码通道（默认）
         // \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_PROMOTION_CODE => 会员营销通道
-        'channel'  => \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_VALIDATE_CODE, 
+        'channel'  => \Overtrue\EasySms\Gateways\ChuanglanGateway::CHANNEL_VALIDATE_CODE,
 
         // 会员营销通道 特定参数。创蓝规定：api提交营销短信的时候，需要自己加短信的签名及退订信息
         'sign' => '【通讯云】',
-        'unsubscribe' => '回TD退订', 
+        'unsubscribe' => '回TD退订',
     ],
 ```
 
@@ -502,7 +503,7 @@ $easySms->send(13188888888, $message);
 
 ### [twilio](https://www.twilio.com)
 
-短信使用 `content`  
+短信使用 `content`
 发送对象需要 使用`+`添加区号
 
 ```php
