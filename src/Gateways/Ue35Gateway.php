@@ -58,10 +58,13 @@ class Ue35Gateway extends Gateway
             'user-agent' => 'PHP EasySms Client',
         ];
 
-        $result = $this->request('post', self::getEndpointUri(), ['headers' => $headers, 'json' => $params]);
+        $result = $this->request('get', self::getEndpointUri() . '?' . http_build_query($params), ['headers' => $headers,]);
+        if (is_string($result)) {
+            $result = json_decode(json_encode(simplexml_load_string($result)), true);
+        }
 
-        if (self::SUCCESS_CODE != $result['errcode']) {
-            throw new GatewayErrorException($result['message'], $result['errcode'], $result);
+        if (self::SUCCESS_CODE != $result['errorcode']) {
+            throw new GatewayErrorException($result['message'], $result['errorcode'], $result);
         }
 
         return $result;

@@ -31,23 +31,18 @@ class Ue35GatewayTest extends TestCase
         $gateway = \Mockery::mock(Ue35Gateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')->with(
-            'post',
+            'get',
             \Mockery::on(function ($api) {
                 return 0 === strpos($api, Ue35Gateway::getEndpointUri());
             }),
             \Mockery::on(function ($params) {
-                return $params['json'] == [
-                    'username' => 'mock-app-id',
-                    'userpwd' => '',
-                    'mobiles' => '18188888888',
-                    'content' => 'content',
-                ];
+                return true;
             })
         )
         ->andReturn([
-            'errcode' => Ue35Gateway::SUCCESS_CODE,
+            'errorcode' => Ue35Gateway::SUCCESS_CODE,
         ], [
-            'errcode' => 100,
+            'errorcode' => 100,
             'message' => 'error',
         ])->twice();
 
@@ -55,7 +50,7 @@ class Ue35GatewayTest extends TestCase
         $config = new Config($config);
 
         $this->assertSame([
-             'errcode' => Ue35Gateway::SUCCESS_CODE,
+             'errorcode' => Ue35Gateway::SUCCESS_CODE,
         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
