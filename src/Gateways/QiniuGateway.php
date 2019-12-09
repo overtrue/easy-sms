@@ -129,6 +129,7 @@ class QiniuGateway extends Gateway
         }
 
         $hmac = hash_hmac('sha1', $toSignStr, $config->get('secret_key'), true);
+
         return 'Qiniu '.$config->get('access_key').':'.$this->base64UrlSafeEncode($hmac);
     }
 
@@ -141,6 +142,7 @@ class QiniuGateway extends Gateway
     {
         $find = array('+', '/');
         $replace = array('-', '_');
+
         return str_replace($find, $replace, base64_encode($data));
     }
 }
