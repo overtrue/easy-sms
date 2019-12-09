@@ -51,7 +51,6 @@ class QiniuGatewayTest extends TestCase
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(401);
         $this->expectExceptionMessage('Your authorization token is invalid');
 
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
