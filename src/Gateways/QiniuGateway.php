@@ -116,7 +116,7 @@ class QiniuGateway extends Gateway
         //write host and port
         $toSignStr .= "\nHost: ".$host;
         if (!empty($port)) {
-            $toSignStr .= ":".$port;
+            $toSignStr .= ':'.$port;
         }
         //write content type
         if (!empty($contentType)) {
@@ -129,7 +129,7 @@ class QiniuGateway extends Gateway
         }
 
         $hmac = hash_hmac('sha1', $toSignStr, $config->get('secret_key'), true);
-        return 'Qiniu ' . $config->get('access_key').':'.$this->base64UrlSafeEncode($hmac);
+        return 'Qiniu '.$config->get('access_key').':'.$this->base64UrlSafeEncode($hmac);
     }
 
     /**

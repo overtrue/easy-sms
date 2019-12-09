@@ -20,7 +20,6 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class QiniuGatewayTest extends TestCase
 {
-
     public function testSend()
     {
         $config = [
