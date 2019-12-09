@@ -55,7 +55,7 @@ class QiniuGateway extends Gateway
         }
 
         $headers = [
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ];
 
         $headers['Authorization'] = $this->generateSign($endpoint, 'POST', json_encode($params), $headers['Content-Type'], $config);
@@ -109,18 +109,18 @@ class QiniuGateway extends Gateway
             $query = '';
         }
         //write request uri
-        $toSignStr = $method . ' ' . $path;
+        $toSignStr = $method.' '.$path;
         if (!empty($query)) {
-            $toSignStr .= '?' . $query;
+            $toSignStr .= '?'.$query;
         }
         //write host and port
-        $toSignStr .= "\nHost: " . $host;
+        $toSignStr .= "\nHost: ".$host;
         if (!empty($port)) {
-            $toSignStr .= ":" . $port;
+            $toSignStr .= ":".$port;
         }
         //write content type
         if (!empty($contentType)) {
-            $toSignStr .= "\nContent-Type: " . $contentType;
+            $toSignStr .= "\nContent-Type: ".$contentType;
         }
         $toSignStr .= "\n\n";
         //write body
@@ -129,7 +129,7 @@ class QiniuGateway extends Gateway
         }
 
         $hmac = hash_hmac('sha1', $toSignStr, $config->get('secret_key'), true);
-        return 'Qiniu ' . $config->get('access_key') . ':' . $this->base64UrlSafeEncode($hmac);
+        return 'Qiniu ' . $config->get('access_key').':'.$this->base64UrlSafeEncode($hmac);
     }
 
     /**

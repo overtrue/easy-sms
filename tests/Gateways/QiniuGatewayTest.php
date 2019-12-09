@@ -27,7 +27,7 @@ class QiniuGatewayTest extends TestCase
             'secret_key' => 'mock-secrey-key',
             'access_key' => 'mock-access-key',
         ];
-        $gateway = \Mockery::mock(QiniuGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(QiniuGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn([
