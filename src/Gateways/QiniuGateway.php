@@ -89,7 +89,7 @@ class QiniuGateway extends Gateway
      * @param string $method
      * @param string $body
      * @param string $contentType
-     * @param string $config
+     * @param Config $config
      *
      * @return string
      */
