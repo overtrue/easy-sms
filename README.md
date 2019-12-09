@@ -44,6 +44,7 @@
 - [网易云信](https://yunxin.163.com/sms)
 - [云之讯](https://www.ucpaas.com/index.html)
 - [凯信通](http://www.kingtto.cn/)
+- [七牛云](https://www.qiniu.com/)
 
 ## 环境需求
 
@@ -638,6 +639,26 @@ $easySms->send(18888888888, [
 ```php
 $easySms->send(18888888888, [
     'content'  => '您的验证码为: 6379',
+]);
+```
+
+### [七牛云](https://www.qiniu.com/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'qiniu' => [
+        'secret_key' => '',
+        'access_key' => '',
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '1231234123412341234',
+    'data' => [
+        'code' => 1234,
+    ],
 ]);
 ```
 
