@@ -37,12 +37,19 @@ class MandaoGatewayTest extends TestCase
             'stime' => '',
             'rrid' => '',
             'msgfmt' => '',
-            'pwd' => 'CDD24B059852DD5A6D766AF2D6568ECD'
+            'pwd' => 'CDD24B059852DD5A6D766AF2D6568ECD',
         ];
         $gateway->shouldReceive('post')->with('http://sdk.entinfo.cn:8061/webservice.asmx/mdsmssend', \Mockery::subset($params))
             ->andReturn([192989232], [-21])->times(2);
 
-        $message = new Message(['content' => 'This is a test message.']);
+        $message = new Message([
+            'content' => 'This is a test message.',
+            'data' => [
+                'stime' => '',
+                'rrid' => '',
+                'msgfmt' => '',
+            ],
+        ]);
         $config = new Config($config);
 
         $this->assertSame([192989232], $gateway->send(new PhoneNumber(18188888888), $message, $config));
