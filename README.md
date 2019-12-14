@@ -45,6 +45,7 @@
 - [云之讯](https://www.ucpaas.com/index.html)
 - [凯信通](http://www.kingtto.cn/)
 - [七牛云](https://www.qiniu.com/)
+- [漫道](http://www.zucp.net/)
 
 ## 环境需求
 
@@ -660,6 +661,18 @@ $easySms->send(18888888888, [
         'code' => 1234,
     ],
 ]);
+```
+
+### [漫道](http://www.zucp.net)
+
+短信内容使用 `content`
+
+```php
+    'mandao' => [
+        'sn' => '',
+        'password' => '',
+        'ext' => '扩展码',
+    ],
 ```
 
 ## PHP 扩展包开发
