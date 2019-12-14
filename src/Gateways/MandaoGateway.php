@@ -17,7 +17,6 @@ use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
-
 class MandaoGateway extends Gateway
 {
     use HasHttpRequest;
@@ -56,7 +55,6 @@ class MandaoGateway extends Gateway
         return $result;
     }
 
-
     /**
      * Generate Sign.
      *
@@ -64,11 +62,12 @@ class MandaoGateway extends Gateway
      */
     protected function generateSign()
     {
-        return strtoupper(md5($this->config->get('sn') . $this->config->get('password')));
+        return strtoupper(md5($this->config->get('sn').$this->config->get('password')));
     }
 
     /**
-     * 错误对照
+     * 错误对照.
+     *
      * @param $code
      * @return mixed|string
      */
@@ -106,7 +105,7 @@ class MandaoGateway extends Gateway
             '-623' => '手机个数与内容个数不匹配',
             '-624' => '扩展个数与手机个数不匹配',
             '-625' => '定时时间个数与手机个数不匹配',
-            '-626' => 'rrid个数与手机个数不匹配'
+            '-626' => 'rrid个数与手机个数不匹配',
         ];
         if (isset($error[$code])) {
             return $error[$code];
