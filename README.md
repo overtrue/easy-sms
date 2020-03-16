@@ -46,6 +46,7 @@
 - [凯信通](http://www.kingtto.cn/)
 - [七牛云](https://www.qiniu.com/)
 - [UE35.net](http://uesms.ue35.cn/)
+- [Ucloud](https://www.ucloud.cn)
 
 ## 环境需求
 
@@ -661,6 +662,28 @@ $easySms->send(18888888888, [
         'code' => 1234,
     ],
 ]);
+```
+### [Ucloud](https://www.ucloud.cn/)
+短信使用 `template` + `data`
+
+```php
+  'ucloud' => [
+        'private_key'  => '',    //私钥
+        'public_key'   => '',    //公钥
+        ’sig_content‘  => '',    // 短信签名,
+        'project_id'   => '',    //项目ID,子账号才需要该参数
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'UTAXXXXX',       //短信模板
+    'data' => [
+        'code' => 1234,     //模板参数，模板没有参数不用则填写，有多个参数请用数组，[1111,1111]
+        'mobiles' =>'',     //同时发送多个手机短信，请用数组[xxx,xxx]
+    ],
+]);
+
 ```
 
 ## PHP 扩展包开发
