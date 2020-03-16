@@ -27,9 +27,9 @@ class UcloudGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = "https://api.ucloud.cn";
+    const ENDPOINT_URL = 'https://api.ucloud.cn';
 
-    const ENDPOINT_Action = "SendUSMSMessage";
+    const ENDPOINT_Action = 'SendUSMSMessage';
 
     const SUCCESS_CODE = 0;
 
@@ -37,8 +37,10 @@ class UcloudGateway extends Gateway
      * Send message.
      *
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config $config
+     *
+     *
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
@@ -62,8 +64,8 @@ class UcloudGateway extends Gateway
      * @param PhoneNumberInterface $to
      *
      *
-     * @param MessageInterface $message
-     * @param Config $config
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      */
@@ -93,7 +95,7 @@ class UcloudGateway extends Gateway
         if (!empty($mobiles) && !is_null($mobiles)) {
             if (is_array($mobiles)) {
                 foreach ($mobiles as $key => $value) {
-                    $params['PhoneNumbers.' . $key] = $value;
+                    $params['PhoneNumbers.'.$key] = $value;
                 }
             } else {
                 $params['PhoneNumbers.0'] = $mobiles;
@@ -118,6 +120,7 @@ class UcloudGateway extends Gateway
     /**
      * @param $params
      * @param $private_key
+     *
      * @return string
      */
     protected function getSignature($params, $private_key)
@@ -133,5 +136,6 @@ class UcloudGateway extends Gateway
 
         return sha1($params_data);
     }
+
 
 }
