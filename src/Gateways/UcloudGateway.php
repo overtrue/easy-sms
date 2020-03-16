@@ -1,10 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2020/3/16
- * Time: 16:03
+
+/*
+ * This file is part of the overtrue/easy-sms.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
+
 
 namespace Overtrue\EasySms\Gateways;
 
@@ -15,23 +19,30 @@ use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
+/**
+ * Class UcloudGateway
+ * @package Overtrue\EasySms\Gateways
+ */
 class UcloudGateway extends Gateway
 {
     use HasHttpRequest;
 
     const ENDPOINT_URL = "https://api.ucloud.cn";
+
     const ENDPOINT_Action = "SendUSMSMessage";
+
     const SUCCESS_CODE = 0;
 
     /**
-     * Send a short message.
+     * Send message.
      *
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
      * @param \Overtrue\EasySms\Contracts\MessageInterface $message
      * @param \Overtrue\EasySms\Support\Config $config
      *
      * @return array
-     * @throws GatewayErrorException
+     *
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -42,14 +53,18 @@ class UcloudGateway extends Gateway
         if (self::SUCCESS_CODE != $result['RetCode']) {
             throw new GatewayErrorException($result['Message'], $result['RetCode'], $result);
         }
+
         return $result;
     }
 
 
     /**
      * @param PhoneNumberInterface $to
+     *
+     *
      * @param MessageInterface $message
      * @param Config $config
+     *
      * @return array
      */
     protected function buildParams(PhoneNumberInterface $to, MessageInterface $message, Config $config)
@@ -64,11 +79,13 @@ class UcloudGateway extends Gateway
         $code = isset($data['code']) ? $data['code'] : '';
         if (is_array($code) && !empty($code)) {
             foreach ($code as $key => $value) {
-                $params['TemplateParams.' . $key] = $value;
+
+                $params['PhoneNumbers.'.$key] = $value;
             }
         } else {
             if (!empty($code) || !is_null($code)) {
                 $params['TemplateParams.0'] = $code;
+
             }
         }
 
@@ -94,6 +111,7 @@ class UcloudGateway extends Gateway
 
         $signature = $this->getSignature($params, $config->get('private_key'));
         $params['Signature'] = $signature;
+
         return $params;
     }
 
@@ -105,12 +123,15 @@ class UcloudGateway extends Gateway
     protected function getSignature($params, $private_key)
     {
         ksort($params);
-        $params_data = "";
+
+        $params_data = '';
         foreach ($params as $key => $value) {
             $params_data .= $key;
             $params_data .= $value;
         }
         $params_data .= $private_key;
+
         return sha1($params_data);
     }
+
 }
