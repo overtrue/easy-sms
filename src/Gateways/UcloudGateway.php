@@ -9,9 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-
 namespace Overtrue\EasySms\Gateways;
-
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
@@ -20,8 +18,7 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class UcloudGateway
- * @package Overtrue\EasySms\Gateways
+ * Class UcloudGateway.
  */
 class UcloudGateway extends Gateway
 {
@@ -35,12 +32,6 @@ class UcloudGateway extends Gateway
 
     /**
      * Send message.
-     *
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     *
-     *
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
@@ -59,14 +50,7 @@ class UcloudGateway extends Gateway
         return $result;
     }
 
-
     /**
-     * @param PhoneNumberInterface $to
-     *
-     *
-     * @param MessageInterface     $message
-     * @param Config               $config
-     *
      * @return array
      */
     protected function buildParams(PhoneNumberInterface $to, MessageInterface $message, Config $config)
@@ -81,13 +65,11 @@ class UcloudGateway extends Gateway
         $code = isset($data['code']) ? $data['code'] : '';
         if (is_array($code) && !empty($code)) {
             foreach ($code as $key => $value) {
-
                 $params['PhoneNumbers.'.$key] = $value;
             }
         } else {
             if (!empty($code) || !is_null($code)) {
                 $params['TemplateParams.0'] = $code;
-
             }
         }
 
@@ -99,13 +81,10 @@ class UcloudGateway extends Gateway
                 }
             } else {
                 $params['PhoneNumbers.0'] = $mobiles;
-
             }
         } else {
             $params['PhoneNumbers.0'] = $to->getNumber();
-
         }
-
 
         if (!is_null($config->get('project_id')) && !empty($config->get('project_id'))) {
             $params['ProjectId'] = $config->get('project_id');
@@ -136,6 +115,4 @@ class UcloudGateway extends Gateway
 
         return sha1($params_data);
     }
-
-
 }

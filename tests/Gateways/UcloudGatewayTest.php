@@ -19,8 +19,7 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
 /**
- * Class UcloudGatewayTest
- * @package Overtrue\EasySms\Tests\Gateways
+ * Class UcloudGatewayTest.
  */
 class UcloudGatewayTest extends TestCase
 {
@@ -56,8 +55,7 @@ class UcloudGatewayTest extends TestCase
             'data' => [
                 'code' => '', // 如果是多个参数可以用数组
                 'mobiles' => '', //同时发送多个手机也可以用数组来,[1111111,11111]
-
-            ]
+            ],
         ]);
         $config = new Config($config);
 
