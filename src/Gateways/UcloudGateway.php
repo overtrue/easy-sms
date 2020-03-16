@@ -65,7 +65,7 @@ class UcloudGateway extends Gateway
         $code = isset($data['code']) ? $data['code'] : '';
         if (is_array($code) && !empty($code)) {
             foreach ($code as $key => $value) {
-                $params['PhoneNumbers.'.$key] = $value;
+                $params['TemplateParams.'.$key] = $value;
             }
         } else {
             if (!empty($code) || !is_null($code)) {
