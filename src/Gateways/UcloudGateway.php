@@ -31,11 +31,15 @@ class UcloudGateway extends Gateway
     const SUCCESS_CODE = 0;
 
     /**
-     * Send message.
+     * Send Message
+     *
+     * @param PhoneNumberInterface      $to
+     * @param MessageInterface          $message
+     * @param Config                    $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -51,6 +55,12 @@ class UcloudGateway extends Gateway
     }
 
     /**
+     * Build Params.
+     *
+     * @param PhoneNumberInterface          $to
+     * @param MessageInterface              $message
+     * @param Config                        $config
+     *
      * @return array
      */
     protected function buildParams(PhoneNumberInterface $to, MessageInterface $message, Config $config)
@@ -97,22 +107,24 @@ class UcloudGateway extends Gateway
     }
 
     /**
-     * @param $params
-     * @param $private_key
+     * Generate Sign.
+     *
+     * @param array  $params
+     * @param string $privateKey
      *
      * @return string
      */
-    protected function getSignature($params, $private_key)
+    protected function getSignature($params, $privateKey)
     {
         ksort($params);
 
-        $params_data = '';
+        $paramsData = '';
         foreach ($params as $key => $value) {
-            $params_data .= $key;
-            $params_data .= $value;
+            $paramsData .= $key;
+            $paramsData .= $value;
         }
-        $params_data .= $private_key;
+        $paramsData .= $privateKey;
 
-        return sha1($params_data);
+        return sha1($paramsData);
     }
 }
