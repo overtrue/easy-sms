@@ -211,7 +211,8 @@ class YunzhixunGatewayTest extends TestCase
                 [
                     'code' => 100001,
                     'mock-error-msg',
-                ], [
+                ],
+                [
                     'code' => YunzhixunGateway::SUCCESS_CODE,
                     'msg' => 'mock-success-msg',
                 ]

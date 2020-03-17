@@ -137,7 +137,12 @@ class HuaweiGateway extends Gateway
         $nonce = uniqid();
         $passwordDigest = base64_encode(hash('sha256', ($nonce.$now.$appSecret)));
 
-        return sprintf('UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
-            $appKey, $passwordDigest, $nonce, $now);
+        return sprintf(
+            'UsernameToken Username="%s",PasswordDigest="%s",Nonce="%s",Created="%s"',
+            $appKey,
+            $passwordDigest,
+            $nonce,
+            $now
+        );
     }
 }

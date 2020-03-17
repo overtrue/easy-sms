@@ -46,7 +46,8 @@ class HuaweiGatewayTest extends TestCase
         $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
-            ->with('post',
+            ->with(
+                'post',
                 \Mockery::on(function ($endpoint) use ($config) {
                     return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
                 }),
@@ -107,7 +108,8 @@ class HuaweiGatewayTest extends TestCase
         $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
-            ->with('post',
+            ->with(
+                'post',
                 \Mockery::on(function ($endpoint) use ($config) {
                     return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
                 }),
