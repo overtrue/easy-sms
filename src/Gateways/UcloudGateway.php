@@ -31,11 +31,11 @@ class UcloudGateway extends Gateway
     const SUCCESS_CODE = 0;
 
     /**
-     * Send Message
+     * Send Message.
      *
-     * @param PhoneNumberInterface      $to
-     * @param MessageInterface          $message
-     * @param Config                    $config
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      *
@@ -57,9 +57,9 @@ class UcloudGateway extends Gateway
     /**
      * Build Params.
      *
-     * @param PhoneNumberInterface          $to
-     * @param MessageInterface              $message
-     * @param Config                        $config
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface     $message
+     * @param Config               $config
      *
      * @return array
      */
