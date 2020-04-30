@@ -91,12 +91,12 @@ trait HasHttpRequest
      */
     protected function getBaseOptions()
     {
-        $options = [
+        $options = method_exists($this, 'getGuzzleOptions') ? $this->getGuzzleOptions() : [];
+
+        return \array_merge($options, [
             'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
             'timeout' => method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
-        ];
-
-        return $options;
+        ]);
     }
 
     /**

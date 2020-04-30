@@ -27,6 +27,11 @@ abstract class Gateway implements GatewayInterface
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $options;
+
+    /**
      * @var float
      */
     protected $timeout;
@@ -83,6 +88,26 @@ abstract class Gateway implements GatewayInterface
         $this->config = $config;
 
         return $this;
+    }
+
+    /**
+     * @param $options
+     *
+     * @return $this
+     */
+    public function setGuzzleOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGuzzleOptions()
+    {
+        return $this->options ?: $this->config->get('options', []);
     }
 
     /**
