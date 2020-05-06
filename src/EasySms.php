@@ -230,6 +230,8 @@ class EasySms
                 $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
             }
 
+            $config['options'] = $this->config->get('options', []);
+
             $gateway = $this->makeGateway($className, $config);
         }
 
