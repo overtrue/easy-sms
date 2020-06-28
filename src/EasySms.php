@@ -220,18 +220,16 @@ class EasySms
      */
     protected function createGateway($name)
     {
+        $config = $this->config->get("gateways.{$name}", []);
+        if (!isset($config['timeout'])) {
+            $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
+        }
+        $config['options'] = $this->config->get('options', []);
+
         if (isset($this->customCreators[$name])) {
-            $gateway = $this->callCustomCreator($name);
+            $gateway = $this->callCustomCreator($name, $config);
         } else {
             $className = $this->formatGatewayClassName($name);
-            $config = $this->config->get("gateways.{$name}", []);
-
-            if (!isset($config['timeout'])) {
-                $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
-            }
-
-            $config['options'] = $this->config->get('options', []);
-
             $gateway = $this->makeGateway($className, $config);
         }
 
@@ -283,12 +281,13 @@ class EasySms
      * Call a custom gateway creator.
      *
      * @param string $gateway
+     * @param array  $config
      *
      * @return mixed
      */
-    protected function callCustomCreator($gateway)
+    protected function callCustomCreator($gateway, $config)
     {
-        return \call_user_func($this->customCreators[$gateway], $this->config->get("gateways.{$gateway}", []));
+        return \call_user_func($this->customCreators[$gateway], $config);
     }
 
     /**
