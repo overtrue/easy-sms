@@ -3,7 +3,7 @@
     "description": "The easiest way to send short message.",
     "type": "library",
     "require": {
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^6.2 || ^7.0",
         "php": ">=5.6",
         "ext-json": "*"
     },
