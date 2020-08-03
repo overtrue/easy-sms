@@ -16,6 +16,7 @@ use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
+use Overtrue\EasySms\Gateways\AliyunGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Messenger;
 use Overtrue\EasySms\PhoneNumber;
@@ -57,6 +58,11 @@ class EasySmsTest extends TestCase
 
     public function testGatewayWithDefaultSetting()
     {
+        $easySms = new EasySms(['default' => 'aliyun']);
+        $this->assertSame('aliyun', $easySms->getDefaultGateway());
+        $this->assertInstanceOf(AliyunGateway::class, $easySms->gateway());
+
+        // class name
         $easySms = new EasySms(['default' => DummyGatewayForTest::class]);
         $this->assertSame(DummyGatewayForTest::class, $easySms->getDefaultGateway());
         $this->assertInstanceOf(DummyGatewayForTest::class, $easySms->gateway());
