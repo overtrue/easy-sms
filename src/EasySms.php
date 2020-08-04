@@ -65,10 +65,6 @@ class EasySms
     public function __construct(array $config)
     {
         $this->config = new Config($config);
-
-        if (!empty($config['default'])) {
-            $this->setDefaultGateway($config['default']);
-        }
     }
 
     /**
@@ -105,10 +101,8 @@ class EasySms
      *
      * @throws \Overtrue\EasySms\Exceptions\InvalidArgumentException
      */
-    public function gateway($name = null)
+    public function gateway($name)
     {
-        $name = $name ?: $this->getDefaultGateway();
-
         if (!isset($this->gateways[$name])) {
             $this->gateways[$name] = $this->createGateway($name);
         }
@@ -170,36 +164,6 @@ class EasySms
     }
 
     /**
-     * Get default gateway name.
-     *
-     * @return string
-     *
-     * @throws \RuntimeException if no default gateway configured
-     */
-    public function getDefaultGateway()
-    {
-        if (empty($this->defaultGateway)) {
-            throw new RuntimeException('No default gateway configured.');
-        }
-
-        return $this->defaultGateway;
-    }
-
-    /**
-     * Set default gateway name.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setDefaultGateway($name)
-    {
-        $this->defaultGateway = $name;
-
-        return $this;
-    }
-
-    /**
      * @return \Overtrue\EasySms\Messenger
      */
     public function getMessenger()
@@ -221,9 +185,11 @@ class EasySms
     protected function createGateway($name)
     {
         $config = $this->config->get("gateways.{$name}", []);
+
         if (!isset($config['timeout'])) {
             $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
         }
+
         $config['options'] = $this->config->get('options', []);
 
         if (isset($this->customCreators[$name])) {
@@ -293,7 +259,7 @@ class EasySms
     /**
      * @param string|\Overtrue\EasySms\Contracts\PhoneNumberInterface $number
      *
-     * @return \Overtrue\EasySms\PhoneNumber
+     * @return \Overtrue\EasySms\Contracts\PhoneNumberInterface|string
      */
     protected function formatPhoneNumber($number)
     {

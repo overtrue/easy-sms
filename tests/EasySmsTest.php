@@ -46,39 +46,6 @@ class EasySmsTest extends TestCase
         $easySms->makeGateway(DummyGatewayNotImplementsGatewayInterface::class, []);
     }
 
-    public function testGatewayWithoutDefaultSetting()
-    {
-        $easySms = new EasySms([]);
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('No default gateway configured.');
-
-        $easySms->gateway();
-    }
-
-    public function testGatewayWithDefaultSetting()
-    {
-        $easySms = new EasySms(['default' => 'aliyun']);
-        $this->assertSame('aliyun', $easySms->getDefaultGateway());
-        $this->assertInstanceOf(AliyunGateway::class, $easySms->gateway());
-
-        // class name
-        $easySms = new EasySms(['default' => DummyGatewayForTest::class]);
-        $this->assertSame(DummyGatewayForTest::class, $easySms->getDefaultGateway());
-        $this->assertInstanceOf(DummyGatewayForTest::class, $easySms->gateway());
-
-        // invalid gateway
-        $easySms->setDefaultGateway(DummyInvalidGatewayForTest::class);
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf(
-                'Class "Overtrue\EasySms\Gateways\%sGateway" is a invalid easy-sms gateway.',
-                DummyInvalidGatewayForTest::class
-            )
-        );
-        $easySms->gateway();
-    }
-
     public function testExtend()
     {
         $easySms = new EasySms([]);
