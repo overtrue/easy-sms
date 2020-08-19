@@ -93,7 +93,7 @@ class QiniuGateway extends Gateway
      *
      * @return string
      */
-    protected function generateSign($url, $method, $body = null, $contentType = null, Config $config)
+    protected function generateSign($url, $method, $body, $contentType, Config $config)
     {
         $urlItems = parse_url($url);
         $host = $urlItems['host'];
