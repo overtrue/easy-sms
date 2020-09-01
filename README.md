@@ -528,6 +528,18 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'template' => 101234, // 模板ID
+    'content' => "您的动态验证码为：{1}，请于5分钟内完成验证，如非本人操作，请忽略本短信！", // 模板内容
+    'data' => [ 
+        $code, // 模板变量
+    ],
+]);
+```
+
 ### [阿凡达数据](http://www.avatardata.cn/)
 
 短信内容使用 `template` + `data`
