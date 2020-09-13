@@ -47,7 +47,7 @@
 - [七牛云](https://www.qiniu.com/)
 - [UE35.net](http://uesms.ue35.cn/)
 - [Ucloud](https://www.ucloud.cn)
-
+- [短信宝](http://www.smsbao.com/)
 ## 环境需求
 
 - PHP >= 5.6
@@ -694,6 +694,24 @@ $easySms->send(18888888888, [
         'code' => 1234,     //模板参数，模板没有参数不用则填写，有多个参数请用数组，[1111,1111]
         'mobiles' =>'',     //同时发送多个手机短信，请用数组[xxx,xxx]
     ],
+]);
+
+```
+
+
+### [短信宝](http://www.smsbao.com/)
+短信使用 `template`
+
+```php
+  'smsbao' => [
+        'user'  => '',    //账号
+        'password'   => ''   //密码
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '您的验证码为: 6379',       //短信模板
 ]);
 
 ```
