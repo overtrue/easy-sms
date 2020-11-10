@@ -29,10 +29,8 @@ class TiniyoGateway extends Gateway
 
     const ENDPOINT_URL = 'https://api.tiniyo.com/v1/Account/%s/Message';
 
-    protected $errorStatuses = [
-        'failed',
-    ];
-
+    const SUCCESS_CODE = '000000';
+    
     public function getName()
     {
         return 'tiniyo';
@@ -58,19 +56,17 @@ class TiniyoGateway extends Gateway
             'text' => $message->getContent($this),
         ];
 
-        try {
-            $result = $this->request('post', $endpoint, [
-                'auth' => [
-                    $accountSid,
-                    $config->get('token'),
-                ],
-                'form_params' => $params,
-            ]);
-            if (in_array($result['status'], $this->errorStatuses) || !is_null($result['error_code'])) {
-                throw new GatewayErrorException($result['message'], $result['error_code'], $result);
-            }
-        } catch (ClientException $e) {
-            throw new GatewayErrorException($e->getMessage(), $e->getCode());
+        $result = $this->request('post', $endpoint, [
+            'json' => $params,
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json;charset=utf-8',
+                'Authorization' => base64_encode($config->get('account_sid').':'.$config->get('token')),
+            ],
+        ]);
+
+        if (self::SUCCESS_CODE != $result['statusCode']) {
+            throw new GatewayErrorException($result['statusCode'], $result['statusCode'], $result);
         }
 
         return $result;
