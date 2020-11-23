@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -24,7 +26,7 @@ trait HasHttpRequest
      * @param array  $query
      * @param array  $headers
      *
-     * @return array
+     * @return ResponseInterface|array|string
      */
     protected function get($endpoint, $query = [], $headers = [])
     {
@@ -41,7 +43,7 @@ trait HasHttpRequest
      * @param array  $params
      * @param array  $headers
      *
-     * @return array
+     * @return ResponseInterface|array|string
      */
     protected function post($endpoint, $params = [], $headers = [])
     {
@@ -52,13 +54,30 @@ trait HasHttpRequest
     }
 
     /**
+     * Make a post request with json params.
+     *
+     * @param       $endpoint
+     * @param array $params
+     * @param array $headers
+     *
+     * @return ResponseInterface|array|string
+     */
+    protected function postJson($endpoint, $params = [], $headers = [])
+    {
+        return $this->request('post', $endpoint, [
+            'headers' => $headers,
+            'json' => $params,
+        ]);
+    }
+
+    /**
      * Make a http request.
      *
      * @param string $method
      * @param string $endpoint
      * @param array  $options  http://docs.guzzlephp.org/en/latest/request-options.html
      *
-     * @return array
+     * @return ResponseInterface|array|string
      */
     protected function request($method, $endpoint, $options = [])
     {
@@ -72,12 +91,12 @@ trait HasHttpRequest
      */
     protected function getBaseOptions()
     {
-        $options = [
-            'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
-            'timeout' => property_exists($this, 'timeout') ? $this->timeout : 5.0,
-        ];
+        $options = method_exists($this, 'getGuzzleOptions') ? $this->getGuzzleOptions() : [];
 
-        return $options;
+        return \array_merge($options, [
+            'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
+            'timeout' => method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
+        ]);
     }
 
     /**
@@ -99,14 +118,14 @@ trait HasHttpRequest
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return array
+     * @return ResponseInterface|array|string
      */
     protected function unwrapResponse(ResponseInterface $response)
     {
         $contentType = $response->getHeaderLine('Content-Type');
         $contents = $response->getBody()->getContents();
 
-        if (false !== stripos($contentType, 'json')) {
+        if (false !== stripos($contentType, 'json') || stripos($contentType, 'javascript')) {
             return json_decode($contents, true);
         } elseif (false !== stripos($contentType, 'xml')) {
             return json_decode(json_encode(simplexml_load_string($contents)), true);

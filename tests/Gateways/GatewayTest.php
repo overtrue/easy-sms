@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -10,6 +12,7 @@
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Gateways\Gateway;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
@@ -42,7 +45,7 @@ class GatewayTest extends TestCase
 
 class DummyGatewayForGatewayTest extends Gateway
 {
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         return 'mock-result';
     }

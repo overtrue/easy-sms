@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -11,8 +13,8 @@ namespace Overtrue\EasySms\Tests\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Overtrue\EasySms\Tests\TestCase;
 use Overtrue\EasySms\Traits\HasHttpRequest;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class HasHttpRequestTest extends TestCase
@@ -76,6 +78,15 @@ class HasHttpRequestTest extends TestCase
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(5.0, $object->getBaseOptions()['timeout']);
+
+        // timeout overwrite
+        $object = \Mockery::mock(DummyTimeoutClassForHasHttpRequestTrait::class)
+                ->makePartial()
+                ->shouldAllowMockingProtectedMethods();
+        $object->allows()->getBaseOptions(anyArgs())->passthru();
+
+        $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
+        $this->assertSame(30.0, $object->getBaseOptions()['timeout']);
     }
 
     public function testUnwrapResponseWithJsonResponse()
@@ -128,5 +139,20 @@ class DummyClassForHasHttpRequestTrait
     public function getBaseUri()
     {
         return 'http://mock-uri';
+    }
+}
+
+class DummyTimeoutClassForHasHttpRequestTrait
+{
+    use HasHttpRequest;
+
+    public function getBaseUri()
+    {
+        return 'http://mock-uri';
+    }
+
+    public function getTimeout()
+    {
+        return 30.0;
     }
 }

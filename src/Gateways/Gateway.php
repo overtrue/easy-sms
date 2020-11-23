@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -23,6 +25,11 @@ abstract class Gateway implements GatewayInterface
      * @var \Overtrue\EasySms\Support\Config
      */
     protected $config;
+
+    /**
+     * @var array
+     */
+    protected $options;
 
     /**
      * @var float
@@ -81,5 +88,33 @@ abstract class Gateway implements GatewayInterface
         $this->config = $config;
 
         return $this;
+    }
+
+    /**
+     * @param $options
+     *
+     * @return $this
+     */
+    public function setGuzzleOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGuzzleOptions()
+    {
+        return $this->options ?: $this->config->get('options', []);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return \strtolower(str_replace([__NAMESPACE__.'\\', 'Gateway'], '', \get_class($this)));
     }
 }

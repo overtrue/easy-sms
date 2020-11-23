@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -78,7 +80,7 @@ class Message implements MessageInterface
      */
     public function getContent(GatewayInterface $gateway = null)
     {
-        return $this->content;
+        return is_callable($this->content) ? call_user_func($this->content, $gateway) : $this->content;
     }
 
     /**
@@ -90,7 +92,7 @@ class Message implements MessageInterface
      */
     public function getTemplate(GatewayInterface $gateway = null)
     {
-        return $this->template;
+        return is_callable($this->template) ? call_user_func($this->template, $gateway) : $this->template;
     }
 
     /**
@@ -136,15 +138,15 @@ class Message implements MessageInterface
      */
     public function getData(GatewayInterface $gateway = null)
     {
-        return $this->data;
+        return is_callable($this->data) ? call_user_func($this->data, $gateway) : $this->data;
     }
 
     /**
-     * @param array $data
+     * @param array|callable $data
      *
      * @return $this
      */
-    public function setData(array $data)
+    public function setData($data)
     {
         $this->data = $data;
 

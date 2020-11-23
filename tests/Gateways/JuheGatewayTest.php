@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -12,6 +14,7 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\JuheGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
@@ -53,12 +56,12 @@ class JuheGatewayTest extends TestCase
         $this->assertSame([
             'reason' => '操作成功',
             'error_code' => 0,
-        ], $gateway->send(18188888888, $message, $config));
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(21000);
         $this->expectExceptionMessage('操作失败');
 
-        $gateway->send(18188888888, $message, $config);
+        $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 }

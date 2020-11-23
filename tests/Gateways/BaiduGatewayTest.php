@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -12,6 +14,7 @@ namespace Overtrue\EasySms\Tests\Gateways;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\BaiduGateway;
 use Overtrue\EasySms\Message;
+use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
@@ -31,7 +34,8 @@ class BaiduGatewayTest extends TestCase
             'invokeId' => $config['invoke_id'],
             'contentVar' => ['mock-data-1', 'mock-data-2'],
         ];
-        $gateway->shouldReceive('request')->with('post',
+        $gateway->shouldReceive('request')->with(
+            'post',
             \Mockery::on(function ($api) {
                 return 0 == strpos($api, 'http://'.BaiduGateway::ENDPOINT_HOST.BaiduGateway::ENDPOINT_URI);
             }),
@@ -40,10 +44,12 @@ class BaiduGatewayTest extends TestCase
                 ksort($expected);
 
                 return $params['json'] == $expected;
-            }))
+            })
+        )
             ->andReturn(
                 ['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'],
-                ['code' => 100, 'message' => 'mock-msg'])
+                ['code' => 100, 'message' => 'mock-msg']
+            )
             ->twice();
 
         $message = new Message([
@@ -52,12 +58,12 @@ class BaiduGatewayTest extends TestCase
         ]);
 
         $config = new Config($config);
-        $this->assertSame(['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'], $gateway->send(18888888888, $message, $config));
+        $this->assertSame(['code' => BaiduGateway::SUCCESS_CODE, 'message' => 'success'], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
         $this->expectExceptionMessage('mock-msg');
 
-        $gateway->send(18888888888, $message, $config);
+        $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
 }

@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -43,12 +45,12 @@ class Config implements ArrayAccess
     {
         $config = $this->config;
 
-        if (is_null($key)) {
-            return null;
-        }
-
         if (isset($config[$key])) {
             return $config[$key];
+        }
+
+        if (false === strpos($key, '.')) {
+            return $default;
         }
 
         foreach (explode('.', $key) as $segment) {

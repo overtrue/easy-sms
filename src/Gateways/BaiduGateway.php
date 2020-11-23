@@ -2,7 +2,9 @@
 
 /*
  * This file is part of the overtrue/easy-sms.
+ *
  * (c) overtrue <i@overtrue.me>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
@@ -10,6 +12,7 @@
 namespace Overtrue\EasySms\Gateways;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
+use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
@@ -24,32 +27,36 @@ class BaiduGateway extends Gateway
     use HasHttpRequest;
 
     const ENDPOINT_HOST = 'sms.bj.baidubce.com';
+
     const ENDPOINT_URI = '/bce/v2/message';
+
     const BCE_AUTH_VERSION = 'bce-auth-v1';
+
     const DEFAULT_EXPIRATION_IN_SECONDS = 1800; //签名有效期默认1800秒
+
     const SUCCESS_CODE = 1000;
 
     /**
      * Send message.
      *
-     * @param array|int|string                             $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
-     * @param \Overtrue\EasySms\Support\Config             $config
+     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
+     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
+     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException;
+     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
      */
-    public function send($to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
             'invokeId' => $config->get('invoke_id'),
-            'phoneNumber' => $to,
-            'templateCode' => $message->getTemplate(),
-            'contentVar' => $message->getData(),
+            'phoneNumber' => $to->getNumber(),
+            'templateCode' => $message->getTemplate($this),
+            'contentVar' => $message->getData($this),
         ];
 
-        $datetime = date('Y-m-d\TH:i:s\Z');
+        $datetime = gmdate('Y-m-d\TH:i:s\Z');
 
         $headers = [
             'host' => self::ENDPOINT_HOST,
@@ -64,7 +71,7 @@ class BaiduGateway extends Gateway
 
         $result = $this->request('post', self::buildEndpoint($config), ['headers' => $headers, 'json' => $params]);
 
-        if ($result['code'] != self::SUCCESS_CODE) {
+        if (self::SUCCESS_CODE != $result['code']) {
             throw new GatewayErrorException($result['message'], $result['code'], $result);
         }
 
