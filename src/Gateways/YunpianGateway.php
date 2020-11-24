@@ -43,9 +43,9 @@ class YunpianGateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
-        $template  = $message->getTemplate($this);
-        $function  = 'single_send';
-        $option    = [
+        $template = $message->getTemplate($this);
+        $function = 'single_send';
+        $option = [
             'form_params' => [
                 'apikey' => $config->get('api_key'),
                 'mobile' => $to->getUniversalNumber()
@@ -54,20 +54,19 @@ class YunpianGateway extends Gateway
         ];
 
         if(!is_null($template)){
-            $function  = 'tpl_single_send';
-            $data      = $message->getData($this);
-            $dataValue = [];
+            $function = 'tpl_single_send';
+            $data = [];
 
-            foreach ($data as $key => $value){
-                $dataValue[] = urlencode('#'.$key.'#') . '=' . urlencode($value);
+            foreach ($message->getData($this) ?? [] as $key => $value) {
+                $data[] = urlencode('#'.$key.'#') . '=' . urlencode($value);
             }
 
             $option['form_params'] = array_merge($option['form_params'],[
                 'tpl_id' => $template,
-                'tpl_value' => implode('&', $dataValue)
+                'tpl_value' => implode('&', $data)
             ]);
         }else{
-            $content   = $message->getContent($this);
+            $content = $message->getContent($this);
             $signature = $config->get('signature', '');
             $option['form_params'] = array_merge($option['form_params'],[
                 'text' => 0 === \stripos($content, '【') ? $content : $signature.$content
@@ -75,7 +74,7 @@ class YunpianGateway extends Gateway
         }
 
         $endpoint = $this->buildEndpoint('sms', 'sms', $function);
-        $result   = $this->request('post', $endpoint, $option);
+        $result = $this->request('post', $endpoint, $option);
 
         if ($result['code']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
