@@ -528,7 +528,7 @@ $easySms->send(13188888888, $message);
         'account_sid' => '', // auth_id from https://tiniyo.com
         'from' => '', // 发送的号码 可以在控制台购买
         'token' => '', // auth_secret from https://tiniyo.com
-    ],	    ],
+    ],	    
 ```
 
 
