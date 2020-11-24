@@ -20,15 +20,15 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class BaiduGateway.
  *
- * @see https://cloud.baidu.com/doc/SMS/API.html
+ * @see https://cloud.baidu.com/doc/SMS/index.html
  */
 class BaiduGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_HOST = 'sms.bj.baidubce.com';
+    const ENDPOINT_HOST = 'smsv3.bj.baidubce.com';
 
-    const ENDPOINT_URI = '/bce/v2/message';
+    const ENDPOINT_URI = '/api/v3/sendSms';
 
     const BCE_AUTH_VERSION = 'bce-auth-v1';
 
@@ -50,11 +50,21 @@ class BaiduGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $params = [
-            'invokeId' => $config->get('invoke_id'),
-            'phoneNumber' => $to->getNumber(),
-            'templateCode' => $message->getTemplate($this),
+            'signatureId' => $config->get('invoke_id'),
+            'mobile' => $to->getNumber(),
+            'template' => $message->getTemplate($this),
             'contentVar' => $message->getData($this),
         ];
+        if (!empty($params['contentVar']['custom'])) {
+            //用户自定义参数，格式为字符串，状态回调时会回传该值
+            $params['custom'] = $params['contentVar']['custom'];
+            unset($params['contentVar']['custom']);
+        }
+        if (!empty($params['contentVar']['userExtId'])) {
+            //通道自定义扩展码，上行回调时会回传该值，其格式为纯数字串。默认为不开通，请求时无需设置该参数。如需开通请联系客服申请
+            $params['userExtId'] = $params['contentVar']['userExtId'];
+            unset($params['contentVar']['userExtId']);
+        }
 
         $datetime = gmdate('Y-m-d\TH:i:s\Z');
 
@@ -62,10 +72,9 @@ class BaiduGateway extends Gateway
             'host' => self::ENDPOINT_HOST,
             'content-type' => 'application/json',
             'x-bce-date' => $datetime,
-            'x-bce-content-sha256' => hash('sha256', json_encode($params)),
         ];
         //获得需要签名的数据
-        $signHeaders = $this->getHeadersToSign($headers, ['host', 'x-bce-content-sha256']);
+        $signHeaders = $this->getHeadersToSign($headers, ['host', 'x-bce-date']);
 
         $headers['Authorization'] = $this->generateSign($signHeaders, $datetime, $config);
 

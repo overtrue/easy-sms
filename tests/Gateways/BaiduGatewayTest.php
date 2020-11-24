@@ -29,9 +29,9 @@ class BaiduGatewayTest extends TestCase
         ];
         $gateway = \Mockery::mock(BaiduGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
         $expected = [
-            'phoneNumber' => 18888888888,
-            'templateCode' => 'mock-tpl-id',
-            'invokeId' => $config['invoke_id'],
+            'mobile' => 18888888888,
+            'template' => 'mock-tpl-id',
+            'signatureId' => $config['invoke_id'],
             'contentVar' => ['mock-data-1', 'mock-data-2'],
         ];
         $gateway->shouldReceive('request')->with(
