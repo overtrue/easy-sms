@@ -48,7 +48,7 @@
 - [UE35.net](http://uesms.ue35.cn/)
 - [Ucloud](https://www.ucloud.cn)
 - [短信宝](http://www.smsbao.com/)
-- [Tiniyo] (https://tiniyo.com/)
+- [Tiniyo](https://tiniyo.com/)
 
 ## 环境需求
 
