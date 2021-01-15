@@ -67,7 +67,7 @@ class MoDuYunGateway extends Gateway
             'json' => $params,
         ]);
 
-        $result = json_decode($result, true);
+        $result = is_string($result) ? json_decode($result, true) : $result;
         if (0 != $result['result']) {
             throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
         }
