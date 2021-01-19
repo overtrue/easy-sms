@@ -18,11 +18,11 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class MoDuYunGateway.
+ * Class ModuyunGateway.
  *
  * @see https://www.moduyun.com/doc/index.html#10002
  */
-class MoDuYunGateway extends Gateway
+class ModuyunGateway extends Gateway
 {
     use HasHttpRequest;
 

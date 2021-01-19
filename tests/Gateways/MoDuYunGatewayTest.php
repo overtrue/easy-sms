@@ -12,13 +12,13 @@
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
-use Overtrue\EasySms\Gateways\MoDuYunGateway;
+use Overtrue\EasySms\Gateways\ModuyunGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
-class MoDuYunGatewayTest extends TestCase
+class ModuyunGatewayTest extends TestCase
 {
     public function testSend()
     {
@@ -26,7 +26,7 @@ class MoDuYunGatewayTest extends TestCase
             'accesskey' => 'mock-accesskey',
             'secretkey' => 'mock-secretkey',
         ];
-        $gateway = \Mockery::mock(MoDuYunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(ModuyunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn(
