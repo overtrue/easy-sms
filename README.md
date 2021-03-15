@@ -789,10 +789,10 @@ $config = [
 $easysms = new EasySms($config);
 
 $r = $easysms->send('180xxxxxxxx', [
-    'template' => 'xxx',
+    'template' => 'xxx', // 短信模板 id
     'data' => [
-        'varValues' => '',
-        'extendNum' => '',
+        'varValues' => '', // 如果模板中含有变量，请使用 JSON 格式
+        'extendNum' => '', // 扩展编码
     ],
 ]);
 print_r($r);
