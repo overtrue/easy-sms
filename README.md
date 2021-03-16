@@ -50,6 +50,7 @@
 - [短信宝](http://www.smsbao.com/)
 - [Tiniyo](https://tiniyo.com/)
 - [摩杜云](https://www.moduyun.com/)
+- [融合云（助通）](https://www.ztinfo.cn/products/sms)
 - [邮政云](https://dx.11185.cn/)
 
 ## 环境需求
@@ -752,6 +753,29 @@ $easySms->send(18888888888, [
     'data' => [
         1234,   //模板参数，对应模板的{1}
         30      //模板参数，对应模板的{2}
+        //...
+    ],
+]);
+
+```
+
+### [融合云（助通）](https://www.ztinfo.cn/products/sms)
+
+短信使用 `template` + `data`
+
+```php
+  'rongheyun' => [
+        'username' => '',  //必填 用户名
+        'password' => '',  //必填 密码
+        'signature'=> '',  //必填 已报备的签名
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '31874',   //短信模板
+    'data' => [
+        'valid_code' => '888888',   //模板参数，对应模板的{valid_code}
         //...
     ],
 ]);
