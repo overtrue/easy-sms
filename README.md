@@ -51,6 +51,7 @@
 - [Tiniyo](https://tiniyo.com/)
 - [摩杜云](https://www.moduyun.com/)
 - [融合云（助通）](https://www.ztinfo.cn/products/sms)
+- [邮政云](https://dx.11185.cn/)
 
 ## 环境需求
 
@@ -778,6 +779,47 @@ $easySms->send(18888888888, [
         //...
     ],
 ]);
+
+```
+
+### [邮政云](https://dx.11185.cn/)
+
+邮政云短信使用 `template` + `data` 的方式。
+
+邮政云短信网关使用示例
+
+```php
+<?php
+
+use Overtrue\EasySms\EasySms;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$config = [
+    'timeout' => 3.0,
+    'default' => [
+        'gateways' => [
+            'chinapost',
+        ],
+    ],
+    'gateways' => [
+        'chinapost' => [
+            'AppKey' => '',
+            'AppSecret' => '',
+        ],
+    ],
+];
+
+$easysms = new EasySms($config);
+
+$r = $easysms->send('180xxxxxxxx', [
+    'template' => 'xxx', // 短信模板 id
+    'data' => [
+        'varValues' => '', // 如果模板中含有变量，请使用 JSON 格式
+        'extendNum' => '', // 扩展编码
+    ],
+]);
+print_r($r);
 
 ```
 
