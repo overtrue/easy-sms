@@ -57,7 +57,7 @@ class YunpianGateway extends Gateway
             $function = 'tpl_single_send';
             $data = [];
 
-            foreach ($message->getData($this) ?? [] as $key => $value) {
+            foreach ($message->getData($this) as $key => $value) {
                 $data[] = urlencode('#'.$key.'#') . '=' . urlencode($value);
             }
 
