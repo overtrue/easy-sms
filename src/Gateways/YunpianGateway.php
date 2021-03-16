@@ -34,8 +34,8 @@ class YunpianGateway extends Gateway
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param \Overtrue\EasySms\Support\Config $config
      *
      * @return array
      *
@@ -53,23 +53,23 @@ class YunpianGateway extends Gateway
             'exceptions' => false,
         ];
 
-        if(!is_null($template)){
+        if (!is_null($template)) {
             $function = 'tpl_single_send';
             $data = [];
 
             foreach ($message->getData($this) as $key => $value) {
-                $data[] = urlencode('#'.$key.'#') . '=' . urlencode($value);
+                $data[] = urlencode('#' . $key . '#') . '=' . urlencode($value);
             }
 
-            $option['form_params'] = array_merge($option['form_params'],[
+            $option['form_params'] = array_merge($option['form_params'], [
                 'tpl_id' => $template,
                 'tpl_value' => implode('&', $data)
             ]);
-        }else{
+        } else {
             $content = $message->getContent($this);
             $signature = $config->get('signature', '');
-            $option['form_params'] = array_merge($option['form_params'],[
-                'text' => 0 === \stripos($content, '【') ? $content : $signature.$content
+            $option['form_params'] = array_merge($option['form_params'], [
+                'text' => 0 === \stripos($content, '【') ? $content : $signature . $content
             ]);
         }
 
