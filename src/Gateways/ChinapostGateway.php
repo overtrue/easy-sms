@@ -9,6 +9,8 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
+ * 邮政云短信
+ *
  * @author Success Go
  * @see http://dx.11185.cn/isms-doc/
  */
