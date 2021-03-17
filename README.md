@@ -49,6 +49,8 @@
 - [Ucloud](https://www.ucloud.cn)
 - [短信宝](http://www.smsbao.com/)
 - [Tiniyo](https://tiniyo.com/)
+- [摩杜云](https://www.moduyun.com/)
+- [融合云（助通）](https://www.ztinfo.cn/products/sms)
 
 ## 环境需求
 
@@ -728,6 +730,53 @@ $easySms->send(18888888888, [
 ```php
 $easySms->send(18888888888, [
     'template' => '您的验证码为: 6379',       //短信模板
+]);
+
+```
+
+### [摩杜云](https://www.moduyun.com/)
+短信使用 `template` + `data`
+
+```php
+  'moduyun' => [
+        'accesskey' => '',  //必填 ACCESS KEY
+        'secretkey' => '',  //必填 SECRET KEY
+        'signId'    => '',  //选填 短信签名，如果使用默认签名，该字段可缺省
+        'type'      => 0,   //选填 0:普通短信;1:营销短信
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '5a95****b953',   //短信模板
+    'data' => [
+        1234,   //模板参数，对应模板的{1}
+        30      //模板参数，对应模板的{2}
+        //...
+    ],
+]);
+
+```
+
+### [融合云（助通）](https://www.ztinfo.cn/products/sms)
+
+短信使用 `template` + `data`
+
+```php
+  'rongheyun' => [
+        'username' => '',  //必填 用户名
+        'password' => '',  //必填 密码
+        'signature'=> '',  //必填 已报备的签名
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '31874',   //短信模板
+    'data' => [
+        'valid_code' => '888888',   //模板参数，对应模板的{valid_code}
+        //...
+    ],
 ]);
 
 ```
