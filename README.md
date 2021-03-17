@@ -51,6 +51,7 @@
 - [Tiniyo](https://tiniyo.com/)
 - [摩杜云](https://www.moduyun.com/)
 - [融合云（助通）](https://www.ztinfo.cn/products/sms)
+- [蜘蛛云](https://zzyun.com/)
 
 ## 环境需求
 
@@ -775,6 +776,29 @@ $easySms->send(18888888888, [
     'template' => '31874',   //短信模板
     'data' => [
         'valid_code' => '888888',   //模板参数，对应模板的{valid_code}
+        //...
+    ],
+]);
+
+```
+
+### [蜘蛛云](https://zzyun.com/)
+
+短信使用 `template` + `data`
+
+```php
+  'zzyun' => [
+        'user_id' => '',    //必填 会员ID
+        'secret' => '',     //必填 接口密钥
+        'sign_name'=> '',   //必填 短信签名
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_210317****',   //短信模板
+    'data' => [
+        'code' => '888888',   //模板参数，对应模板的{code}
         //...
     ],
 ]);
