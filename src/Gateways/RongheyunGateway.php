@@ -55,14 +55,11 @@ class RongheyunGateway extends Gateway
             ],
         ];
 
-        $result = $this->request('post', self::ENDPOINT_URL, [
-            'headers' => [
-                'Content-Type' => 'application/json; charset="UTF-8"',
-            ],
-            'body' => $params,
-        ]);
-
-        $result = is_string($result) ? json_decode($result, true) : $result;
+        $result = $this->postJson(
+            self::ENDPOINT_URL,
+            $params,
+            ['Content-Type' => 'application/json; charset="UTF-8"']
+        );
         if (200 != $result['code']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
