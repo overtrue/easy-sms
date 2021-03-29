@@ -20,13 +20,13 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class RongheyunGateway.
  *
- * @see https://doc.zthysms.com/web/#/1?page_id=13
+ * @see https://zzyun.com/
  */
-class RongheyunGateway extends Gateway
+class ZzyunGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://api.mix2.zthysms.com/v2/sendSmsTp';
+    const ENDPOINT_URL = 'https://zzyun.com/api/sms/sendByTplCode';
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
@@ -39,29 +39,23 @@ class RongheyunGateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
-        $tKey = time();
-        $password = md5(md5($config->get('password')) . $tKey);
+        $time = time();
+        $user_id = $config->get('user_id');
+        $token = md5($time . $user_id . $config->get('secret'));
         $params = [
-            'username' => $config->get('username', ''),
-            'password' => $password,
-            'tKey' => $tKey,
-            'signature' => $config->get('signature', ''),
-            'tpId' => $message->getTemplate($this),
-            'ext' => '',
-            'extend' => '',
-            'records' => [
-                'mobile' => $to->getNumber(),
-                'tpContent' => $message->getData($this),
-            ],
+            'user_id' => $user_id,
+            'time' => $time,
+            'token' => $token,
+            'mobiles' => $to->getNumber(),// 手机号码，多个英文逗号隔开
+            'tpl_code' => $message->getTemplate($this),
+            'tpl_params' => $message->getData($this),
+            'sign_name' => $config->get('sign_name'),
         ];
 
-        $result = $this->postJson(
-            self::ENDPOINT_URL,
-            $params,
-            ['Content-Type' => 'application/json; charset="UTF-8"']
-        );
-        if (200 != $result['code']) {
-            throw new GatewayErrorException($result['msg'], $result['code'], $result);
+        $result = $this->post(self::ENDPOINT_URL, $params);
+
+        if ('Success' != $result['Code']) {
+            throw new GatewayErrorException($result['Message'], $result['Code'], $result);
         }
 
         return $result;

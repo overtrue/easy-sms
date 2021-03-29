@@ -59,14 +59,7 @@ class ModuyunGateway extends Gateway
         ];
         $params['sig'] = $this->generateSign($params, $urlParams['random']);
 
-        $result = $this->request('post', $this->getEndpointUrl($urlParams), [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json'
-            ],
-            'json' => $params,
-        ]);
-
+        $result = $this->postJson($this->getEndpointUrl($urlParams), $params);
         $result = is_string($result) ? json_decode($result, true) : $result;
         if (0 != $result['result']) {
             throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
