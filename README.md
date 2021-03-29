@@ -719,7 +719,7 @@ $easySms->send(18888888888, [
 
 
 ### [短信宝](http://www.smsbao.com/)
-短信使用 `template`
+短信使用 `content`
 
 ```php
   'smsbao' => [
@@ -730,7 +730,7 @@ $easySms->send(18888888888, [
 
 ```php
 $easySms->send(18888888888, [
-    'template' => '您的验证码为: 6379',       //短信模板
+    'content' => '您的验证码为: 6379',       //短信模板
 ]);
 
 ```
