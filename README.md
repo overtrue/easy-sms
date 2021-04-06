@@ -701,7 +701,7 @@ $easySms->send(18888888888, [
   'ucloud' => [
         'private_key'  => '',    //私钥
         'public_key'   => '',    //公钥
-        ’sig_content‘  => '',    // 短信签名,
+        'sig_content'  => '',    // 短信签名,
         'project_id'   => '',    //项目ID,子账号才需要该参数
     ],
 ```
