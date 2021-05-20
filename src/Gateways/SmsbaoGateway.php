@@ -47,7 +47,7 @@ class SmsbaoGateway extends Gateway
     {
         $data = $message->getContent($this);
 
-        if (is_null($to->getIDDCode())) {
+        if (is_null($to->getIDDCode()) || $to->getIDDCode() == '86') {
             $number = $to->getNumber();
             $action = 'sms';
         } else {
