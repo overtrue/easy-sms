@@ -537,13 +537,14 @@ $easySms->send(13188888888, $message);
 
 ### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
-短信内容使用 `content`
+短信内容使用 `template` + `data`
 
 ```php
     'qcloud' => [
         'sdk_app_id' => '', // SDK APP ID
-        'app_key' => '', // APP KEY
-        'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
+        'secret_id' => '', // SECRET ID
+        'secret_key' => '', // SECRET KEY
+        'sign_name' => '', // 短信签名
     ],
 ```
 
@@ -552,7 +553,6 @@ $easySms->send(13188888888, $message);
 ```php
 $easySms->send(18888888888, [
     'template' => 101234, // 模板ID
-    'content' => "您的动态验证码为：{1}，请于5分钟内完成验证，如非本人操作，请忽略本短信！", // 模板内容
     'data' => [ 
         $code, // 模板变量
     ],

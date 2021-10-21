@@ -20,17 +20,23 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class QcloudGateway.
  *
- * @see https://cloud.tencent.com/document/product/382/13297
+ * @see https://cloud.tencent.com/document/api/382/55981
  */
 class QcloudGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://yun.tim.qq.com/v5/';
+    const ENDPOINT_URL = 'https://sms.tencentcloudapi.com';
 
-    const ENDPOINT_METHOD = 'tlssmssvr/sendsms';
+    const ENDPOINT_HOST = 'sms.tencentcloudapi.com';
 
-    const ENDPOINT_VERSION = 'v5';
+    const ENDPOINT_SERVICE = 'sms';
+
+    const ENDPOINT_METHOD = 'SendSms';
+
+    const ENDPOINT_VERSION = '2021-01-11';
+
+    const ENDPOINT_REGION = 'ap-guangzhou';
 
     const ENDPOINT_FORMAT = 'json';
 
@@ -51,42 +57,34 @@ class QcloudGateway extends Gateway
 
         unset($data['sign_name']);
 
-        $msg = $message->getContent($this);
-        if (!empty($msg) && '【' != mb_substr($msg, 0, 1) && !empty($signName)) {
-            $msg = '【'.$signName.'】'.$msg;
-        }
-
-        $type = !empty($data['type']) ? $data['type'] : 0;
+        $phone = $to->getIDDCode() ?: "+86" . $to->getNumber();
         $params = [
-            'tel' => [
-                'nationcode' => $to->getIDDCode() ?: 86,
-                'mobile' => $to->getNumber(),
+            'PhoneNumberSet' => [
+                $phone
             ],
-            'type' => $type,
-            'msg' => $msg,
-            'time' => time(),
-            'extend' => '',
-            'ext' => '',
+            'SmsSdkAppId' => $this->config->get('sdk_app_id'),
+            'SignName' => $signName,
+            'TemplateId' => $message->getTemplate($this),
+            'TemplateParamSet' => array_values($data),
         ];
-        if (!is_null($message->getTemplate($this)) && is_array($data)) {
-            unset($params['msg']);
-            $params['params'] = array_values($data);
-            $params['tpl_id'] = $message->getTemplate($this);
-            $params['sign'] = $signName;
-        }
-        $random = substr(uniqid(), -10);
 
-        $params['sig'] = $this->generateSign($params, $random);
+        $time = time();
 
-        $url = self::ENDPOINT_URL.self::ENDPOINT_METHOD.'?sdkappid='.$config->get('sdk_app_id').'&random='.$random;
-
-        $result = $this->request('post', $url, [
-            'headers' => ['Accept' => 'application/json'],
+        $result = $this->request('post', self::ENDPOINT_URL, [
+            'headers' => [
+                'Authorization' => $this->generateSign($params, $time),
+                'Host' => self::ENDPOINT_HOST,
+                'Content-Type' => 'application/json; charset=utf-8',
+                'X-TC-Action' => self::ENDPOINT_METHOD,
+                'X-TC-Region' => self::ENDPOINT_REGION,
+                'X-TC-Timestamp' => $time,
+                'X-TC-Version' => self::ENDPOINT_VERSION,
+            ],
             'json' => $params,
         ]);
 
-        if (0 != $result['result']) {
-            throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
+        if (!empty($result['Response']['Error']['Code'])) {
+            throw new GatewayErrorException($result['Response']['Error']['Message'], $result['Response']['Error']['Code'], $result);
         }
 
         return $result;
@@ -96,20 +94,36 @@ class QcloudGateway extends Gateway
      * Generate Sign.
      *
      * @param array  $params
-     * @param string $random
      *
      * @return string
      */
-    protected function generateSign($params, $random)
+    protected function generateSign($params, $timestamp)
     {
-        ksort($params);
+        $date = gmdate("Y-m-d", $timestamp);
+        $secretKey = $this->config->get('secret_key');
+        $secretId = $this->config->get('secret_id');
 
-        return hash('sha256', sprintf(
-            'appkey=%s&random=%s&time=%s&mobile=%s',
-            $this->config->get('app_key'),
-            $random,
-            $params['time'],
-            $params['tel']['mobile']
-        ), false);
+        $canonicalRequest  =  'POST'."\n".
+            '/'."\n".
+            '' ."\n".
+            'content-type:application/json; charset=utf-8'."\n".
+            'host:' . self::ENDPOINT_HOST."\n"."\n".
+            'content-type;host'."\n".
+            hash("SHA256", json_encode($params));
+
+        $stringToSign =
+            'TC3-HMAC-SHA256'."\n".
+            $timestamp."\n".
+            $date . '/'. self::ENDPOINT_SERVICE .'/tc3_request'."\n".
+            hash("SHA256", $canonicalRequest);
+
+        $secretDate = hash_hmac("SHA256", $date, "TC3".$secretKey, true);
+        $secretService = hash_hmac("SHA256", self::ENDPOINT_SERVICE, $secretDate, true);
+        $secretSigning = hash_hmac("SHA256", "tc3_request", $secretService, true);
+        $signature = hash_hmac("SHA256", $stringToSign, $secretSigning);
+
+        return 'TC3-HMAC-SHA256'
+            ." Credential=". $secretId ."/". $date . '/'. self::ENDPOINT_SERVICE .'/tc3_request'
+            .", SignedHeaders=content-type;host, Signature=".$signature;
     }
 }

@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
-use Overtrue\EasySms\Contracts\GatewayInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\QcloudGateway;
 use Overtrue\EasySms\Message;
@@ -25,122 +24,65 @@ class QcloudGatewayTest extends TestCase
     {
         $config = [
             'sdk_app_id' => 'mock-sdk-app-id',
-            'app_key' => 'mock-api-key',
+            'secret_key' => 'mock-secret-key',
+            'secret_id' => 'mock-secret-id',
+            'sign_name' => 'mock-api-sign-name'
         ];
-        $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
-        $gateway->shouldReceive('request')
-                ->andReturn([
-                    'result' => 0,
-                    'errmsg' => 'OK',
-                    'ext' => '',
-                    'sid' => 3310228982,
-                    'fee' => 1,
-                ], [
-                    'result' => 1001,
-                    'errmsg' => 'sig校验失败',
-                ])->twice();
-
-        $message = new Message(['data' => ['type' => 0], 'content' => 'This is a test message.']);
-
-        $config = new Config($config);
-
-        $this->assertSame([
-            'result' => 0,
-            'errmsg' => 'OK',
-            'ext' => '',
-            'sid' => 3310228982,
-            'fee' => 1,
-        ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
-
-        $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(1001);
-        $this->expectExceptionMessage('sig校验失败');
-
-        $gateway->send(new PhoneNumber(18888888888), $message, $config);
-    }
-
-    public function testSendUsingNationCode()
-    {
-        $config = [
-            'sdk_app_id' => 'mock-sdk-app-id',
-            'app_key' => 'mock-api-key',
-        ];
         $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn([
-                'result' => 0,
-                'errmsg' => 'OK',
-                'ext' => '',
-                'sid' => 3310228982,
-                'fee' => 1,
+                'Response' => [
+                    "SendStatusSet" => [
+                        [
+                            "SerialNo" => "2028:f825e6b16e23f73f4123",
+                            "PhoneNumber" => "8618888888888",
+                            "Fee" => 1,
+                            "SessionContext" => "",
+                            "Code" => "Ok",
+                            "Message" => "send success",
+                            "IsoCode" => "CN"
+                        ]
+                    ]
+                ],
+                'RequestId' => '0dc99542-c61a-4a16-9545-ec8ec202c543'
             ], [
-                'result' => 1001,
-                'errmsg' => 'sig校验失败',
+                'Response' => [
+                    "Error" => [
+                        [
+                            "Code" => "AuthFailure.SignatureFailure",
+                            "Message" => "The provided credentials could not be validated. Please check your signature is correct.",
+                        ]
+                    ]
+                ],
+                'RequestId' => '0dc99542-c61a-4a16-9545-2b967e2c980a'
             ])->twice();
 
-        $message = new Message(['data' => ['type' => 0], 'content' => 'This is a test message.']);
+        $message = new Message([
+            'template' => 'template-id',
+            'data' => [
+                "888888",
+            ],
+        ]);
 
         $config = new Config($config);
 
         $this->assertSame([
-            'result' => 0,
-            'errmsg' => 'OK',
-            'ext' => '',
-            'sid' => 3310228982,
-            'fee' => 1,
-        ], $gateway->send(new PhoneNumber(18888888888, 251), $message, $config));
-
-        $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(1001);
-        $this->expectExceptionMessage('sig校验失败');
-
-        $gateway->send(new PhoneNumber(18888888888, 251), $message, $config);
-    }
-
-    public function testSendUsingTemplate()
-    {
-        $config = [
-            'sdk_app_id' => 'mock-sdk-app-id',
-            'app_key' => 'mock-api-key',
-        ];
-        $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
-
-        $gateway->shouldReceive('request')
-                ->with(\Mockery::any(), \Mockery::any(), \Mockery::subset([
-                    'json' => [
-                        'tpl_id' => 'template-id',
-                        'params' => [
-                            'param1',
-                            'param2',
-                        ],
-                    ],
-                ]))
-                ->andReturn([
-                    'result' => 0,
-                    'errmsg' => 'OK',
-                    'ext' => '',
-                    'sid' => 3310228982,
-                    'fee' => 1,
-                ], [
-                    'result' => 1001,
-                    'errmsg' => 'sig校验失败',
-                ])->twice();
-
-        $message = \Mockery::mock(Message::class);
-        $message->allows()->getTemplate()->withArgs([GatewayInterface::class])->andReturns('template-id');
-        $message->allows()->getData()->withArgs([GatewayInterface::class])->andReturns(['param1', 'param2', 'sign_name' => 'sign']);
-        $message->allows()->getContent()->withArgs([GatewayInterface::class])->andReturns(null);
-
-        $config = new Config($config);
-
-        $this->assertSame([
-            'result' => 0,
-            'errmsg' => 'OK',
-            'ext' => '',
-            'sid' => 3310228982,
-            'fee' => 1,
+            'Response' => [
+                "SendStatusSet" => [
+                    [
+                        "SerialNo" => "2028:f825e6b16e23f73f4123",
+                        "PhoneNumber" => "8618888888888",
+                        "Fee" => 1,
+                        "SessionContext" => "",
+                        "Code" => "Ok",
+                        "Message" => "send success",
+                        "IsoCode" => "CN"
+                    ]
+                ]
+            ],
+            'RequestId' => '0dc99542-c61a-4a16-9545-ec8ec202c543'
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
