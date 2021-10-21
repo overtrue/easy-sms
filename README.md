@@ -39,7 +39,6 @@
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
-- [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
 - [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
@@ -538,13 +537,14 @@ $easySms->send(13188888888, $message);
 
 ### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
-短信内容使用 `content`
+短信内容使用 `template` + `data`
 
 ```php
     'qcloud' => [
         'sdk_app_id' => '', // SDK APP ID
-        'app_key' => '', // APP KEY
-        'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
+        'secret_id' => '', // SECRET ID
+        'secret_key' => '', // SECRET KEY
+        'sign_name' => '', // 短信签名
     ],
 ```
 
@@ -553,24 +553,10 @@ $easySms->send(13188888888, $message);
 ```php
 $easySms->send(18888888888, [
     'template' => 101234, // 模板ID
-    'content' => "您的动态验证码为：{1}，请于5分钟内完成验证，如非本人操作，请忽略本短信！", // 模板内容
     'data' => [ 
         $code, // 模板变量
     ],
 ]);
-```
-
-### [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
-
-短信内容使用 `template` + `data`
-
-```php
-    'qcloudv3' => [
-        'sdk_app_id' => '', // SDK APP ID
-        'secret_key' => '', // SECRET KEY
-        'secret_id' => '', // SECRET ID
-        'sign_name' => '', // 短信签名
-    ],
 ```
 
 ### [阿凡达数据](http://www.avatardata.cn/)
