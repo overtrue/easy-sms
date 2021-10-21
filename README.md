@@ -548,19 +548,6 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
-### [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
-
-短信内容使用 `content`
-
-```php
-    'qcloudv3' => [
-        'sdk_app_id' => '', // SDK APP ID
-        'secret_key' => '', // SECRET KEY
-        'secret_id' => '', // SECRET ID
-        'sign_name' => '', // 短信签名
-    ],
-```
-
 发送示例：
 
 ```php
@@ -571,6 +558,19 @@ $easySms->send(18888888888, [
         $code, // 模板变量
     ],
 ]);
+```
+
+### [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
+
+短信内容使用 `template` + `data`
+
+```php
+    'qcloudv3' => [
+        'sdk_app_id' => '', // SDK APP ID
+        'secret_key' => '', // SECRET KEY
+        'secret_id' => '', // SECRET ID
+        'sign_name' => '', // 短信签名
+    ],
 ```
 
 ### [阿凡达数据](http://www.avatardata.cn/)
