@@ -39,6 +39,7 @@
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [腾讯云 SMS](https://cloud.tencent.com/product/sms)
+- [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
 - [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
@@ -544,6 +545,19 @@ $easySms->send(13188888888, $message);
         'sdk_app_id' => '', // SDK APP ID
         'app_key' => '', // APP KEY
         'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
+    ],
+```
+
+### [腾讯云 SMS(V3)](https://cloud.tencent.com/product/sms)
+
+短信内容使用 `content`
+
+```php
+    'qcloudv3' => [
+        'sdk_app_id' => '', // SDK APP ID
+        'secret_key' => '', // SECRET KEY
+        'secret_id' => '', // SECRET ID
+        'sign_name' => '', // 短信签名
     ],
 ```
 
