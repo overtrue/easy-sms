@@ -71,6 +71,6 @@ class JuheGateway extends Gateway
             $formatted[sprintf('#%s#', trim($key, '#'))] = $value;
         }
 
-        return http_build_query($formatted);
+        return urldecode(http_build_query($formatted));
     }
 }
