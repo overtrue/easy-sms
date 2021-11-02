@@ -64,7 +64,7 @@ class QcloudGateway extends Gateway
             ],
             'SmsSdkAppId' => $this->config->get('sdk_app_id'),
             'SignName' => $signName,
-            'TemplateId' => $message->getTemplate($this),
+            'TemplateId' => (string) $message->getTemplate($this),
             'TemplateParamSet' => array_values($data),
         ];
 
