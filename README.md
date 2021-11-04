@@ -25,6 +25,10 @@
 
 ## 平台支持
 
+- [腾讯云 SMS](https://cloud.tencent.com/product/sms)
+- [Ucloud](https://www.ucloud.cn)
+- [七牛云](https://www.qiniu.com/)
+- [SendCloud](http://www.sendcloud.net/)
 - [阿里云](https://www.aliyun.com/)
 - [云片](https://www.yunpian.com)
 - [Submail](https://www.mysubmail.com)
@@ -32,21 +36,17 @@
 - [容联云通讯](http://www.yuntongxun.com)
 - [互亿无线](http://www.ihuyi.com)
 - [聚合数据](https://www.juhe.cn)
-- [SendCloud](http://www.sendcloud.net/)
 - [百度云](https://cloud.baidu.com/)
 - [华信短信平台](http://www.ipyy.com/)
 - [253云通讯（创蓝）](https://www.253.com/)
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
-- [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 - [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
 - [云之讯](https://www.ucpaas.com/index.html)
 - [凯信通](http://www.kingtto.cn/)
-- [七牛云](https://www.qiniu.com/)
 - [UE35.net](http://uesms.ue35.cn/)
-- [Ucloud](https://www.ucloud.cn)
 - [短信宝](http://www.smsbao.com/)
 - [Tiniyo](https://tiniyo.com/)
 - [摩杜云](https://www.moduyun.com/)
@@ -541,10 +541,10 @@ $easySms->send(13188888888, $message);
 
 ```php
     'qcloud' => [
-        'sdk_app_id' => '', // SDK APP ID
+        'sdk_app_id' => '', // 短信应用的 SDK APP ID
         'secret_id' => '', // SECRET ID
         'secret_key' => '', // SECRET KEY
-        'sign_name' => '', // 短信签名
+        'sign_name' => '腾讯CoDesign', // 短信签名
     ],
 ```
 
@@ -554,7 +554,7 @@ $easySms->send(13188888888, $message);
 $easySms->send(18888888888, [
     'template' => 101234, // 模板ID
     'data' => [ 
-        $code, // 模板变量
+        "a", 'b', 'c', 'd', //按占位顺序给值
     ],
 ]);
 ```
