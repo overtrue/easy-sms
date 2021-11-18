@@ -97,7 +97,7 @@ class AliyunGateway extends Gateway
     {
         ksort($params);
         $accessKeySecret = $this->config->get('access_key_secret');
-        $stringToSign = 'GET&%2F&'.urlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
+        $stringToSign = 'GET&%2F&'.urlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
 
         return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret.'&', true));
     }

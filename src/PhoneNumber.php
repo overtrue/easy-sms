@@ -108,6 +108,7 @@ class PhoneNumber implements \Overtrue\EasySms\Contracts\PhoneNumberInterface
      *
      * @since 5.4.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->getUniversalNumber();

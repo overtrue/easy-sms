@@ -43,7 +43,7 @@ class ConfigTest extends TestCase
 
         $this->assertSame('bar', $config['foo']);
         $this->assertSame('bar', $config->get('foo'));
-        $this->assertNull($config->get(null));
+        $this->assertNull($config->get('key-not-exists'));
 
         $this->assertSame(9999, $config->get('bar.profile.id'));
         $this->assertSame('overtrue', $config->get('bar.profile.name'));
