@@ -30,7 +30,7 @@ class JuheGatewayTest extends TestCase
         $params = [
             'mobile' => 18188888888,
             'tpl_id' => 'mock-tpl-id',
-            'tpl_value' => http_build_query(['#code#' => 1234]),
+            'tpl_value' => urldecode(http_build_query(['#code#' => 1234])),
             'dtype' => 'json',
             'key' => 'mock-key',
         ];

@@ -72,7 +72,7 @@ class SmsbaoGatewayTest extends TestCase
         $params = [
             'u' => 'mock-user',
             'p' => md5('mock-password'),
-            'm' => '+8618188888888',
+            'm' => '+8518188888888',
             'c' => 'This is a test message.'
         ];
 
@@ -87,11 +87,11 @@ class SmsbaoGatewayTest extends TestCase
 
         $this->assertSame(
             '0',
-            $gateway->send(new PhoneNumber(18188888888, 86), $message, $config)
+            $gateway->send(new PhoneNumber(18188888888, 85), $message, $config)
         );
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(30);
-        $gateway->send(new PhoneNumber(18188888888, 86), $message, $config);
+        $gateway->send(new PhoneNumber(18188888888, 85), $message, $config);
     }
 }
