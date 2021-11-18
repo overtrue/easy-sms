@@ -19,18 +19,11 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class ErrorlogGatewayTest extends TestCase
 {
-    protected $logFile = 'easy-sms-error-log-mock-file.log';
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        unlink($this->logFile);
-    }
-
     public function testSend()
     {
+        $logFile = 'easy-sms-error-log-mock-file.log';
         $gateway = new ErrorlogGateway([
-            'file' => $this->logFile,
+            'file' => $logFile,
         ]);
 
         $message = new Message([
@@ -40,10 +33,13 @@ class ErrorlogGatewayTest extends TestCase
 
         $gateway->send(new PhoneNumber(new PhoneNumber(18188888888)), $message, new Config());
 
-        $this->assertTrue(file_exists($this->logFile));
-        $this->assertContains(
-            'to: 18188888888 | message: "This is a test message."  | template: "" | data: {"foo":"bar"}',
-            file_get_contents($this->logFile)
+        $this->assertTrue(file_exists($logFile));
+        $this->assertFalse(
+            strpos(
+                'to: 18188888888 | message: "This is a test message."  | template: "" | data: {"foo":"bar"}',
+                file_get_contents($logFile)
+            )
         );
+        unlink($logFile);
     }
 }

@@ -8,3 +8,4 @@ composer.lock
 .idea
 /index.php
 /config.php
+.phpunit.result.cache

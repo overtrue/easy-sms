@@ -50,10 +50,8 @@ class QcloudGatewayTest extends TestCase
             ], [
                 'Response' => [
                     "Error" => [
-                        [
-                            "Code" => "AuthFailure.SignatureFailure",
-                            "Message" => "The provided credentials could not be validated. Please check your signature is correct.",
-                        ]
+                        "Code" => "AuthFailure.SignatureFailure",
+                        "Message" => "The provided credentials could not be validated. Please check your signature is correct.",
                     ]
                 ],
                 'RequestId' => '0dc99542-c61a-4a16-9545-2b967e2c980a'
@@ -86,8 +84,8 @@ class QcloudGatewayTest extends TestCase
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(1001);
-        $this->expectExceptionMessage('sig校验失败');
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('The provided credentials could not be validated. Please check your signature is correct.');
 
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }

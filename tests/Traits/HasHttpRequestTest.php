@@ -34,7 +34,7 @@ class HasHttpRequestTest extends TestCase
 
         $options = ['form_params' => ['foo' => 'bar']];
         $mockHttpClient->allows()->get('mock-endpoint', $options)->andReturn($mockResponse)->once();
-        $object->allows()->request(anyArgs())->passthru();
+        $object->shouldReceive('request')->withAnyArgs()->passthru();
 
         $this->assertSame('unwrapped-api-result', $object->request('get', 'mock-endpoint', $options));
     }
@@ -47,7 +47,7 @@ class HasHttpRequestTest extends TestCase
             'headers' => ['Content-Type' => 'Mock-Content-Type'],
             'query' => ['foo' => 'bar'],
         ])->andReturns('mock-result')->once();
-        $object->allows()->get(anyArgs())->passthru();
+        $object->shouldReceive('get')->withAnyArgs()->passthru();
 
         $response = $object->get('mock-endpoint', ['foo' => 'bar'], ['Content-Type' => 'Mock-Content-Type']);
 
@@ -62,7 +62,7 @@ class HasHttpRequestTest extends TestCase
             'headers' => ['Content-Type' => 'Mock-Content-Type'],
             'form_params' => ['foo' => 'bar'],
         ])->andReturns('mock-result')->once();
-        $object->allows()->post(anyArgs())->passthru();
+        $object->shouldReceive('post')->withAnyArgs()->passthru();
 
         $response = $object->post('mock-endpoint', ['foo' => 'bar'], ['Content-Type' => 'Mock-Content-Type']);
 
@@ -74,7 +74,7 @@ class HasHttpRequestTest extends TestCase
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
                 ->makePartial()
                 ->shouldAllowMockingProtectedMethods();
-        $object->allows()->getBaseOptions(anyArgs())->passthru();
+        $object->shouldReceive('getBaseOptions')->withAnyArgs()->passthru();
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(5.0, $object->getBaseOptions()['timeout']);
@@ -83,7 +83,7 @@ class HasHttpRequestTest extends TestCase
         $object = \Mockery::mock(DummyTimeoutClassForHasHttpRequestTrait::class)
                 ->makePartial()
                 ->shouldAllowMockingProtectedMethods();
-        $object->allows()->getBaseOptions(anyArgs())->passthru();
+        $object->shouldReceive('getBaseOptions')->withAnyArgs()->passthru();
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(30.0, $object->getBaseOptions()['timeout']);
@@ -94,7 +94,7 @@ class HasHttpRequestTest extends TestCase
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
-        $object->allows()->unwrapResponse(anyArgs())->passthru();
+        $object->shouldReceive('unwrapResponse')->withAnyArgs()->passthru();
 
         $body = ['foo' => 'bar'];
         $response = new Response(200, ['content-type' => 'application/json'], json_encode($body));
@@ -107,7 +107,7 @@ class HasHttpRequestTest extends TestCase
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
-        $object->allows()->unwrapResponse(anyArgs())->passthru();
+        $object->shouldReceive('unwrapResponse')->withAnyArgs()->passthru();
 
         $body = '<xml>
                     <foo>hello</foo>
@@ -123,7 +123,7 @@ class HasHttpRequestTest extends TestCase
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
-        $object->allows()->unwrapResponse(anyArgs())->passthru();
+        $object->shouldReceive('unwrapResponse')->withAnyArgs()->passthru();
 
         $body = 'something here.';
         $response = new Response(200, ['content-type' => 'text/plain'], $body);
