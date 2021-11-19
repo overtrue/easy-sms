@@ -84,7 +84,15 @@ class QcloudGateway extends Gateway
         ]);
 
         if (!empty($result['Response']['Error']['Code'])) {
-            throw new GatewayErrorException($result['Response']['Error']['Message'], $result['Response']['Error']['Code'], $result);
+            throw new GatewayErrorException($result['Response']['Error']['Message'], 400, $result);
+        }
+
+        if (!empty($result['Response']['SendStatusSet'])) {
+            foreach ($result['Response']['SendStatusSet'] as $group) {
+                if ($group['Code'] != 'Ok') {
+                    throw new GatewayErrorException($group['Message'], 400, $result);
+                }
+            }
         }
 
         return $result;
@@ -103,7 +111,7 @@ class QcloudGateway extends Gateway
         $secretKey = $this->config->get('secret_key');
         $secretId = $this->config->get('secret_id');
 
-        $canonicalRequest  =  'POST'."\n".
+        $canonicalRequest = 'POST'."\n".
             '/'."\n".
             '' ."\n".
             'content-type:application/json; charset=utf-8'."\n".

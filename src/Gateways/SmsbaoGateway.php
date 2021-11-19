@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -32,7 +31,7 @@ class SmsbaoGateway extends Gateway
     const SUCCESS_CODE = '0';
 
     protected $errorStatuses = [
-        '0'  => '短信发送成功',
+        '0' => '短信发送成功',
         '-1' => '参数不全',
         '-2' => '服务器空间不支持,请确认支持curl或者fsocket，联系您的空间商解决或者更换空间！',
         '30' => '密码错误',

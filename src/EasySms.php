@@ -20,7 +20,6 @@ use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Gateways\Gateway;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 use Overtrue\EasySms\Support\Config;
-use RuntimeException;
 
 /**
  * Class EasySms.

@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
-
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\SmsbaoGateway;
 use Overtrue\EasySms\Message;

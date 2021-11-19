@@ -9,3 +9,5 @@ composer.lock
 /index.php
 /config.php
 .phpunit.result.cache
+cghooks.lock
+

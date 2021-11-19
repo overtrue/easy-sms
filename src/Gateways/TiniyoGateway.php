@@ -11,7 +11,6 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use GuzzleHttp\Exception\ClientException;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -30,7 +29,7 @@ class TiniyoGateway extends Gateway
     const ENDPOINT_URL = 'https://api.tiniyo.com/v1/Account/%s/Message';
 
     const SUCCESS_CODE = '000000';
-    
+
     public function getName()
     {
         return 'tiniyo';

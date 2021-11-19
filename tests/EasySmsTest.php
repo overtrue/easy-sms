@@ -16,12 +16,10 @@ use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\InvalidArgumentException;
-use Overtrue\EasySms\Gateways\AliyunGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\Messenger;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
-use RuntimeException;
 
 class EasySmsTest extends TestCase
 {

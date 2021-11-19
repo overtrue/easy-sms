@@ -84,8 +84,53 @@ class QcloudGatewayTest extends TestCase
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
-        $this->expectExceptionCode(0);
+        $this->expectExceptionCode(400);
         $this->expectExceptionMessage('The provided credentials could not be validated. Please check your signature is correct.');
+
+        $gateway->send(new PhoneNumber(18888888888), $message, $config);
+    }
+
+    public function testSendWithPartialErrors()
+    {
+        $config = [
+            'sdk_app_id' => 'mock-sdk-app-id',
+            'secret_key' => 'mock-secret-key',
+            'secret_id' => 'mock-secret-id',
+            'sign_name' => 'mock-api-sign-name'
+        ];
+
+        $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
+
+        $gateway->shouldReceive('request')
+                ->andReturn([
+                    'Response' => [
+                        "SendStatusSet" => [
+                            [
+                                "SerialNo" => "2028:f825e6b16e23f73f4123",
+                                "PhoneNumber" => "8618888888888",
+                                "Fee" => 1,
+                                "SessionContext" => "",
+                                "Code" => "InvalidParameterValue.TemplateParameterFormatError",
+                                "Message" => "Verification code template parameter format error",
+                                "IsoCode" => "CN"
+                            ]
+                        ]
+                    ],
+                    'RequestId' => '0dc99542-c61a-4a16-9545-ec8ec202c543'
+                ])->once();
+
+        $message = new Message([
+            'template' => 'template-id',
+            'data' => [
+                "888888",
+            ],
+        ]);
+
+        $config = new Config($config);
+
+        $this->expectException(GatewayErrorException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('Verification code template parameter format error');
 
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
