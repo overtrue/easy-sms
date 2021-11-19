@@ -11,6 +11,23 @@
 
 namespace Overtrue\EasySms\Tests;
 
+use Mockery;
+
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @before
+     */
+    public function registerMockery()
+    {
+        Mockery::globalHelpers();
+    }
+
+    /**
+     * @after
+     */
+    public function closeMockery()
+    {
+        Mockery::close();
+    }
 }
