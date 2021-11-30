@@ -12,8 +12,9 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/sponsors/overtrue"><img src="https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me-button-s.svg" alt="Sponsor me" style="max-width: 100%;"></a>
+<a href="https://github.com/sponsors/overtrue"><img src="https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true" alt="Sponsor me" style="max-width: 100%;"></a>
 </p>
+
 
 ## 特点
 
@@ -809,7 +810,7 @@ $easySms->send(18888888888, [
 
 ## :heart: 支持我
 
-If you like the work I do and want to support it, [you know what to do :heart:](https://github.com/sponsors/overtrue)
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
