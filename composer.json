@@ -13,17 +13,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Overtrue\\EasySms\\": "src"
+            "clyquan\\EasySms\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Overtrue\\EasySms\\Tests\\": "tests"
+            "clyquan\\EasySms\\Tests\\": "tests"
         }
     },
     "license": "MIT",
     "authors": [{
-        "name": "overtrue",
-        "email": "i@overtrue.me"
+        "name": "clyquan",
+        "email": "clyquan@qq.com"
     }]
 }
