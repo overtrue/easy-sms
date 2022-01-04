@@ -57,7 +57,7 @@ class QcloudGateway extends Gateway
 
         unset($data['sign_name']);
 
-        $phone = ($to->getIDDCode() ?: "+86"). $to->getNumber();
+        $phone = !\is_null($to->getIDDCode()) ? strval($to->getUniversalNumber()) : $to->getNumber();
         $params = [
             'PhoneNumberSet' => [
                 $phone
