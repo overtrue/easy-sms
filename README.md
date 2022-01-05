@@ -359,6 +359,35 @@ $easySms->send(13188888888, $message);
     ],
 ```
 
+### [阿里云国际](https://www.alibabacloud.com/help/zh/doc-detail/160524.html)
+
+短信内容使用 `template` + `data`
+
+```php
+    'aliyunintl' => [
+        'access_key_id' => '',
+        'access_key_secret' => '',
+        'sign_name' => '',
+    ],
+```
+
+发送示例：
+
+```php
+use Overtrue\EasySms\PhoneNumber;
+
+$easySms = new EasySms($config);
+$phone_number = new PhoneNumber(18888888888, 86);
+
+$easySms->send($phone_number, [
+    'content' => '您好：先生/女士！您的验证码为${code}，有效时间是5分钟，请及时验证。',
+    'template' => 'SMS_00000001', // 模板ID
+    'data' => [
+        "code" => 521410,
+    ],
+]);
+```
+
 ### [云片](https://www.yunpian.com)
 
 短信内容使用 `content`
