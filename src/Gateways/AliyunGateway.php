@@ -92,12 +92,15 @@ class AliyunGateway extends Gateway
      * @param array $params
      *
      * @return string
+     *
+     * @see https://help.aliyun.com/document_detail/101343.html
      */
     protected function generateSign($params)
     {
         ksort($params);
         $accessKeySecret = $this->config->get('access_key_secret');
         $stringToSign = 'GET&%2F&'.urlencode(http_build_query($params, '', '&', PHP_QUERY_RFC3986));
+        $stringToSign = str_replace('%7E', '~', $stringToSign);
 
         return base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret.'&', true));
     }
