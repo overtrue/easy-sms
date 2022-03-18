@@ -28,8 +28,6 @@ class MaapGateway extends Gateway
 
     const ENDPOINT_URL = 'http://rcsapi.wo.cn:8000/umcinterface/sendtempletmsg';
 
-    const ENDPOINT_FORMAT = 'json';
-
     /**
      * Send message.
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
@@ -59,7 +57,6 @@ class MaapGateway extends Gateway
 
         return $result;
     }
-
 
     /**
      * Generate Sign.
