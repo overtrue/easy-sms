@@ -55,6 +55,7 @@
 - [摩杜云](https://www.moduyun.com/)
 - [融合云（助通）](https://www.ztinfo.cn/products/sms)
 - [蜘蛛云](https://zzyun.com/)
+- [融合云信](https://maap.wo.cn/)
 
 ## 环境需求
 
@@ -833,6 +834,28 @@ $easySms->send(18888888888, [
         'code' => '888888',   //模板参数，对应模板的{code}
         //...
     ],
+]);
+
+```
+
+### [融合云信](https://maap.wo.cn/)
+
+短信使用 `template` + `data`
+
+```php
+  'maap' => [
+        'cpcode' => '',    //必填 商户编码
+        'key' => '',     //必填 接口密钥
+        'excode'=> '',   //选填 扩展名
+    ],
+```
+
+```php
+$easySms->send(18888888888, [
+    'template' => '356120',   //短信模板
+    'data' => [
+        '123465'
+    ],//模板参数
 ]);
 
 ```
