@@ -56,6 +56,7 @@
 - [融合云（助通）](https://www.ztinfo.cn/products/sms)
 - [蜘蛛云](https://zzyun.com/)
 - [融合云信](https://maap.wo.cn/)
+- [天瑞云](http://cms.tinree.com/)
 
 ## 环境需求
 
@@ -564,7 +565,7 @@ $easySms->send($phone_number, [
         'account_sid' => '', // auth_id from https://tiniyo.com
         'from' => '', // 发送的号码 可以在控制台购买
         'token' => '', // auth_secret from https://tiniyo.com
-    ],	    
+    ],
 ```
 
 
@@ -586,7 +587,7 @@ $easySms->send($phone_number, [
 ```php
 $easySms->send(18888888888, [
     'template' => 101234, // 模板ID
-    'data' => [ 
+    'data' => [
         "a", 'b', 'c', 'd', //按占位顺序给值
     ],
 ]);
@@ -858,6 +859,29 @@ $easySms->send(18888888888, [
     ],//模板参数
 ]);
 
+```
+
+### [天瑞云](http://cms.tinree.com/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'tinree' => [
+        'accesskey' => '', // 平台分配给用户的accesskey
+        'secret' => '', // 平台分配给用户的secret
+        'sign' => '', // 平台上申请的接口短信签名或者签名ID
+    ],
+```
+
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'template' => '123456', // 模板ID
+    'data' => [
+        "a", 'b', 'c', //按模板变量占位顺序
+    ],
+]);
 ```
 
 ## :heart: 支持我
