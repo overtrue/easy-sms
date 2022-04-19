@@ -113,4 +113,14 @@ class PhoneNumber implements \Overtrue\EasySms\Contracts\PhoneNumberInterface
     {
         return $this->getUniversalNumber();
     }
+
+    /**
+     * Check if the phone number belongs to chinese mainland.
+     *
+     * @return bool
+     */
+    public function inChineseMainland()
+    {
+        return empty($this->IDDCode) || $this->IDDCode === 86;
+    }
 }
