@@ -20,7 +20,8 @@ use Overtrue\EasySms\Traits\HasHttpRequest;
 /**
  * Class YuntongxunGateway.
  *
- * @see http://www.yuntongxun.com/doc/rest/sms/3_2_2_2.html
+ * @see Chinese Mainland: http://doc.yuntongxun.com/pe/5a533de33b8496dd00dce07c
+ * @see International: http://doc.yuntongxun.com/pe/604f29eda80948a1006e928d
  */
 class YuntongxunGateway extends Gateway
 {
@@ -38,7 +39,11 @@ class YuntongxunGateway extends Gateway
 
     const SDK_VERSION = '2013-12-26';
 
+    const SDK_VERSION_INT = 'v2';
+
     const SUCCESS_CODE = '000000';
+
+    private $international = false; // if international SMS, default false means no.
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
@@ -53,15 +58,28 @@ class YuntongxunGateway extends Gateway
     {
         $datetime = date('YmdHis');
 
-        $endpoint = $this->buildEndpoint('SMS', 'TemplateSMS', $datetime, $config);
+        $data = [
+            'appId' => $config->get('app_id'),
+        ];
+
+        if ($to->inChineseMainland()) {
+            $type = 'SMS';
+            $resource = 'TemplateSMS';
+            $data['to'] = $to->getNumber();
+            $data['templateId'] = (int) ($this->config->get('debug') ? self::DEBUG_TEMPLATE_ID : $message->getTemplate($this));
+            $data['datas'] = $message->getData($this);
+        } else {
+            $type = 'international';
+            $resource = 'send';
+            $this->international = true;
+            $data['mobile'] = $to->getZeroPrefixedNumber();
+            $data['content'] = $message->getContent($this);
+        }
+
+        $endpoint = $this->buildEndpoint($type, $resource, $datetime, $config);
 
         $result = $this->request('post', $endpoint, [
-            'json' => [
-                'to' => $to,
-                'templateId' => (int) ($this->config->get('debug') ? self::DEBUG_TEMPLATE_ID : $message->getTemplate($this)),
-                'appId' => $config->get('app_id'),
-                'datas' => $message->getData($this),
-            ],
+            'json' => $data,
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json;charset=utf-8',
@@ -90,10 +108,16 @@ class YuntongxunGateway extends Gateway
     {
         $serverIp = $this->config->get('debug') ? self::DEBUG_SERVER_IP : self::SERVER_IP;
 
-        $accountType = $this->config->get('is_sub_account') ? 'SubAccounts' : 'Accounts';
+        if ($this->international) {
+            $accountType = 'account';
+            $sdkVersion = self::SDK_VERSION_INT;
+        } else {
+            $accountType = $this->config->get('is_sub_account') ? 'SubAccounts' : 'Accounts';
+            $sdkVersion = self::SDK_VERSION;
+        }
 
         $sig = strtoupper(md5($config->get('account_sid').$config->get('account_token').$datetime));
 
-        return sprintf(self::ENDPOINT_TEMPLATE, $serverIp, self::SERVER_PORT, self::SDK_VERSION, $accountType, $config->get('account_sid'), $type, $resource, $sig);
+        return sprintf(self::ENDPOINT_TEMPLATE, $serverIp, self::SERVER_PORT, $sdkVersion, $accountType, $config->get('account_sid'), $type, $resource, $sig);
     }
 }
