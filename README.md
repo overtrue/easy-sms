@@ -892,7 +892,8 @@ $easySms->send(18888888888, [
 ```php
     'volcengine' => [
         'access_key_id' => '', // 平台分配给用户的access_key_id
-        'access_key_secret'=>'', // 平台分配给用户的access_key_secret
+        'access_key_secret' => '', // 平台分配给用户的access_key_secret
+        'region_id' => 'cn-north-1', // 国内节点 cn-north-1，国外节点 ap-singapore-1，不填或填错，默认使用国内节点
         'sign_name' => '', // 平台上申请的接口短信签名或者签名ID，可不填，发送短信时data中指定
         'sms_account' => '', // 消息组帐号,火山短信页面右上角，短信应用括号中的字符串，可不填，发送短信时data中指定
     ],
