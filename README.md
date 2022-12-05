@@ -57,6 +57,7 @@
 - [蜘蛛云](https://zzyun.com/)
 - [融合云信](https://maap.wo.cn/)
 - [天瑞云](http://cms.tinree.com/)
+- [火山引擎](https://console.volcengine.com/sms/)
 
 ## 环境需求
 
@@ -880,6 +881,43 @@ $easySms->send(18888888888, [
     'template' => '123456', // 模板ID
     'data' => [
         "a", 'b', 'c', //按模板变量占位顺序
+    ],
+]);
+```
+
+### [火山引擎](https://console.volcengine.com/sms/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'volcengine' => [
+        'access_key_id' => '', // 平台分配给用户的access_key_id
+        'access_key_secret'=>'', // 平台分配给用户的access_key_secret
+        'sign_name' => '', // 平台上申请的接口短信签名或者签名ID，可不填，发送短信时data中指定
+        'sms_account' => '', // 消息组帐号,火山短信页面右上角，短信应用括号中的字符串，可不填，发送短信时data中指定
+    ],
+```
+
+发送示例1：
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_123456', // 模板ID
+    'data' => [
+       "code" => 1234 // 模板变量
+    ],
+]);
+```
+
+发送示例2：
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_123456', // 模板ID
+    'data' => [
+        "template_param" => ["code" => 1234], // 模板变量参数
+        "sign_name" => "yoursignname", // 签名，覆盖配置文件中的sign_name
+        "sms_account" => "yoursmsaccount", // 消息组帐号，覆盖配置文件中的sms_account
+        "phone_numbers" => "18888888888,18888888889", // 手机号，批量发送，英文的逗号连接多个手机号，覆盖发送方法中的填入的手机号
     ],
 ]);
 ```
