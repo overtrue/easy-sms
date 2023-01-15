@@ -60,6 +60,7 @@ class Messenger
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_SUCCESS,
+                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
                     'result' => $this->easySms->gateway($gateway)->send($to, $message, $config),
                 ];
                 $isSuccessful = true;
@@ -69,12 +70,14 @@ class Messenger
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
+                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
                     'exception' => $e,
                 ];
             } catch (\Throwable $e) {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
+                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
                     'exception' => $e,
                 ];
             }
