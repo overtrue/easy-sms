@@ -42,6 +42,7 @@
 - [百度云](https://cloud.baidu.com/)
 - [华信短信平台](http://www.ipyy.com/)
 - [253云通讯（创蓝）](https://www.253.com/)
+- [创蓝云智](https://www.chuanglan.com/)
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [阿凡达数据](http://www.avatardata.cn/)
@@ -554,7 +555,7 @@ $easySms->send(18888888888, [
 
 ```php
 $easySms->send(18888888888, [
-    'template' => xxxxxx, // 模板内柔
+    'template' => xxxxxx, // 模板内容
     'data' => 'phone":"15800000000,1234；15300000000,4321',
 ]);
 ```
