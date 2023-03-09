@@ -520,6 +520,45 @@ $easySms->send($phone_number, [
     ],
 ```
 
+### [创蓝云智](https://www.chuanglan.com/)
+
+普通短信发送内容使用 `content`
+
+```php
+    'chuanglanv1' => [
+        'account' => '',
+        'password' => '',
+        'needstatus' => false,
+        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_NORMAL_CODE,
+    ],
+```
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'content' => xxxxxxx
+]);
+```
+
+变量短信发送内容使用 `template` + `data`
+
+```php
+    'chuanglanv1' => [
+        'account' => '',
+        'password' => '',
+        'needstatus' => false,
+        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_VARIABLE_CODE,
+    ],
+```
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'template' => xxxxxx, // 模板内柔
+    'data' => 'phone":"15800000000,1234；15300000000,4321',
+]);
+```
+
 ### [融云](http://www.rongcloud.cn)
 
 短信分为两大类，验证类和通知类短信。 发送验证类短信使用 `template` + `data`
