@@ -35,12 +35,12 @@ class Chuanglanv1Gateway extends Gateway
     /**
      * URL模板
      */
-    const ENDPOINT_URL_TEMPLATE = 'https://smssh1.253.com/msg/v1/%s/json';
+    const ENDPOINT_URL_TEMPLATE = 'https://smssh1.253.com/msg/%s/json';
 
     /**
      * 支持单发、群发短信
      */
-    const CHANNEL_NORMAL_CODE = 'send';
+    const CHANNEL_NORMAL_CODE = 'v1/send';
 
     /**
      * 单号码对应单内容批量下发
@@ -63,8 +63,7 @@ class Chuanglanv1Gateway extends Gateway
 
         $params = [
             'account' => $config->get('account'),
-            'password' => $config->get('password'),
-            'phone' => $to->getNumber(),
+            'password' => $config->get('password')
         ];
 
         if (86 != $IDDCode) {
@@ -77,6 +76,7 @@ class Chuanglanv1Gateway extends Gateway
             $params['params'] = $message->getData($this);
             $params['msg'] = $this->wrapChannelContent($message->getTemplate($this), $config, $IDDCode);
         } else {
+            $params['phone'] = $to->getNumber();
             $params['msg'] = $this->wrapChannelContent($message->getContent($this), $config, $IDDCode);
         }
 
