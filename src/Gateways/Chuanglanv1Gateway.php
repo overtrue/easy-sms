@@ -63,7 +63,8 @@ class Chuanglanv1Gateway extends Gateway
 
         $params = [
             'account' => $config->get('account'),
-            'password' => $config->get('password')
+            'password' => $config->get('password'),
+            'report' => $config->get('needstatus') ?? false
         ];
 
         if (86 != $IDDCode) {
