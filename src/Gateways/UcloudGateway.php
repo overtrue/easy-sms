@@ -68,7 +68,7 @@ class UcloudGateway extends Gateway
         $data = $message->getData($this);
         $params = [
             'Action' => self::ENDPOINT_Action,
-            'SigContent' => $config->get('sig_content'),
+            'SigContent' => !empty($data['sig_content']) ? $data['sig_content'] : $config->get('sig_content', ''),
             'TemplateId' => $message->getTemplate($this),
             'PublicKey' => $config->get('public_key'),
         ];
