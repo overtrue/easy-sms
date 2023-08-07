@@ -58,6 +58,7 @@
 - [蜘蛛云](https://zzyun.com/)
 - [融合云信](https://maap.wo.cn/)
 - [天瑞云](http://cms.tinree.com/)
+- [时代互联](https://www.now.cn/)
 - [火山引擎](https://console.volcengine.com/sms/)
 
 ## 环境需求
@@ -922,6 +923,25 @@ $easySms->send(18888888888, [
     'data' => [
         "a", 'b', 'c', //按模板变量占位顺序
     ],
+]);
+```
+
+### [时代互联](https://www.now.cn/)
+
+短信使用 `content`
+
+```php
+  'nowcn' => [
+        'key'  => '',    //用户ID
+        'secret'   => '',    //开发密钥
+        'api_type'  => '',    // 短信通道,
+    ],
+```
+
+发送示例：
+```php
+$easySms->send(18888888888, [
+    'content'  => '您的验证码为: 6379',
 ]);
 ```
 
