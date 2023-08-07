@@ -76,7 +76,7 @@ class QcloudGateway extends Gateway
                 'Host' => self::ENDPOINT_HOST,
                 'Content-Type' => 'application/json; charset=utf-8',
                 'X-TC-Action' => self::ENDPOINT_METHOD,
-                'X-TC-Region' => self::ENDPOINT_REGION,
+                'X-TC-Region' => $this->config->get('region', self::ENDPOINT_REGION),
                 'X-TC-Timestamp' => $time,
                 'X-TC-Version' => self::ENDPOINT_VERSION,
             ],

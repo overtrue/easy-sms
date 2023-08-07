@@ -42,6 +42,7 @@
 - [百度云](https://cloud.baidu.com/)
 - [华信短信平台](http://www.ipyy.com/)
 - [253云通讯（创蓝）](https://www.253.com/)
+- [创蓝云智](https://www.chuanglan.com/)
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
 - [阿凡达数据](http://www.avatardata.cn/)
@@ -58,6 +59,7 @@
 - [融合云信](https://maap.wo.cn/)
 - [天瑞云](http://cms.tinree.com/)
 - [时代互联](https://www.now.cn/)
+- [火山引擎](https://console.volcengine.com/sms/)
 
 ## 环境需求
 
@@ -520,6 +522,45 @@ $easySms->send($phone_number, [
     ],
 ```
 
+### [创蓝云智](https://www.chuanglan.com/)
+
+普通短信发送内容使用 `content`
+
+```php
+    'chuanglanv1' => [
+        'account' => '',
+        'password' => '',
+        'needstatus' => false,
+        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_NORMAL_CODE,
+    ],
+```
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'content' => xxxxxxx
+]);
+```
+
+变量短信发送内容使用 `template` + `data`
+
+```php
+    'chuanglanv1' => [
+        'account' => '',
+        'password' => '',
+        'needstatus' => false,
+        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_VARIABLE_CODE,
+    ],
+```
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'template' => xxxxxx, // 模板内容
+    'data' => 'phone":"15800000000,1234；15300000000,4321',
+]);
+```
+
 ### [融云](http://www.rongcloud.cn)
 
 短信分为两大类，验证类和通知类短信。 发送验证类短信使用 `template` + `data`
@@ -886,6 +927,7 @@ $easySms->send(18888888888, [
 ```
 
 ### [时代互联](https://www.now.cn/)
+
 短信使用 `content`
 
 ```php
@@ -903,6 +945,43 @@ $easySms->send(18888888888, [
 ]);
 ```
 
+### [火山引擎](https://console.volcengine.com/sms/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'volcengine' => [
+        'access_key_id' => '', // 平台分配给用户的access_key_id
+        'access_key_secret' => '', // 平台分配给用户的access_key_secret
+        'region_id' => 'cn-north-1', // 国内节点 cn-north-1，国外节点 ap-singapore-1，不填或填错，默认使用国内节点
+        'sign_name' => '', // 平台上申请的接口短信签名或者签名ID，可不填，发送短信时data中指定
+        'sms_account' => '', // 消息组帐号,火山短信页面右上角，短信应用括号中的字符串，可不填，发送短信时data中指定
+    ],
+```
+
+发送示例1：
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_123456', // 模板ID
+    'data' => [
+       "code" => 1234 // 模板变量
+    ],
+]);
+```
+
+发送示例2：
+```php
+$easySms->send(18888888888, [
+    'template' => 'SMS_123456', // 模板ID
+    'data' => [
+        "template_param" => ["code" => 1234], // 模板变量参数
+        "sign_name" => "yoursignname", // 签名，覆盖配置文件中的sign_name
+        "sms_account" => "yoursmsaccount", // 消息组帐号，覆盖配置文件中的sms_account
+        "phone_numbers" => "18888888888,18888888889", // 手机号，批量发送，英文的逗号连接多个手机号，覆盖发送方法中的填入的手机号
+    ],
+]);
+```
 
 ## :heart: 支持我
 
