@@ -18,6 +18,9 @@ class NowcnGateway extends Gateway
 
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
+        if (!$config->get('key')) {
+            throw new GatewayErrorException("key not found", -2, []);
+        }
         $params=[
             'mobile' => $to->getNumber(),
             'content' => $message->getContent($this),
@@ -26,6 +29,7 @@ class NowcnGateway extends Gateway
             'apiType' => $config->get('api_type'),
         ];
         $result = $this->get(self::ENDPOINT_URL, $params);
+        $result = is_string($result) ? json_decode($result, true) : $result;
         if (self::SUCCESS_CODE != $result['code']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
