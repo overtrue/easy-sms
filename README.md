@@ -531,7 +531,7 @@ $easySms->send($phone_number, [
         'account' => '',
         'password' => '',
         'needstatus' => false,
-        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_NORMAL_CODE,
+        'channel' => \Overtrue\EasySms\Gateways\Chuanglanv1Gateway::CHANNEL_NORMAL_CODE,
     ],
 ```
 发送示例：
@@ -549,7 +549,7 @@ $easySms->send(18888888888, [
         'account' => '',
         'password' => '',
         'needstatus' => false,
-        'channel' => \Overtrue\EasySms\Gateways\ChuanglanV1Gateway::CHANNEL_VARIABLE_CODE,
+        'channel' => \Overtrue\EasySms\Gateways\Chuanglanv1Gateway::CHANNEL_VARIABLE_CODE,
     ],
 ```
 发送示例：
