@@ -54,18 +54,6 @@ class NoGatewayAvailableException extends Exception
     }
 
     /**
-     * @return array
-     */
-    public function getAllResults()
-    {
-        $results = [];
-        foreach ($this->exceptions as $gateway => $exception) {
-            $results[$gateway] = $exception->getMessage();
-        }
-        return $results;
-    }
-
-    /**
      * @param string $gateway
      *
      * @return mixed|null
