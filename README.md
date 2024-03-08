@@ -709,6 +709,18 @@ $easySms->send(18888888888, [
     ],
 ]);
 ```
+通知模板短信
+
+```php
+$easySms->send(18888888888, [
+    'template' => 'templateid',    // 模板编号(由客户顾问配置之后告知开发者)
+    'data' => [
+        'action' => 'sendTemplate', // 默认为 `sendCode`，校验短信验证码使用 `verifyCode`
+        'params' => [1,2,3], //短信参数列表，用于依次填充模板
+    ],
+]);
+```
+
 
 ### [云之讯](https://www.ucpaas.com/index.html)
 
