@@ -123,6 +123,61 @@ class YunxinGatewayTest extends TestCase
         $gateway->send($phone, $message, $config);
     }
 
+    public function testSendWithTemplateMsg()
+    {
+        $config = [
+            'app_key' => 'mock-app-key',
+            'app_secret' => 'mock-app-secret',
+        ];
+
+        $gateway = \Mockery::mock(YunxinGateway::class.'[post,buildHeaders,buildTemplateParams]', [$config]);
+        $gateway->shouldAllowMockingProtectedMethods();
+
+        $phone = new PhoneNumber('18888888888');
+
+        $message = new Message([
+            'template' => 'mock-template-code',
+            'data' => [
+                'params' => ['1'],
+                'action' => 'sendTemplate',
+            ],
+        ]);
+
+        $config = new Config($config);
+
+        $gateway->shouldReceive('buildHeaders')
+            ->with($config)
+            ->andReturn('mock-headers');
+
+        $gateway->shouldReceive('buildTemplateParams')
+            ->with($phone, $message, $config)
+            ->andReturn('mock-params');
+
+        $gateway->shouldReceive('post')
+            ->with('https://api.netease.im/sms/sendtemplate.action', 'mock-params', 'mock-headers')
+            ->andReturn([
+                'code' => 200,
+                'msg' => 5,
+                'obj' => 6379,
+            ], [
+                'code' => 414,
+                'msg' => 'checksum',
+            ])
+            ->twice();
+
+        $this->assertSame([
+            'code' => 200,
+            'msg' => 5,
+            'obj' => 6379,
+        ], $gateway->send($phone, $message, $config));
+
+        $this->expectException(GatewayErrorException::class);
+        $this->expectExceptionCode(414);
+        $this->expectExceptionMessage('checksum');
+
+        $gateway->send($phone, $message, $config);
+    }
+
     public function testBuildEndpoint()
     {
         $config = [

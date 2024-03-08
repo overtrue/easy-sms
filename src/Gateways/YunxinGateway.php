@@ -62,6 +62,10 @@ class YunxinGateway extends Gateway
                 $params = $this->buildVerifyCodeParams($to, $message);
 
                 break;
+            case "sendTemplate":
+                $params = $this->buildTemplateParams($to, $message, $config);
+
+                break;
             default:
                 throw new GatewayErrorException(sprintf('action: %s not supported', $action), 0);
         }
@@ -158,5 +162,27 @@ class YunxinGateway extends Gateway
             'mobile' => $to->getUniversalNumber(),
             'code' => $data['code'],
         ];
+    }
+
+    /**
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface $message
+     * @param Config $config
+     * @return array
+     *
+     */
+    public function buildTemplateParams(PhoneNumberInterface $to, MessageInterface $message, Config $config)
+    {
+        $data = $message->getData($this);
+
+        $template = $message->getTemplate($this);
+
+        return [
+            'templateid'=>$template,
+            'mobiles'=>json_encode([$to->getUniversalNumber()]),
+            'params'=>array_key_exists('params',$data) ? json_encode($data['params']) : '',
+            'needUp'=>$config->get('need_up', false)
+        ];
+
     }
 }
