@@ -50,7 +50,6 @@ class SubmailGateway extends Gateway
                 'content' => $message->getContent($this),
                 'to' => $to->getUniversalNumber(),
             ];
-
         } else {
             $endpoint = $this->buildEndpoint($this->inChineseMainland($to) ? 'message/xsend' : 'internationalsms/xsend');
             $data = $message->getData($this);
