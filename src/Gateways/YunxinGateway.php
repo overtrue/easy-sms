@@ -183,6 +183,5 @@ class YunxinGateway extends Gateway
             'params'=>array_key_exists('params',$data) ? json_encode($data['params']) : '',
             'needUp'=>$config->get('need_up', false)
         ];
-
     }
 }

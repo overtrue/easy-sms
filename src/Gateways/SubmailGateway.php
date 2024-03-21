@@ -32,8 +32,8 @@ class SubmailGateway extends Gateway
 
     /**
      * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
+     * @param \Overtrue\EasySms\Contracts\MessageInterface $message
+     * @param \Overtrue\EasySms\Support\Config $config
      *
      * @return array
      *
@@ -41,17 +41,29 @@ class SubmailGateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
-        $endpoint = $this->buildEndpoint($this->inChineseMainland($to) ? 'message/xsend' : 'internationalsms/xsend');
+        $isContent = !!$message->getContent($this);
+        if ($isContent) {
+            $endpoint = $this->buildEndpoint($this->inChineseMainland($to) ? 'sms/send' : 'internationalsms/send');
+            $params = [
+                'appid' => $config->get('app_id'),
+                'signature' => $config->get('app_key'),
+                'content' => $message->getContent($this),
+                'to' => $to->getUniversalNumber(),
+            ];
+        } else {
+            $endpoint = $this->buildEndpoint($this->inChineseMainland($to) ? 'message/xsend' : 'internationalsms/xsend');
+            $data = $message->getData($this);
+            $template_code = $message->getTemplate($this);
+            $params = [
+                'appid' => $config->get('app_id'),
+                'signature' => $config->get('app_key'),
+                'project' => !empty($template_code) ? $template_code : (!empty($data['project']) ? $data['project'] : $config->get('project')),
+                'to' => $to->getUniversalNumber(),
+                'vars' => json_encode($data, JSON_FORCE_OBJECT),
+            ];
+        }
 
-        $data = $message->getData($this);
-
-        $result = $this->post($endpoint, [
-            'appid' => $config->get('app_id'),
-            'signature' => $config->get('app_key'),
-            'project' => !empty($data['project']) ? $data['project'] : $config->get('project'),
-            'to' => $to->getUniversalNumber(),
-            'vars' => json_encode($data, JSON_FORCE_OBJECT),
-        ]);
+        $result = $this->post($endpoint, $params);
 
         if ('success' != $result['status']) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);

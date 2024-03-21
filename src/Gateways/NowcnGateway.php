@@ -21,7 +21,7 @@ class NowcnGateway extends Gateway
         if (!$config->get('key')) {
             throw new GatewayErrorException("key not found", -2, []);
         }
-        $params=[
+        $params = [
             'mobile' => $to->getNumber(),
             'content' => $message->getContent($this),
             'userId' => $config->get('key'),

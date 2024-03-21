@@ -47,6 +47,5 @@ class NowcnGatewaysTest extends TestCase
         $this->expectExceptionCode(-4);
         $this->expectExceptionMessage('authorize failed');
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
-
     }
 }
