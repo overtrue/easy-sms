@@ -11,8 +11,10 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\UcloudGateway;
+use Overtrue\EasySms\Gateways\YunxinGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;

@@ -178,10 +178,10 @@ class YunxinGateway extends Gateway
         $template = $message->getTemplate($this);
 
         return [
-            'templateid' => $template,
-            'mobiles' => json_encode([$to->getUniversalNumber()]),
-            'params' => array_key_exists('params', $data) ? json_encode($data['params']) : '',
-            'needUp' => $config->get('need_up', false)
+            'templateid'=>$template,
+            'mobiles'=>json_encode([$to->getUniversalNumber()]),
+            'params'=>array_key_exists('params',$data) ? json_encode($data['params']) : '',
+            'needUp'=>$config->get('need_up', false)
         ];
     }
 }
