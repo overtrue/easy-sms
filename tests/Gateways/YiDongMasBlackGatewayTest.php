@@ -12,13 +12,13 @@
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
-use Overtrue\EasySms\Gateways\YiDongMasBlackGateway;
+use Overtrue\EasySms\Gateways\YidongmasblackGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
 
-class YiDongMasBlackGatewayTest extends TestCase
+class YidongmasblackGatewayTest extends TestCase
 {
     public function testSend()
     {
@@ -29,7 +29,7 @@ class YiDongMasBlackGatewayTest extends TestCase
             'sign' => 'mock-sign',
             'addSerial' => 'mock-add-serial',
         ];
-        $gateway = \Mockery::mock(YiDongMasBlackGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(YidongmasblackGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
             'RegionId' => 'cn-hangzhou',
@@ -47,7 +47,7 @@ class YiDongMasBlackGatewayTest extends TestCase
             'TemplateParam' => json_encode(['code' => '123456']),
         ];
         $gateway->shouldReceive('post')
-            ->with(YiDongMasBlackGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
+            ->with(YidongmasblackGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
                 if (empty($params['Signature'])) {
                     return false;
                 }

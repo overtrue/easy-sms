@@ -1001,7 +1001,7 @@ $easySms->send(18888888888, [
 短信内容使用 `template` + `data`
 
 ```php
-    'YiDongMasBlack' => [
+    'yidongmasblack' => [
         'ecName' => '', // 机构名称
         'secretKey' => '', // 密钥
         'apId' => '', // 应用ID

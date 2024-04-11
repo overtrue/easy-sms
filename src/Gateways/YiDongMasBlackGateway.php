@@ -18,13 +18,13 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class YiDongMasBlackGateway.
+ * Class YidongmasblackGateway.
  * 移动MAS黑名单模式（免创建模板）
  * @author houang <mail@houang.cn>
  *
  * @see https://mas.10086.cn
  */
-class YiDongMasBlackGateway extends Gateway
+class YidongmasblackGateway extends Gateway
 {
     use HasHttpRequest;
 
