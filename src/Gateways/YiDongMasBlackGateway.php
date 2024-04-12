@@ -43,7 +43,6 @@ class YidongmasblackGateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
-
         $params["ecName"] = $config->get('ecName');
         $params["apId"] = $config->get('apId');
         $params["sign"] = $config->get('sign');
@@ -51,9 +50,11 @@ class YidongmasblackGateway extends Gateway
         $params["mobiles"] = $to->getNumber();
         $params["content"] = $message->getContent();
         $result = $this->postJson(self::ENDPOINT_URL, $this->generateContent($params));
+
         if ('true' != $result['success']) {
             throw new GatewayErrorException($result['success'], $result['rspcod'], $result);
         }
+
         return $result;
     }
 
@@ -68,6 +69,7 @@ class YidongmasblackGateway extends Gateway
     {
         $secretKey = $this->config->get('secretKey');
         $params['mac'] = md5($params["ecName"].$params["apId"].$secretKey.$params["mobiles"].$params["content"].$params["sign"].$params["addSerial"]);
+        
         return base64_encode(json_encode($params));
     }
 }
