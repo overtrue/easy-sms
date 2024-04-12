@@ -60,6 +60,7 @@
 - [天瑞云](http://cms.tinree.com/)
 - [时代互联](https://www.now.cn/)
 - [火山引擎](https://console.volcengine.com/sms/)
+- [移动云MAS（黑名单模式）](https://mas.10086.cn)
 
 ## 环境需求
 
@@ -995,6 +996,27 @@ $easySms->send(18888888888, [
 ]);
 ```
 
+### [移动云MAS（黑名单模式）](https://mas.10086.cn/)
+
+短信内容使用 `template` + `data`
+
+```php
+    'yidongmasblack' => [
+        'ecName' => '', // 机构名称
+        'secretKey' => '', // 密钥
+        'apId' => '', // 应用ID
+        'sign' => '', // 签名
+        'addSerial' => '', // 通道号默认空
+    ],
+```
+
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'content'  => '您的验证码为: 6379',
+]);
+```
 ## :heart: 支持我
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
