@@ -3,7 +3,6 @@
 <p align="center">:calling: 一款满足你的多种发送需求的短信发送组件</p>
 
 <p align="center">
-<a href="https://travis-ci.org/overtrue/easy-sms"><img src="https://travis-ci.org/overtrue/easy-sms.svg?branch=master" alt="Build Status"></a>
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/v/unstable.svg" alt="Latest Unstable Version"></a>
 <a href="https://scrutinizer-ci.com/g/overtrue/easy-sms/?branch=master"><img src="https://scrutinizer-ci.com/g/overtrue/easy-sms/badges/coverage.png?b=master" alt="Code Coverage"></a>
@@ -14,7 +13,6 @@
 <p align="center">
 <a href="https://github.com/sponsors/overtrue"><img src="https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true" alt="Sponsor me" style="max-width: 100%;"></a>
 </p>
-
 
 ## 特点
 
@@ -45,7 +43,6 @@
 - [创蓝云智](https://www.chuanglan.com/)
 - [融云](http://www.rongcloud.cn)
 - [天毅无线](http://www.85hu.com/)
-- [阿凡达数据](http://www.avatardata.cn/)
 - [华为云](https://www.huaweicloud.com/product/msgsms.html)
 - [网易云信](https://yunxin.163.com/sms)
 - [云之讯](https://www.ucpaas.com/index.html)
@@ -69,14 +66,14 @@
 ## 安装
 
 ```shell
-$ composer require "overtrue/easy-sms"
+composer require "overtrue/easy-sms"
 ```
 
 **For Laravel notification**
 
 如果你喜欢使用 [Laravel Notification](https://laravel.com/docs/5.8/notifications), 可以考虑直接使用朋友封装的拓展包：
 
-https://github.com/yl/easysms-notification-channel
+<https://github.com/yl/easysms-notification-channel>
 
 ## 使用
 
@@ -204,6 +201,7 @@ $easySms->send(13188888888, [
 ## 返回值
 
 由于使用多网关发送，所以返回值为一个数组，结构如下：
+
 ```php
 [
     'yunpian' => [
@@ -473,6 +471,7 @@ $easySms->send($phone_number, [
         'timestamp' => false, // 是否启用时间戳
     ],
 ```
+
 ### [百度云](https://cloud.baidu.com/)
 
 短信内容使用 `template` + `data`
@@ -535,6 +534,7 @@ $easySms->send($phone_number, [
         'channel' => \Overtrue\EasySms\Gateways\Chuanglanv1Gateway::CHANNEL_NORMAL_CODE,
     ],
 ```
+
 发送示例：
 
 ```php
@@ -553,6 +553,7 @@ $easySms->send(18888888888, [
         'channel' => \Overtrue\EasySms\Gateways\Chuanglanv1Gateway::CHANNEL_VARIABLE_CODE,
     ],
 ```
+
 发送示例：
 
 ```php
@@ -611,7 +612,6 @@ $easySms->send(18888888888, [
     ],
 ```
 
-
 ### [腾讯云 SMS](https://cloud.tencent.com/product/sms)
 
 短信内容使用 `template` + `data`
@@ -634,16 +634,6 @@ $easySms->send(18888888888, [
         "a", 'b', 'c', 'd', //按占位顺序给值
     ],
 ]);
-```
-
-### [阿凡达数据](http://www.avatardata.cn/)
-
-短信内容使用 `template` + `data`
-
-```php
-    'avatardata' => [
-        'app_key' => '', // APP KEY
-    ],
 ```
 
 ### [华为云 SMS](https://www.huaweicloud.com/product/msgsms.html)
@@ -710,6 +700,7 @@ $easySms->send(18888888888, [
     ],
 ]);
 ```
+
 通知模板短信
 
 ```php
@@ -721,7 +712,6 @@ $easySms->send(18888888888, [
     ],
 ]);
 ```
-
 
 ### [云之讯](https://www.ucpaas.com/index.html)
 
@@ -783,7 +773,9 @@ $easySms->send(18888888888, [
     ],
 ]);
 ```
+
 ### [Ucloud](https://www.ucloud.cn/)
+
 短信使用 `template` + `data`
 
 ```php
@@ -806,8 +798,8 @@ $easySms->send(18888888888, [
 
 ```
 
-
 ### [短信宝](http://www.smsbao.com/)
+
 短信使用 `content`
 
 ```php
@@ -825,6 +817,7 @@ $easySms->send(18888888888, [
 ```
 
 ### [摩杜云](https://www.moduyun.com/)
+
 短信使用 `template` + `data`
 
 ```php
@@ -952,6 +945,7 @@ $easySms->send(18888888888, [
 ```
 
 发送示例：
+
 ```php
 $easySms->send(18888888888, [
     'content'  => '您的验证码为: 6379',
@@ -984,6 +978,7 @@ $easySms->send(18888888888, [
 ```
 
 发送示例2：
+
 ```php
 $easySms->send(18888888888, [
     'template' => 'SMS_123456', // 模板ID
@@ -1017,6 +1012,7 @@ $easySms->send(18888888888, [
     'content'  => '您的验证码为: 6379',
 ]);
 ```
+
 ## :heart: 支持我
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
@@ -1028,7 +1024,6 @@ $easySms->send(18888888888, [
 Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
 
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/overtrue)
-
 
 ## PHP 扩展包开发
 
