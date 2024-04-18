@@ -11,12 +11,12 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Gateways\TinreeGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
-use Overtrue\EasySms\Gateways\TinreeGateway;
-use Overtrue\EasySms\Exceptions\GatewayErrorException;
 
 class TinreeGatewayTest extends TestCase
 {
@@ -28,7 +28,7 @@ class TinreeGatewayTest extends TestCase
             'sign' => 'mock-sign',
         ];
 
-        $gateway = \Mockery::mock(TinreeGateway::class . '[post]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(TinreeGateway::class.'[post]', [$config])->shouldAllowMockingProtectedMethods();
 
         $params = [
             'accesskey' => $config['accesskey'],
@@ -44,11 +44,11 @@ class TinreeGatewayTest extends TestCase
             ->andReturn([
                 'code' => '0',
                 'msg' => 'SUCCESS',
-                'smUuid' => 'xxx'
+                'smUuid' => 'xxx',
             ], [
                 'code' => '9006',
                 'msg' => ' 用户accesskey不正确',
-                'smUuid' => ''
+                'smUuid' => '',
             ])->twice();
 
         $message = new Message(['data' => ['1234', 5], 'template' => '123456']);
@@ -57,7 +57,7 @@ class TinreeGatewayTest extends TestCase
             [
                 'code' => '0',
                 'msg' => 'SUCCESS',
-                'smUuid' => 'xxx'
+                'smUuid' => 'xxx',
             ],
             $gateway->send(new PhoneNumber(18888888888), $message, $config)
         );

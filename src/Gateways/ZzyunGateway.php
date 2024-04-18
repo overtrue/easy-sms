@@ -26,27 +26,23 @@ class ZzyunGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://zzyun.com/api/sms/sendByTplCode';
+    public const ENDPOINT_URL = 'https://zzyun.com/api/sms/sendByTplCode';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $time = time();
         $user_id = $config->get('user_id');
-        $token = md5($time . $user_id . $config->get('secret'));
+        $token = md5($time.$user_id.$config->get('secret'));
         $params = [
             'user_id' => $user_id,
             'time' => $time,
             'token' => $token,
-            'mobiles' => $to->getNumber(),// 手机号码，多个英文逗号隔开
+            'mobiles' => $to->getNumber(), // 手机号码，多个英文逗号隔开
             'tpl_code' => $message->getTemplate($this),
             'tpl_params' => $message->getData($this),
             'sign_name' => $config->get('sign_name'),

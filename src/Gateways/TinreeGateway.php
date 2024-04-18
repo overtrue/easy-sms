@@ -11,11 +11,11 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use Overtrue\EasySms\Support\Config;
-use Overtrue\EasySms\Traits\HasHttpRequest;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Support\Config;
+use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
  * Class TinreeGateway.
@@ -26,16 +26,12 @@ class TinreeGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'http://api.tinree.com/api/v2/single_send';
+    public const ENDPOINT_URL = 'http://api.tinree.com/api/v2/single_send';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
+     * @throws GatewayErrorException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -61,7 +57,6 @@ class TinreeGateway extends Gateway
      * 构建发送内容
      * 用 data 数据合成内容，或者直接使用 data 的值
      *
-     * @param MessageInterface $message
      * @return string
      */
     protected function buildContent(MessageInterface $message)
@@ -69,7 +64,7 @@ class TinreeGateway extends Gateway
         $data = $message->getData($this);
 
         if (is_array($data)) {
-            return implode("##", $data);
+            return implode('##', $data);
         }
 
         return $data;

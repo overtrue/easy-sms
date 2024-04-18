@@ -11,10 +11,8 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
-use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\UcloudGateway;
-use Overtrue\EasySms\Gateways\YunxinGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
@@ -28,10 +26,10 @@ class UcloudGatewayTest extends TestCase
     public function testSend()
     {
         $config = [
-            'private_key' => '', //私钥
-            'public_key' => '', //公钥
-            'sig_content' => '', //签名
-            'project_id' => '', //默认不填，子账号才需要填
+            'private_key' => '', // 私钥
+            'public_key' => '', // 公钥
+            'sig_content' => '', // 签名
+            'project_id' => '', // 默认不填，子账号才需要填
         ];
 
         $gateway = \Mockery::mock(UcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
@@ -56,7 +54,7 @@ class UcloudGatewayTest extends TestCase
             'template' => '',
             'data' => [
                 'code' => '', // 如果是多个参数可以用数组
-                'mobiles' => '', //同时发送多个手机也可以用数组来,[1111111,11111]
+                'mobiles' => '', // 同时发送多个手机也可以用数组来,[1111111,11111]
             ],
         ]);
         $config = new Config($config);
@@ -79,10 +77,10 @@ class UcloudGatewayTest extends TestCase
         $dataSigContent = 'data_sig_content';
 
         $config = [
-            'private_key' => '', //私钥
-            'public_key' => '', //公钥
-            'sig_content' => $defaultSigContent, //签名
-            'project_id' => '', //默认不填，子账号才需要填
+            'private_key' => '', // 私钥
+            'public_key' => '', // 公钥
+            'sig_content' => $defaultSigContent, // 签名
+            'project_id' => '', // 默认不填，子账号才需要填
         ];
 
         $gateway = \Mockery::mock(UcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
@@ -107,8 +105,8 @@ class UcloudGatewayTest extends TestCase
             'template' => '',
             'data' => [
                 'code' => '', // 如果是多个参数可以用数组
-                'mobiles' => '', //同时发送多个手机也可以用数组来,[1111111,11111]
-                'sig_content' => $dataSigContent
+                'mobiles' => '', // 同时发送多个手机也可以用数组来,[1111111,11111]
+                'sig_content' => $dataSigContent,
             ],
         ]);
         $config = new Config($config);

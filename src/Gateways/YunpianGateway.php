@@ -26,20 +26,16 @@ class YunpianGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_TEMPLATE = 'https://%s.yunpian.com/%s/%s/%s.%s';
+    public const ENDPOINT_TEMPLATE = 'https://%s.yunpian.com/%s/%s/%s.%s';
 
-    const ENDPOINT_VERSION = 'v2';
+    public const ENDPOINT_VERSION = 'v2';
 
-    const ENDPOINT_FORMAT = 'json';
+    public const ENDPOINT_FORMAT = 'json';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -48,7 +44,7 @@ class YunpianGateway extends Gateway
         $option = [
             'form_params' => [
                 'apikey' => $config->get('api_key'),
-                'mobile' => $to->getUniversalNumber()
+                'mobile' => $to->getUniversalNumber(),
             ],
             'exceptions' => false,
         ];
@@ -60,18 +56,18 @@ class YunpianGateway extends Gateway
             $templateData = $message->getData($this);
             $templateData = isset($templateData) ? $templateData : [];
             foreach ($templateData as $key => $value) {
-                $data[] = urlencode('#'.$key.'#') . '=' . urlencode($value);
+                $data[] = urlencode('#'.$key.'#').'='.urlencode($value);
             }
 
             $option['form_params'] = array_merge($option['form_params'], [
                 'tpl_id' => $template,
-                'tpl_value' => implode('&', $data)
+                'tpl_value' => implode('&', $data),
             ]);
         } else {
             $content = $message->getContent($this);
             $signature = $config->get('signature', '');
             $option['form_params'] = array_merge($option['form_params'], [
-                'text' => 0 === \stripos($content, '【') ? $content : $signature.$content
+                'text' => 0 === \stripos($content, '【') ? $content : $signature.$content,
             ]);
         }
 

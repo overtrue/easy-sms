@@ -50,7 +50,7 @@ class Ue35GatewayTest extends TestCase
         $config = new Config($config);
 
         $this->assertSame([
-             'errorcode' => Ue35Gateway::SUCCESS_CODE,
+            'errorcode' => Ue35Gateway::SUCCESS_CODE,
         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);

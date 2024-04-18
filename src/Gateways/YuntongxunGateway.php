@@ -27,32 +27,28 @@ class YuntongxunGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_TEMPLATE = 'https://%s:%s/%s/%s/%s/%s/%s?sig=%s';
+    public const ENDPOINT_TEMPLATE = 'https://%s:%s/%s/%s/%s/%s/%s?sig=%s';
 
-    const SERVER_IP = 'app.cloopen.com';
+    public const SERVER_IP = 'app.cloopen.com';
 
-    const DEBUG_SERVER_IP = 'sandboxapp.cloopen.com';
+    public const DEBUG_SERVER_IP = 'sandboxapp.cloopen.com';
 
-    const DEBUG_TEMPLATE_ID = 1;
+    public const DEBUG_TEMPLATE_ID = 1;
 
-    const SERVER_PORT = '8883';
+    public const SERVER_PORT = '8883';
 
-    const SDK_VERSION = '2013-12-26';
+    public const SDK_VERSION = '2013-12-26';
 
-    const SDK_VERSION_INT = 'v2';
+    public const SDK_VERSION_INT = 'v2';
 
-    const SUCCESS_CODE = '000000';
+    public const SUCCESS_CODE = '000000';
 
     private $international = false; // if international SMS, default false means no.
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -97,10 +93,9 @@ class YuntongxunGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string                           $type
-     * @param string                           $resource
-     * @param string                           $datetime
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param string $type
+     * @param string $resource
+     * @param string $datetime
      *
      * @return string
      */

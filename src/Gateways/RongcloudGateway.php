@@ -29,24 +29,20 @@ class RongcloudGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_TEMPLATE = 'http://api.sms.ronghub.com/%s.%s';
+    public const ENDPOINT_TEMPLATE = 'http://api.sms.ronghub.com/%s.%s';
 
-    const ENDPOINT_ACTION = 'sendCode';
+    public const ENDPOINT_ACTION = 'sendCode';
 
-    const ENDPOINT_FORMAT = 'json';
+    public const ENDPOINT_FORMAT = 'json';
 
-    const ENDPOINT_REGION = '86';  // 中国区，目前只支持此国别
+    public const ENDPOINT_REGION = '86';  // 中国区，目前只支持此国别
 
-    const SUCCESS_CODE = 200;
+    public const SUCCESS_CODE = 200;
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -86,7 +82,7 @@ class RongcloudGateway extends Gateway
                     'mobile' => $to->getNumber(),
                     'region' => self::ENDPOINT_REGION,
                     'templateId' => $message->getTemplate($this),
-                    ];
+                ];
                 $params = array_merge($params, $data);
 
                 break;
@@ -110,8 +106,7 @@ class RongcloudGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array                            $params
-     * @param \Overtrue\EasySms\Support\Config $config
+     * @param array $params
      *
      * @return string
      */

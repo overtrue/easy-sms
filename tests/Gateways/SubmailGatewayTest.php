@@ -75,7 +75,7 @@ class SubmailGatewayTest extends TestCase
             'appid' => 'mock-app-id',
             'signature' => 'mock-app-key',
             'to' => new PhoneNumber(18188888888),
-            'content' => '【easysms】 mock-app-content'
+            'content' => '【easysms】 mock-app-content',
         ])->andReturn([
             'status' => 'success',
             'send_id' => '093c0a7df143c087d6cba9cdf0cf3738',

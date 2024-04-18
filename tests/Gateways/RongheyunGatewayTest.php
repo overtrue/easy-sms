@@ -27,7 +27,7 @@ class RongheyunGatewayTest extends TestCase
             'password' => 'mock-password',
             'signature' => 'mock-signature',
         ];
-        $gateway = \Mockery::mock(RongheyunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(RongheyunGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn(
@@ -36,14 +36,14 @@ class RongheyunGatewayTest extends TestCase
                     'msg' => 'success',
                     'tpId' => '31874',
                     'msgId' => '161553136878837480961',
-                    'invalidList' => []
+                    'invalidList' => [],
                 ],
                 [
                     'code' => 4025,
                     'msg' => 'template records null',
                     'tpId' => '31874',
                     'msgId' => '161553131051357039361',
-                    'invalidList' => null
+                    'invalidList' => null,
                 ]
             )->twice();
 
@@ -61,7 +61,7 @@ class RongheyunGatewayTest extends TestCase
             'msg' => 'success',
             'tpId' => '31874',
             'msgId' => '161553136878837480961',
-            'invalidList' => []
+            'invalidList' => [],
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);

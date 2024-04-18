@@ -20,19 +20,17 @@ use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
  */
 class Messenger
 {
-    const STATUS_SUCCESS = 'success';
+    public const STATUS_SUCCESS = 'success';
 
-    const STATUS_FAILURE = 'failure';
+    public const STATUS_FAILURE = 'failure';
 
     /**
-     * @var \Overtrue\EasySms\EasySms
+     * @var EasySms
      */
     protected $easySms;
 
     /**
      * Messenger constructor.
-     *
-     * @param \Overtrue\EasySms\EasySms $easySms
      */
     public function __construct(EasySms $easySms)
     {
@@ -42,13 +40,9 @@ class Messenger
     /**
      * Send a message.
      *
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param array                                            $gateways
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\NoGatewayAvailableException
+     * @throws NoGatewayAvailableException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, array $gateways = [])
     {
@@ -60,7 +54,7 @@ class Messenger
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_SUCCESS,
-                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
+                    'template' => $message->getTemplate($this->easySms->gateway($gateway)),
                     'result' => $this->easySms->gateway($gateway)->send($to, $message, $config),
                 ];
                 $isSuccessful = true;
@@ -70,14 +64,14 @@ class Messenger
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
-                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
+                    'template' => $message->getTemplate($this->easySms->gateway($gateway)),
                     'exception' => $e,
                 ];
             } catch (\Throwable $e) {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,
-                    'template'  => $message->getTemplate($this->easySms->gateway($gateway)),
+                    'template' => $message->getTemplate($this->easySms->gateway($gateway)),
                     'exception' => $e,
                 ];
             }

@@ -11,8 +11,6 @@
 
 namespace Overtrue\EasySms\Exceptions;
 
-use Throwable;
-
 /**
  * Class NoGatewayAvailableException.
  *
@@ -33,11 +31,9 @@ class NoGatewayAvailableException extends Exception
     /**
      * NoGatewayAvailableException constructor.
      *
-     * @param array           $results
-     * @param int             $code
-     * @param \Throwable|null $previous
+     * @param int $code
      */
-    public function __construct(array $results = [], $code = 0, Throwable $previous = null)
+    public function __construct(array $results = [], $code = 0, ?\Throwable $previous = null)
     {
         $this->results = $results;
         $this->exceptions = \array_column($results, 'exception', 'gateway');
@@ -71,9 +67,6 @@ class NoGatewayAvailableException extends Exception
         return $this->exceptions;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLastException()
     {
         return end($this->exceptions);

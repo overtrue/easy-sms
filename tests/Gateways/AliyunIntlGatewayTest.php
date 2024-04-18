@@ -3,21 +3,19 @@
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
+use Overtrue\EasySms\Gateways\AliyunIntlGateway;
 use Overtrue\EasySms\Message;
 use Overtrue\EasySms\PhoneNumber;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Tests\TestCase;
-use Overtrue\EasySms\Gateways\AliyunIntlGateway;
 
 /**
- * Class AliyunIntlGatewayTest
- *
- * @package \Overtrue\EasySms\Tests\Gateways
+ * Class AliyunIntlGatewayTest.
  */
 class AliyunIntlGatewayTest extends TestCase
 {
     /** @test */
-    public function it_can_sen_sms_by_aliyun_intl_gateway()
+    public function itCanSenSmsByAliyunIntlGateway()
     {
         $config = [
             'access_key_id' => 'mock-api-key',

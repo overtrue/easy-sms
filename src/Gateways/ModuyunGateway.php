@@ -26,16 +26,12 @@ class ModuyunGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://live.moduyun.com/sms/v2/sendsinglesms';
+    public const ENDPOINT_URL = 'https://live.moduyun.com/sms/v2/sendsinglesms';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -75,7 +71,7 @@ class ModuyunGateway extends Gateway
      */
     protected function getEndpointUrl($params)
     {
-        return self::ENDPOINT_URL . '?' . http_build_query($params);
+        return self::ENDPOINT_URL.'?'.http_build_query($params);
     }
 
     /**

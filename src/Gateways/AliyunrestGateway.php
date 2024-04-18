@@ -24,23 +24,19 @@ class AliyunrestGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'http://gw.api.taobao.com/router/rest';
+    public const ENDPOINT_URL = 'http://gw.api.taobao.com/router/rest';
 
-    const ENDPOINT_VERSION = '2.0';
+    public const ENDPOINT_VERSION = '2.0';
 
-    const ENDPOINT_FORMAT = 'json';
+    public const ENDPOINT_FORMAT = 'json';
 
-    const ENDPOINT_METHOD = 'alibaba.aliqin.fc.sms.num.send';
+    public const ENDPOINT_METHOD = 'alibaba.aliqin.fc.sms.num.send';
 
-    const ENDPOINT_SIGNATURE_METHOD = 'md5';
+    public const ENDPOINT_SIGNATURE_METHOD = 'md5';
 
-    const ENDPOINT_PARTNER_ID = 'EasySms';
+    public const ENDPOINT_PARTNER_ID = 'EasySms';
 
     /**
-     * @param PhoneNumberInterface $to
-     * @param MessageInterface     $message
-     * @param Config               $config
-     *
      * @return array|void
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)

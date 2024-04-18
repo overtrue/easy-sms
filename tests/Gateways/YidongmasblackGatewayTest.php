@@ -29,16 +29,16 @@ class YidongmasblackGatewayTest extends TestCase
             'sign' => 'mock-sign',
             'addSerial' => 'mock-add-serial',
         ];
-        $gateway = \Mockery::mock(YidongmasblackGateway::class . '[postJson]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(YidongmasblackGateway::class.'[postJson]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
-            'ecName' => "mock-ec-name",
-            'apId' => "mock-ap-id",
-            'sign' => "mock-sign",
-            'addSerial' => "mock-add-serial",
+            'ecName' => 'mock-ec-name',
+            'apId' => 'mock-ap-id',
+            'sign' => 'mock-sign',
+            'addSerial' => 'mock-add-serial',
             'mobiles' => 18888888888,
-            'content' => "123456",
-            'mac' => "316769171b5b29b13e1fa0a5250ff5e2",
+            'content' => '123456',
+            'mac' => '316769171b5b29b13e1fa0a5250ff5e2',
         ];
         $gateway->shouldReceive('postJson')
             ->with(YidongmasblackGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {

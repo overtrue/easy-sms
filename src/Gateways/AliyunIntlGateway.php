@@ -9,9 +9,7 @@ use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * Class AliyunIntlGateway
- *
- * @package \Overtrue\EasySms\Gateways
+ * Class AliyunIntlGateway.
  *
  * @see https://www.alibabacloud.com/help/zh/doc-detail/162279.htm
  */
@@ -19,30 +17,24 @@ class AliyunIntlGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://dysmsapi.ap-southeast-1.aliyuncs.com';
+    public const ENDPOINT_URL = 'https://dysmsapi.ap-southeast-1.aliyuncs.com';
 
-    const ENDPOINT_ACTION = 'SendMessageWithTemplate';
+    public const ENDPOINT_ACTION = 'SendMessageWithTemplate';
 
-    const ENDPOINT_VERSION = '2018-05-01';
+    public const ENDPOINT_VERSION = '2018-05-01';
 
-    const ENDPOINT_FORMAT = 'JSON';
+    public const ENDPOINT_FORMAT = 'JSON';
 
-    const ENDPOINT_REGION_ID = 'ap-southeast-1';
+    public const ENDPOINT_REGION_ID = 'ap-southeast-1';
 
-    const ENDPOINT_SIGNATURE_METHOD = 'HMAC-SHA1';
+    public const ENDPOINT_SIGNATURE_METHOD = 'HMAC-SHA1';
 
-    const ENDPOINT_SIGNATURE_VERSION = '1.0';
-
+    public const ENDPOINT_SIGNATURE_VERSION = '1.0';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
-     *
+     * @throws GatewayErrorException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -80,9 +72,7 @@ class AliyunIntlGateway extends Gateway
     }
 
     /**
-     * Generate sign
-     *
-     * @param  array  $params
+     * Generate sign.
      *
      * @return string
      */

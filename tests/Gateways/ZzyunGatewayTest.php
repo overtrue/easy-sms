@@ -27,7 +27,7 @@ class ZzyunGatewayTest extends TestCase
             'secret' => 'mock-secret',
             'sign_name' => 'mock-sign_name',
         ];
-        $gateway = \Mockery::mock(ZzyunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(ZzyunGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn(
@@ -36,7 +36,7 @@ class ZzyunGatewayTest extends TestCase
                     'Data' => [
                         'fee_count' => 1,
                         'send_count' => 1,
-                        'biz_id' => '20210317143532-gtqlupiamu'
+                        'biz_id' => '20210317143532-gtqlupiamu',
                     ],
                     'Message' => '',
                 ],
@@ -61,7 +61,7 @@ class ZzyunGatewayTest extends TestCase
             'Data' => [
                 'fee_count' => 1,
                 'send_count' => 1,
-                'biz_id' => '20210317143532-gtqlupiamu'
+                'biz_id' => '20210317143532-gtqlupiamu',
             ],
             'Message' => '',
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));

@@ -26,7 +26,7 @@ class ModuyunGatewayTest extends TestCase
             'accesskey' => 'mock-accesskey',
             'secretkey' => 'mock-secretkey',
         ];
-        $gateway = \Mockery::mock(ModuyunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(ModuyunGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
             ->andReturn(
@@ -34,7 +34,7 @@ class ModuyunGatewayTest extends TestCase
                     'result' => 0,
                     'errmsg' => 'OK',
                     'ext' => '',
-                    'sid' => "mock-sid",
+                    'sid' => 'mock-sid',
                     'surplus' => 4,
                     'balance' => 0,
                 ],
@@ -57,7 +57,7 @@ class ModuyunGatewayTest extends TestCase
             'result' => 0,
             'errmsg' => 'OK',
             'ext' => '',
-            'sid' => "mock-sid",
+            'sid' => 'mock-sid',
             'surplus' => 4,
             'balance' => 0,
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));

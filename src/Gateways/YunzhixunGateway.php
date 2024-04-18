@@ -28,20 +28,16 @@ class YunzhixunGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const SUCCESS_CODE = '000000';
+    public const SUCCESS_CODE = '000000';
 
-    const FUNCTION_SEND_SMS = 'sendsms';
+    public const FUNCTION_SEND_SMS = 'sendsms';
 
-    const FUNCTION_BATCH_SEND_SMS = 'sendsms_batch';
+    public const FUNCTION_BATCH_SEND_SMS = 'sendsms_batch';
 
-    const ENDPOINT_TEMPLATE = 'https://open.ucpaas.com/ol/%s/%s';
+    public const ENDPOINT_TEMPLATE = 'https://open.ucpaas.com/ol/%s/%s';
 
     /**
      * Send a short message.
-     *
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
@@ -61,9 +57,6 @@ class YunzhixunGateway extends Gateway
     }
 
     /**
-     * @param $resource
-     * @param $function
-     *
      * @return string
      */
     protected function buildEndpoint($resource, $function)
@@ -72,10 +65,6 @@ class YunzhixunGateway extends Gateway
     }
 
     /**
-     * @param PhoneNumberInterface $to
-     * @param MessageInterface     $message
-     * @param Config               $config
-     *
      * @return array
      */
     protected function buildParams(PhoneNumberInterface $to, MessageInterface $message, Config $config)
@@ -94,9 +83,6 @@ class YunzhixunGateway extends Gateway
     }
 
     /**
-     * @param $endpoint
-     * @param $params
-     *
      * @return array
      *
      * @throws GatewayErrorException

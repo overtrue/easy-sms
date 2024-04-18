@@ -28,10 +28,6 @@ interface GatewayInterface
     /**
      * Send a short message.
      *
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config);

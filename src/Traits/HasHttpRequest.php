@@ -56,7 +56,6 @@ trait HasHttpRequest
     /**
      * Make a post request with json params.
      *
-     * @param       $endpoint
      * @param array $params
      * @param array $headers
      *
@@ -102,9 +101,7 @@ trait HasHttpRequest
     /**
      * Return http client.
      *
-     * @param array $options
-     *
-     * @return \GuzzleHttp\Client
+     * @return Client
      *
      * @codeCoverageIgnore
      */
@@ -115,8 +112,6 @@ trait HasHttpRequest
 
     /**
      * Convert response contents to json.
-     *
-     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return ResponseInterface|array|string
      */

@@ -43,9 +43,8 @@ class VolcengineGatewayTest extends TestCase
             'Sign' => $config['sign_name'],
             'TemplateID' => $templateId,
             'TemplateParam' => json_encode($templateParam),
-            'PhoneNumbers' => $phone
+            'PhoneNumbers' => $phone,
         ];
-
 
         $successReturn = [
             'ResponseMetadata' => [
@@ -56,8 +55,8 @@ class VolcengineGatewayTest extends TestCase
                 'Region' => VolcengineGateway::ENDPOINT_DEFAULT_REGION_ID,
             ],
             'Result' => [
-                "MessageID" => ["mock_message_id"],
-            ]
+                'MessageID' => ['mock_message_id'],
+            ],
         ];
 
         $failedReturn = [
@@ -68,10 +67,10 @@ class VolcengineGatewayTest extends TestCase
                 'Service' => VolcengineGateway::ENDPOINT_SERVICE,
                 'Region' => VolcengineGateway::ENDPOINT_DEFAULT_REGION_ID,
                 'Error' => [
-                    'Code' => str_repeat("ZJ", rand(1, 3)).rand(10000, 30000),
+                    'Code' => str_repeat('ZJ', rand(1, 3)).rand(10000, 30000),
                     'Message' => 'mock_error_message',
                 ],
-            ]
+            ],
         ];
 
         $gateway = \Mockery::mock(VolcengineGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();

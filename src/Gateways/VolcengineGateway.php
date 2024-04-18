@@ -13,9 +13,9 @@ namespace Overtrue\EasySms\Gateways;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Utils;
-use GuzzleHttp\Psr7;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -32,16 +32,16 @@ class VolcengineGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_ACTION = 'SendSms';
-    const ENDPOINT_VERSION = '2020-01-01';
-    const ENDPOINT_CONTENT_TYPE = 'application/json; charset=utf-8';
-    const ENDPOINT_ACCEPT = 'application/json';
-    const ENDPOINT_USER_AGENT = 'overtrue/easy-sms';
-    const ENDPOINT_SERVICE = 'volcSMS';
+    public const ENDPOINT_ACTION = 'SendSms';
+    public const ENDPOINT_VERSION = '2020-01-01';
+    public const ENDPOINT_CONTENT_TYPE = 'application/json; charset=utf-8';
+    public const ENDPOINT_ACCEPT = 'application/json';
+    public const ENDPOINT_USER_AGENT = 'overtrue/easy-sms';
+    public const ENDPOINT_SERVICE = 'volcSMS';
 
-    const Algorithm = 'HMAC-SHA256';
+    public const Algorithm = 'HMAC-SHA256';
 
-    const ENDPOINT_DEFAULT_REGION_ID = 'cn-north-1';
+    public const ENDPOINT_DEFAULT_REGION_ID = 'cn-north-1';
 
     public static $endpoints = [
         'cn-north-1' => 'https://sms.volcengineapi.com',
@@ -50,7 +50,6 @@ class VolcengineGateway extends Gateway
 
     private $regionId = self::ENDPOINT_DEFAULT_REGION_ID;
     protected $requestDate;
-
 
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -85,7 +84,7 @@ class VolcengineGateway extends Gateway
                 'headers' => [
                     'Content-Type' => self::ENDPOINT_CONTENT_TYPE,
                     'Accept' => self::ENDPOINT_ACCEPT,
-                    'User-Agent' => self::ENDPOINT_USER_AGENT
+                    'User-Agent' => self::ENDPOINT_USER_AGENT,
                 ],
                 'timeout' => $this->getTimeout(),
                 'handler' => $stack,
@@ -102,8 +101,9 @@ class VolcengineGateway extends Gateway
             if (isset($response['ResponseMetadata']['Error'])) { // 请求错误参数，如果请求没有错误，则不存在该参数返回
                 // 火山引擎错误码格式为：'ZJ'+ 5位数字，比如 ZJ20009，取出数字部分
                 preg_match('/\d+/', $response['ResponseMetadata']['Error']['Code'], $matches);
-                throw new GatewayErrorException($response['ResponseMetadata']['Error']['Code'].":".$response['ResponseMetadata']['Error']['Message'], $matches[0], $response);
+                throw new GatewayErrorException($response['ResponseMetadata']['Error']['Code'].':'.$response['ResponseMetadata']['Error']['Message'], $matches[0], $response);
             }
+
             return $response;
         } catch (ClientException $exception) {
             $responseContent = $exception->getResponse()->getBody()->getContents();
@@ -111,7 +111,7 @@ class VolcengineGateway extends Gateway
             if (isset($response['ResponseMetadata']['Error']) && $error = $response['ResponseMetadata']['Error']) { // 请求错误参数，如果请求没有错误，则不存在该参数返回
                 // 火山引擎公共错误码Error与业务错误码略有不同，比如："Error":{"CodeN":100004,"Code":"MissingRequestInfo","Message":"The request is missing timestamp information."}
                 // 此处错误码直接取 CodeN
-                throw new GatewayErrorException($error["CodeN"].":".$error['Message'], $error["CodeN"], $response);
+                throw new GatewayErrorException($error['CodeN'].':'.$error['Message'], $error['CodeN'], $response);
             }
             throw new GatewayErrorException($responseContent, $exception->getCode(), ['content' => $responseContent]);
         }
@@ -142,7 +142,7 @@ class VolcengineGateway extends Gateway
                 $parsed['headers']['Authorization'] = self::Algorithm.
                     ' Credential='.$this->getAccessKeyId().'/'.$this->getCredentialScope().', SignedHeaders='.$signedHeaders.', Signature='.$signature;
 
-                $buildRequest = function () use ($request, $parsed) {
+                $buildRequest = function () use ($parsed) {
                     if ($parsed['query']) {
                         $parsed['uri'] = $parsed['uri']->withQuery(Query::build($parsed['query']));
                     }
@@ -164,6 +164,7 @@ class VolcengineGateway extends Gateway
     private function parseRequest(RequestInterface $request)
     {
         $uri = $request->getUri();
+
         return [
             'method' => $request->getMethod(),
             'path' => $uri->getPath(),
@@ -171,7 +172,7 @@ class VolcengineGateway extends Gateway
             'uri' => $uri,
             'headers' => $request->getHeaders(),
             'body' => $request->getBody(),
-            'version' => $request->getProtocolVersion()
+            'version' => $request->getProtocolVersion(),
         ];
     }
 
@@ -195,6 +196,7 @@ class VolcengineGateway extends Gateway
         if (!in_array($regionId, array_keys(self::$endpoints))) {
             $regionId = self::ENDPOINT_DEFAULT_REGION_ID;
         }
+
         return static::$endpoints[$regionId];
     }
 
@@ -203,9 +205,9 @@ class VolcengineGateway extends Gateway
         return $this->requestDate ?: gmdate('Ymd\THis\Z');
     }
 
-
     /**
-     * 指代信任状，格式为：YYYYMMDD/region/service/request
+     * 指代信任状，格式为：YYYYMMDD/region/service/request.
+     *
      * @return string
      */
     public function getCredentialScope()
@@ -222,20 +224,23 @@ class VolcengineGateway extends Gateway
      * kService = HMAC(kRegion, Service)
      * kSigning = HMAC(kService, "request")
      * 其中Date精确到日，与RequestDate中YYYYMMDD部分相同。
+     *
      * @return string
      */
     protected function getSigningKey()
     {
-        $dateKey = hash_hmac('sha256', date("Ymd", strtotime($this->getRequestDate())), $this->getAccessKeySecret(), true);
+        $dateKey = hash_hmac('sha256', date('Ymd', strtotime($this->getRequestDate())), $this->getAccessKeySecret(), true);
         $regionKey = hash_hmac('sha256', $this->getRegionId(), $dateKey, true);
         $serviceKey = hash_hmac('sha256', self::ENDPOINT_SERVICE, $regionKey, true);
+
         return hash_hmac('sha256', 'request', $serviceKey, true);
     }
 
     /**
      * 创建签名字符串
      * 签名字符串主要包含请求以及正规化请求的元数据信息，由签名算法、请求日期、信任状和正规化请求哈希值连接组成，伪代码如下：
-     * StringToSign = Algorithm + '\n' + RequestDate + '\n' + CredentialScope + '\n' + HexEncode(Hash(CanonicalRequest))
+     * StringToSign = Algorithm + '\n' + RequestDate + '\n' + CredentialScope + '\n' + HexEncode(Hash(CanonicalRequest)).
+     *
      * @return string
      */
     public function getStringToSign($canonicalRequest)
@@ -266,6 +271,7 @@ class VolcengineGateway extends Gateway
      * 其中CanonicalHeadersEntry = Lowercase(HeaderName) + ':' + Trimall(HeaderValue) + '\n'
      * Lowcase代表将Header的名称全部转化成小写，Trimall表示去掉Header的值的前后多余的空格。
      * 特别注意：最后需要添加"\n"的换行符，header的顺序是以headerName的小写后ascii排序。
+     *
      * @return array
      */
     public function getCanonicalHeaders(RequestInterface $request)
@@ -280,6 +286,7 @@ class VolcengineGateway extends Gateway
             $signedHeaders[] = $lowerKey;
         }
         $signedHeadersString = implode(';', $signedHeaders);
+
         return [$canonicalHeaders, $signedHeadersString];
     }
 
@@ -287,12 +294,14 @@ class VolcengineGateway extends Gateway
      * urlencode（注：同RFC3986方法）每一个querystring参数名称和参数值。
      * 按照ASCII字节顺序对参数名称严格排序，相同参数名的不同参数值需保持请求的原始顺序。
      * 将排序好的参数名称和参数值用=连接，按照排序结果将“参数对”用&连接。
-     * 例如：CanonicalQueryString = "Action=ListUsers&Version=2018-01-01"
+     * 例如：CanonicalQueryString = "Action=ListUsers&Version=2018-01-01".
+     *
      * @return string
      */
     public function getCanonicalQueryString(array $query)
     {
         ksort($query);
+
         return http_build_query($query);
     }
 

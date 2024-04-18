@@ -16,7 +16,7 @@ namespace Overtrue\EasySms;
  *
  * @author overtrue <i@overtrue.me>
  */
-class PhoneNumber implements \Overtrue\EasySms\Contracts\PhoneNumberInterface
+class PhoneNumber implements Contracts\PhoneNumberInterface
 {
     /**
      * @var int
@@ -121,6 +121,6 @@ class PhoneNumber implements \Overtrue\EasySms\Contracts\PhoneNumberInterface
      */
     public function inChineseMainland()
     {
-        return empty($this->IDDCode) || $this->IDDCode === 86;
+        return empty($this->IDDCode) || 86 === $this->IDDCode;
     }
 }

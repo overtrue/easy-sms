@@ -26,17 +26,14 @@ class MaapGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'http://rcsapi.wo.cn:8000/umcinterface/sendtempletmsg';
+    public const ENDPOINT_URL = 'http://rcsapi.wo.cn:8000/umcinterface/sendtempletmsg';
 
     /**
      * Send message.
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
      *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException
+     * @throws GatewayErrorException
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -61,12 +58,13 @@ class MaapGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
-     * @param string $key 签名Key
+     * @param array  $params
+     * @param string $key    签名Key
+     *
      * @return string
      */
     protected function generateSign($params, $key)
     {
-        return md5($params['cpcode'] . $params['msg'] . $params['mobiles'] . $params['excode'] . $params['templetid'] . $key);
+        return md5($params['cpcode'].$params['msg'].$params['mobiles'].$params['excode'].$params['templetid'].$key);
     }
 }

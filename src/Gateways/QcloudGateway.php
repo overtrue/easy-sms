@@ -26,28 +26,24 @@ class QcloudGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'https://sms.tencentcloudapi.com';
+    public const ENDPOINT_URL = 'https://sms.tencentcloudapi.com';
 
-    const ENDPOINT_HOST = 'sms.tencentcloudapi.com';
+    public const ENDPOINT_HOST = 'sms.tencentcloudapi.com';
 
-    const ENDPOINT_SERVICE = 'sms';
+    public const ENDPOINT_SERVICE = 'sms';
 
-    const ENDPOINT_METHOD = 'SendSms';
+    public const ENDPOINT_METHOD = 'SendSms';
 
-    const ENDPOINT_VERSION = '2021-01-11';
+    public const ENDPOINT_VERSION = '2021-01-11';
 
-    const ENDPOINT_REGION = 'ap-guangzhou';
+    public const ENDPOINT_REGION = 'ap-guangzhou';
 
-    const ENDPOINT_FORMAT = 'json';
+    public const ENDPOINT_FORMAT = 'json';
 
     /**
-     * @param \Overtrue\EasySms\Contracts\PhoneNumberInterface $to
-     * @param \Overtrue\EasySms\Contracts\MessageInterface     $message
-     * @param \Overtrue\EasySms\Support\Config                 $config
-     *
      * @return array
      *
-     * @throws \Overtrue\EasySms\Exceptions\GatewayErrorException ;
+     * @throws GatewayErrorException ;
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
@@ -60,7 +56,7 @@ class QcloudGateway extends Gateway
         $phone = !\is_null($to->getIDDCode()) ? strval($to->getUniversalNumber()) : $to->getNumber();
         $params = [
             'PhoneNumberSet' => [
-                $phone
+                $phone,
             ],
             'SmsSdkAppId' => $this->config->get('sdk_app_id'),
             'SignName' => $signName,
@@ -89,7 +85,7 @@ class QcloudGateway extends Gateway
 
         if (!empty($result['Response']['SendStatusSet'])) {
             foreach ($result['Response']['SendStatusSet'] as $group) {
-                if ($group['Code'] != 'Ok') {
+                if ('Ok' != $group['Code']) {
                     throw new GatewayErrorException($group['Message'], 400, $result);
                 }
             }
@@ -101,37 +97,37 @@ class QcloudGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array  $params
+     * @param array $params
      *
      * @return string
      */
     protected function generateSign($params, $timestamp)
     {
-        $date = gmdate("Y-m-d", $timestamp);
+        $date = gmdate('Y-m-d', $timestamp);
         $secretKey = $this->config->get('secret_key');
         $secretId = $this->config->get('secret_id');
 
         $canonicalRequest = 'POST'."\n".
             '/'."\n".
-            '' ."\n".
+            ''."\n".
             'content-type:application/json; charset=utf-8'."\n".
-            'host:' . self::ENDPOINT_HOST."\n"."\n".
+            'host:'.self::ENDPOINT_HOST."\n\n".
             'content-type;host'."\n".
-            hash("SHA256", json_encode($params));
+            hash('SHA256', json_encode($params));
 
         $stringToSign =
             'TC3-HMAC-SHA256'."\n".
             $timestamp."\n".
-            $date . '/'. self::ENDPOINT_SERVICE .'/tc3_request'."\n".
-            hash("SHA256", $canonicalRequest);
+            $date.'/'.self::ENDPOINT_SERVICE.'/tc3_request'."\n".
+            hash('SHA256', $canonicalRequest);
 
-        $secretDate = hash_hmac("SHA256", $date, "TC3".$secretKey, true);
-        $secretService = hash_hmac("SHA256", self::ENDPOINT_SERVICE, $secretDate, true);
-        $secretSigning = hash_hmac("SHA256", "tc3_request", $secretService, true);
-        $signature = hash_hmac("SHA256", $stringToSign, $secretSigning);
+        $secretDate = hash_hmac('SHA256', $date, 'TC3'.$secretKey, true);
+        $secretService = hash_hmac('SHA256', self::ENDPOINT_SERVICE, $secretDate, true);
+        $secretSigning = hash_hmac('SHA256', 'tc3_request', $secretService, true);
+        $signature = hash_hmac('SHA256', $stringToSign, $secretSigning);
 
         return 'TC3-HMAC-SHA256'
-            ." Credential=". $secretId ."/". $date . '/'. self::ENDPOINT_SERVICE .'/tc3_request'
-            .", SignedHeaders=content-type;host, Signature=".$signature;
+            .' Credential='.$secretId.'/'.$date.'/'.self::ENDPOINT_SERVICE.'/tc3_request'
+            .', SignedHeaders=content-type;host, Signature='.$signature;
     }
 }

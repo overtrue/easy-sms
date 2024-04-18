@@ -47,7 +47,6 @@ class Message implements MessageInterface
     /**
      * Message constructor.
      *
-     * @param array  $attributes
      * @param string $type
      */
     public function __construct(array $attributes = [], $type = MessageInterface::TEXT_MESSAGE)
@@ -74,11 +73,9 @@ class Message implements MessageInterface
     /**
      * Return message content.
      *
-     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
-     *
      * @return string
      */
-    public function getContent(GatewayInterface $gateway = null)
+    public function getContent(?GatewayInterface $gateway = null)
     {
         return is_callable($this->content) ? call_user_func($this->content, $gateway) : $this->content;
     }
@@ -86,18 +83,14 @@ class Message implements MessageInterface
     /**
      * Return the template id of message.
      *
-     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
-     *
      * @return string
      */
-    public function getTemplate(GatewayInterface $gateway = null)
+    public function getTemplate(?GatewayInterface $gateway = null)
     {
         return is_callable($this->template) ? call_user_func($this->template, $gateway) : $this->template;
     }
 
     /**
-     * @param $type
-     *
      * @return $this
      */
     public function setType($type)
@@ -108,8 +101,6 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param mixed $content
-     *
      * @return $this
      */
     public function setContent($content)
@@ -120,8 +111,6 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param mixed $template
-     *
      * @return $this
      */
     public function setTemplate($template)
@@ -132,11 +121,9 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param \Overtrue\EasySms\Contracts\GatewayInterface|null $gateway
-     *
      * @return array
      */
-    public function getData(GatewayInterface $gateway = null)
+    public function getData(?GatewayInterface $gateway = null)
     {
         return is_callable($this->data) ? call_user_func($this->data, $gateway) : $this->data;
     }
@@ -162,8 +149,6 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param array $gateways
-     *
      * @return $this
      */
     public function setGateways(array $gateways)
@@ -174,8 +159,6 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param $property
-     *
      * @return string
      */
     public function __get($property)

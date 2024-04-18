@@ -30,28 +30,24 @@ class Chuanglanv1Gateway extends Gateway
     /**
      * 国际短信
      */
-    const INT_URL = 'http://intapi.253.com/send/json';
+    public const INT_URL = 'http://intapi.253.com/send/json';
 
     /**
      * URL模板
      */
-    const ENDPOINT_URL_TEMPLATE = 'https://smssh1.253.com/msg/%s/json';
+    public const ENDPOINT_URL_TEMPLATE = 'https://smssh1.253.com/msg/%s/json';
 
     /**
      * 支持单发、群发短信
      */
-    const CHANNEL_NORMAL_CODE = 'v1/send';
+    public const CHANNEL_NORMAL_CODE = 'v1/send';
 
     /**
-     * 单号码对应单内容批量下发
+     * 单号码对应单内容批量下发.
      */
-    const CHANNEL_VARIABLE_CODE = 'variable';
+    public const CHANNEL_VARIABLE_CODE = 'variable';
 
     /**
-     * @param PhoneNumberInterface $to
-     * @param MessageInterface $message
-     * @param Config $config
-     *
      * @return array
      *
      * @throws GatewayErrorException
@@ -64,11 +60,11 @@ class Chuanglanv1Gateway extends Gateway
         $params = [
             'account' => $config->get('account'),
             'password' => $config->get('password'),
-            'report' => $config->get('needstatus') ?? false
+            'report' => $config->get('needstatus') ?? false,
         ];
 
         if (86 != $IDDCode) {
-            $params['mobile'] = $to->getIDDCode() . $to->getNumber();
+            $params['mobile'] = $to->getIDDCode().$to->getNumber();
             $params['account'] = $config->get('intel_account') ?: $config->get('account');
             $params['password'] = $config->get('intel_password') ?: $config->get('password');
         }
@@ -91,7 +87,6 @@ class Chuanglanv1Gateway extends Gateway
     }
 
     /**
-     * @param Config $config
      * @param int $IDDCode
      *
      * @return string
@@ -110,10 +105,7 @@ class Chuanglanv1Gateway extends Gateway
     }
 
     /**
-     * @param Config $config
      * @param int $IDDCode
-     *
-     * @return mixed
      *
      * @throws InvalidArgumentException
      */
@@ -133,8 +125,7 @@ class Chuanglanv1Gateway extends Gateway
 
     /**
      * @param string $content
-     * @param Config $config
-     * @param int $IDDCode
+     * @param int    $IDDCode
      *
      * @return string|string
      *

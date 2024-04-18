@@ -19,7 +19,7 @@ class NowcnGatewaysTest extends TestCase
             'api_type' => '3',
         ];
 
-        $gateway = \Mockery::mock(NowcnGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(NowcnGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
         $gateway->shouldReceive('request')->with(
             'get',
             \Mockery::on(function ($api) {
@@ -28,10 +28,10 @@ class NowcnGatewaysTest extends TestCase
             \Mockery::on(function ($params) {
                 return true;
             })
-        ) ->andReturn([
+        )->andReturn([
             'code' => NowcnGateway::SUCCESS_CODE,
         ], [
-            'code' => "-4",
+            'code' => '-4',
             'msg' => 'authorize failed',
         ])->times(2);
 

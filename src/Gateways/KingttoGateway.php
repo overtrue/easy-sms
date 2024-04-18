@@ -26,15 +26,11 @@ class KingttoGateway extends Gateway
 {
     use HasHttpRequest;
 
-    const ENDPOINT_URL = 'http://101.201.41.194:9999/sms.aspx';
+    public const ENDPOINT_URL = 'http://101.201.41.194:9999/sms.aspx';
 
-    const ENDPOINT_METHOD = 'send';
+    public const ENDPOINT_METHOD = 'send';
 
     /**
-     * @param PhoneNumberInterface $to
-     * @param MessageInterface     $message
-     * @param Config               $config
-     *
      * @return \Psr\Http\Message\ResponseInterface|array|string
      *
      * @throws GatewayErrorException

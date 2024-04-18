@@ -38,11 +38,11 @@ class YuntongxunGatewayTest extends TestCase
             }),
             \Mockery::on(function ($params) {
                 return $params['json'] == [
-                        'to' => '18188888888',
-                        'templateId' => 5589,
-                        'appId' => 'mock-app-id',
-                        'datas' => ['mock-data-1', 'mock-data-2'],
-                    ] && 'application/json' == $params['headers']['Accept']
+                    'to' => '18188888888',
+                    'templateId' => 5589,
+                    'appId' => 'mock-app-id',
+                    'datas' => ['mock-data-1', 'mock-data-2'],
+                ] && 'application/json' == $params['headers']['Accept']
                         && 'application/json;charset=utf-8' == $params['headers']['Content-Type'];
             })
         )
@@ -56,8 +56,8 @@ class YuntongxunGatewayTest extends TestCase
         $config = new Config($config);
 
         $this->assertSame([
-             'statusCode' => YuntongxunGateway::SUCCESS_CODE,
-         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
+            'statusCode' => YuntongxunGateway::SUCCESS_CODE,
+        ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
         $this->expectExceptionCode(100);
@@ -76,7 +76,7 @@ class YuntongxunGatewayTest extends TestCase
             'account_token' => 'mock-account-token',
             'app_id' => 'mock-app-id',
         ];
-        $gateway = \Mockery::mock(YuntongxunGateway::class . '[request]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(YuntongxunGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')->with(
             'post',

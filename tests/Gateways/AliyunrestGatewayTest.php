@@ -63,10 +63,10 @@ class AliyunrestGatewayTest extends TestCase
                     'err_code' => '0', 'msg' => 'mock-result', 'success' => true,
                 ],
             ], ], [
-            'error_response' => [
-                'code' => 15,
-                'msg' => 'mock-err-msg',
-            ], ])->twice();
+                'error_response' => [
+                    'code' => 15,
+                    'msg' => 'mock-err-msg',
+                ], ])->twice();
 
         $message = new Message([
             'template' => 'mock-template-code',

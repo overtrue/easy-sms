@@ -44,12 +44,12 @@ class JuheGatewayTest extends TestCase
             ])->times(2);
 
         $message = new Message([
-                'content' => 'This is a huyi test message.',
-                'template' => 'mock-tpl-id',
-                'data' => [
-                    'code' => 1234,
-                ],
-            ]);
+            'content' => 'This is a huyi test message.',
+            'template' => 'mock-tpl-id',
+            'data' => [
+                'code' => 1234,
+            ],
+        ]);
 
         $config = new Config($config);
 
