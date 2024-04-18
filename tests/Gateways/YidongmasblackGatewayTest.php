@@ -29,54 +29,41 @@ class YidongmasblackGatewayTest extends TestCase
             'sign' => 'mock-sign',
             'addSerial' => 'mock-add-serial',
         ];
-        $gateway = \Mockery::mock(YidongmasblackGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway = \Mockery::mock(YidongmasblackGateway::class . '[postJson]', [$config])->shouldAllowMockingProtectedMethods();
 
         $expected = [
-            'RegionId' => 'cn-hangzhou',
-            'AccessKeyId' => 'mock-api-key',
-            'Format' => 'JSON',
-            'SignatureMethod' => 'HMAC-SHA1',
-            'SignatureVersion' => '1.0',
-            // 'SignatureNonce' => uniqid(),
-            // 'Timestamp' => date('Y-m-d\TH:i:s\Z'),
-            'Action' => 'SendSms',
-            'Version' => '2017-05-25',
-            'PhoneNumbers' => strval(new PhoneNumber(18888888888)),
-            'SignName' => 'mock-api-sign-name',
-            'TemplateCode' => 'mock-template-code',
-            'TemplateParam' => json_encode(['code' => '123456']),
+            'ecName' => "mock-ec-name",
+            'apId' => "mock-ap-id",
+            'sign' => "mock-sign",
+            'addSerial' => "mock-add-serial",
+            'mobiles' => 18888888888,
+            'content' => "123456",
+            'mac' => "316769171b5b29b13e1fa0a5250ff5e2",
         ];
-        $gateway->shouldReceive('post')
+        $gateway->shouldReceive('postJson')
             ->with(YidongmasblackGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
-                if (empty($params['Signature'])) {
-                    return false;
-                }
-
-                unset($params['SignatureNonce'], $params['Timestamp'], $params['Signature']);
-
-                ksort($params);
-                ksort($expected);
+                $params = json_decode(base64_decode($params), true);
 
                 return $params == $expected;
             }))
             ->andReturn([
-                'Code' => 'OK',
-                'Message' => 'mock-result',
+                'success' => 'true',
+                'rspcod' => '1234',
             ], [
-                'Code' => 1234,
-                'Message' => 'mock-err-msg',
+                'success' => 'mock-err-msg',
+                'rspcod' => '1234',
             ])
             ->twice();
 
         $message = new Message([
-            'content'  => '123456',
+            'content' => '123456',
         ]);
 
         $config = new Config($config);
 
         $this->assertSame([
-            'Code' => 'OK',
-            'Message' => 'mock-result',
+            'success' => 'true',
+            'rspcod' => '1234',
         ], $gateway->send(new PhoneNumber(18888888888), $message, $config));
 
         $this->expectException(GatewayErrorException::class);
