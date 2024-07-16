@@ -11,6 +11,7 @@
 
 namespace Overtrue\EasySms\Gateways;
 
+use GuzzleHttp\Psr7\Uri;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -27,8 +28,6 @@ class QcloudGateway extends Gateway
     use HasHttpRequest;
 
     public const ENDPOINT_URL = 'https://sms.tencentcloudapi.com';
-
-    public const ENDPOINT_HOST = 'sms.tencentcloudapi.com';
 
     public const ENDPOINT_SERVICE = 'sms';
 
@@ -66,10 +65,12 @@ class QcloudGateway extends Gateway
 
         $time = time();
 
-        $result = $this->request('post', self::ENDPOINT_URL, [
+        $endpoint = $this->config->get('endpoint', self::ENDPOINT_URL);
+
+        $result = $this->request('post', $endpoint, [
             'headers' => [
                 'Authorization' => $this->generateSign($params, $time),
-                'Host' => self::ENDPOINT_HOST,
+                'Host' => (new Uri($endpoint))->getHost(),
                 'Content-Type' => 'application/json; charset=utf-8',
                 'X-TC-Action' => self::ENDPOINT_METHOD,
                 'X-TC-Region' => $this->config->get('region', self::ENDPOINT_REGION),
@@ -106,12 +107,14 @@ class QcloudGateway extends Gateway
         $date = gmdate('Y-m-d', $timestamp);
         $secretKey = $this->config->get('secret_key');
         $secretId = $this->config->get('secret_id');
+        $endpoint = $this->config->get('endpoint', self::ENDPOINT_URL);
+        $host = (new Uri($endpoint))->getHost();
 
         $canonicalRequest = 'POST'."\n".
             '/'."\n".
             ''."\n".
             'content-type:application/json; charset=utf-8'."\n".
-            'host:'.self::ENDPOINT_HOST."\n\n".
+            'host:'.$host."\n\n".
             'content-type;host'."\n".
             hash('SHA256', json_encode($params));
 
