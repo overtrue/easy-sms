@@ -26,7 +26,7 @@ class Ue35Gateway extends Gateway
 {
     use HasHttpRequest;
 
-    public const ENDPOINT_HOST = 'sms.ue35.cn';
+    public const ENDPOINT_HOST = 'sms.ue35.net:8443';
 
     public const ENDPOINT_URI = '/sms/interface/sendmess.htm';
 
@@ -54,7 +54,7 @@ class Ue35Gateway extends Gateway
             'user-agent' => 'PHP EasySms Client',
         ];
 
-        $result = $this->request('get', self::getEndpointUri().'?'.http_build_query($params), ['headers' => $headers]);
+        $result = $this->request('get', self::getEndpointUri() . '?' . http_build_query($params), ['headers' => $headers]);
         if (is_string($result)) {
             $result = json_decode(json_encode(simplexml_load_string($result)), true);
         }
@@ -68,6 +68,6 @@ class Ue35Gateway extends Gateway
 
     public static function getEndpointUri()
     {
-        return 'http://'.static::ENDPOINT_HOST.static::ENDPOINT_URI;
+        return 'https://' . static::ENDPOINT_HOST . static::ENDPOINT_URI;
     }
 }
