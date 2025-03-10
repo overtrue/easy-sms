@@ -58,6 +58,7 @@
 - [时代互联](https://www.now.cn/)
 - [火山引擎](https://console.volcengine.com/sms/)
 - [移动云MAS（黑名单模式）](https://mas.10086.cn)
+- [电信天翼云](https://www.ctyun.cn/document/10020426/10021544)
 
 ## 环境需求
 
@@ -1010,6 +1011,30 @@ $easySms->send(18888888888, [
 ```php
 $easySms->send(18888888888, [
     'content'  => '您的验证码为: 6379',
+]);
+```
+
+### [电信天翼云](https://www.ctyun.cn/)
+
+短信使用 `content`
+
+```php
+  'ctyun' => [
+        'access_key'  => '',    //用户access
+        'secret_key'   => '',    //开发密钥secret
+        'sign'  => '验证码测试',    // 短信下发签名,
+    ],
+```
+
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'content' => $content,
+    'template' => 'SMS64124870510', // 模板ID
+    'data' => [
+        "code" => 123456,
+    ],
 ]);
 ```
 
