@@ -20,6 +20,7 @@ use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Gateways\Gateway;
 use Overtrue\EasySms\Strategies\OrderStrategy;
 use Overtrue\EasySms\Support\Config;
+use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 
 /**
  * Class EasySms.
@@ -29,32 +30,32 @@ class EasySms
     /**
      * @var Config
      */
-    protected $config;
+    protected Config $config;
 
     /**
      * @var string
      */
-    protected $defaultGateway;
+    protected string $defaultGateway;
 
     /**
      * @var array
      */
-    protected $customCreators = [];
+    protected array $customCreators = [];
 
     /**
      * @var array
      */
-    protected $gateways = [];
+    protected array $gateways = [];
 
     /**
      * @var Messenger
      */
-    protected $messenger;
+    protected Messenger $messenger;
 
     /**
      * @var array
      */
-    protected $strategies = [];
+    protected array $strategies = [];
 
     /**
      * Constructor.
@@ -67,15 +68,14 @@ class EasySms
     /**
      * Send a message.
      *
-     * @param string|array           $to
-     * @param MessageInterface|array $message
-     *
-     * @return array
-     *
+     * @param array|string $to
+     * @param array|MessageInterface $message
+     * @param array $gateways
+     * @throws NoGatewayAvailableException
      * @throws InvalidArgumentException
-     * @throws Exceptions\NoGatewayAvailableException
+     * @return array
      */
-    public function send($to, $message, array $gateways = [])
+    public function send(array|string $to, MessageInterface|array $message, array $gateways = []): array
     {
         $to = $this->formatPhoneNumber($to);
         $message = $this->formatMessage($message);
@@ -92,12 +92,10 @@ class EasySms
      * Create a gateway.
      *
      * @param string|null $name
-     *
-     * @return GatewayInterface
-     *
      * @throws InvalidArgumentException
+     * @return GatewayInterface
      */
-    public function gateway($name)
+    public function gateway(?string $name): GatewayInterface
     {
         if (!isset($this->gateways[$name])) {
             $this->gateways[$name] = $this->createGateway($name);
@@ -110,19 +108,17 @@ class EasySms
      * Get a strategy instance.
      *
      * @param string|null $strategy
-     *
-     * @return StrategyInterface
-     *
      * @throws InvalidArgumentException
+     * @return StrategyInterface
      */
-    public function strategy($strategy = null)
+    public function strategy(?string $strategy = null): StrategyInterface
     {
         if (\is_null($strategy)) {
             $strategy = $this->config->get('default.strategy', OrderStrategy::class);
         }
 
         if (!\class_exists($strategy)) {
-            $strategy = __NAMESPACE__.'\Strategies\\'.\ucfirst($strategy);
+            $strategy = __NAMESPACE__ . '\Strategies\\' . \ucfirst($strategy);
         }
 
         if (!\class_exists($strategy)) {
@@ -140,10 +136,10 @@ class EasySms
      * Register a custom driver creator Closure.
      *
      * @param string $name
-     *
+     * @param Closure $callback
      * @return $this
      */
-    public function extend($name, \Closure $callback)
+    public function extend(string $name, \Closure $callback): static
     {
         $this->customCreators[$name] = $callback;
 
@@ -153,7 +149,7 @@ class EasySms
     /**
      * @return Config
      */
-    public function getConfig()
+    public function getConfig(): Config
     {
         return $this->config;
     }
@@ -161,7 +157,7 @@ class EasySms
     /**
      * @return Messenger
      */
-    public function getMessenger()
+    public function getMessenger(): Messenger
     {
         return $this->messenger ?: $this->messenger = new Messenger($this);
     }
@@ -170,13 +166,11 @@ class EasySms
      * Create a new driver instance.
      *
      * @param string $name
-     *
-     * @return GatewayInterface
-     *
      * @throws \InvalidArgumentException
      * @throws InvalidArgumentException
+     * @return GatewayInterface
      */
-    protected function createGateway($name)
+    protected function createGateway(string $name): GatewayInterface
     {
         $config = $this->config->get("gateways.{$name}", []);
 
@@ -204,13 +198,11 @@ class EasySms
      * Make gateway instance.
      *
      * @param string $gateway
-     * @param array  $config
-     *
-     * @return GatewayInterface
-     *
+     * @param array $config
      * @throws InvalidArgumentException
+     * @return GatewayInterface
      */
-    protected function makeGateway($gateway, $config)
+    protected function makeGateway(string $gateway, array $config): GatewayInterface
     {
         if (!\class_exists($gateway) || !\in_array(GatewayInterface::class, \class_implements($gateway))) {
             throw new InvalidArgumentException(\sprintf('Class "%s" is a invalid easy-sms gateway.', $gateway));
@@ -223,10 +215,9 @@ class EasySms
      * Format gateway name.
      *
      * @param string $name
-     *
      * @return string
      */
-    protected function formatGatewayClassName($name)
+    protected function formatGatewayClassName(string $name): string
     {
         if (\class_exists($name) && \in_array(GatewayInterface::class, \class_implements($name))) {
             return $name;
@@ -234,26 +225,26 @@ class EasySms
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__."\\Gateways\\{$name}Gateway";
+        return __NAMESPACE__ . "\\Gateways\\{$name}Gateway";
     }
 
     /**
      * Call a custom gateway creator.
      *
      * @param string $gateway
-     * @param array  $config
+     * @param array $config
+     * @return mixed
      */
-    protected function callCustomCreator($gateway, $config)
+    protected function callCustomCreator(string $gateway, array $config): mixed
     {
         return \call_user_func($this->customCreators[$gateway], $config);
     }
 
     /**
      * @param string|PhoneNumberInterface $number
-     *
-     * @return PhoneNumberInterface|string
+     * @return PhoneNumberInterface
      */
-    protected function formatPhoneNumber($number)
+    protected function formatPhoneNumber(PhoneNumberInterface|string $number): PhoneNumberInterface
     {
         if ($number instanceof PhoneNumberInterface) {
             return $number;
@@ -264,15 +255,14 @@ class EasySms
 
     /**
      * @param array|string|MessageInterface $message
-     *
      * @return MessageInterface
      */
-    protected function formatMessage($message)
+    protected function formatMessage(MessageInterface|array|string $message): MessageInterface
     {
         if (!($message instanceof MessageInterface)) {
             if (!\is_array($message)) {
                 $message = [
-                    'content' => $message,
+                    'content'  => $message,
                     'template' => $message,
                 ];
             }
@@ -284,11 +274,11 @@ class EasySms
     }
 
     /**
-     * @return array
-     *
+     * @param array $gateways
      * @throws InvalidArgumentException
+     * @return array
      */
-    protected function formatGateways(array $gateways)
+    protected function formatGateways(array $gateways): array
     {
         $formatted = [];
 

@@ -11,7 +11,12 @@
 
 namespace Overtrue\EasySms\Strategies;
 
+use Throwable;
+use Random\RandomException;
 use Overtrue\EasySms\Contracts\StrategyInterface;
+use function count;
+use function array_keys;
+use function random_int;
 
 /**
  * Class RandomStrategy.
@@ -19,14 +24,25 @@ use Overtrue\EasySms\Contracts\StrategyInterface;
 class RandomStrategy implements StrategyInterface
 {
     /**
+     * @param array $gateways
      * @return array
      */
-    public function apply(array $gateways)
+    public function apply(array $gateways): array
     {
-        uasort($gateways, function () {
-            return mt_rand() - mt_rand();
-        });
+        try {
+            $keys = array_keys($gateways);
+            $n = count($keys);
 
-        return array_keys($gateways);
+            for ($i = $n - 1; $i > 0; $i--) {
+                $j = random_int(0, $i);
+                [$keys[$i], $keys[$j]] = [$keys[$j], $keys[$i]];
+            }
+
+            return $keys;
+        } catch (Throwable $exception) {
+            $keys = array_keys($gateways);
+            shuffle($keys);
+            return $keys;
+        }
     }
 }

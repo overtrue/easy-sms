@@ -13,6 +13,7 @@ namespace Overtrue\EasySms;
 
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
+use Overtrue\EasySms\Exceptions\InvalidArgumentException;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 
 /**
@@ -27,7 +28,7 @@ class Messenger
     /**
      * @var EasySms
      */
-    protected $easySms;
+    protected EasySms $easySms;
 
     /**
      * Messenger constructor.
@@ -40,11 +41,14 @@ class Messenger
     /**
      * Send a message.
      *
-     * @return array
-     *
+     * @param PhoneNumberInterface $to
+     * @param MessageInterface $message
+     * @param array $gateways
+     * @throws InvalidArgumentException
      * @throws NoGatewayAvailableException
+     * @return array
      */
-    public function send(PhoneNumberInterface $to, MessageInterface $message, array $gateways = [])
+    public function send(PhoneNumberInterface $to, MessageInterface $message, array $gateways = []): array
     {
         $results = [];
         $isSuccessful = false;
@@ -60,14 +64,7 @@ class Messenger
                 $isSuccessful = true;
 
                 break;
-            } catch (\Exception $e) {
-                $results[$gateway] = [
-                    'gateway' => $gateway,
-                    'status' => self::STATUS_FAILURE,
-                    'template' => $message->getTemplate($this->easySms->gateway($gateway)),
-                    'exception' => $e,
-                ];
-            } catch (\Throwable $e) {
+            } catch (\Exception|\Throwable $e) {
                 $results[$gateway] = [
                     'gateway' => $gateway,
                     'status' => self::STATUS_FAILURE,

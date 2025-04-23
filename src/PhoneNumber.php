@@ -18,23 +18,16 @@ namespace Overtrue\EasySms;
  */
 class PhoneNumber implements Contracts\PhoneNumberInterface
 {
-    /**
-     * @var int
-     */
-    protected $number;
+    protected int $number;
 
-    /**
-     * @var int
-     */
-    protected $IDDCode;
+    protected ?int $IDDCode;
 
     /**
      * PhoneNumberInterface constructor.
-     *
-     * @param int    $numberWithoutIDDCode
-     * @param string $IDDCode
+     * @param int $numberWithoutIDDCode
+     * @param string|null $IDDCode
      */
-    public function __construct($numberWithoutIDDCode, $IDDCode = null)
+    public function __construct(int $numberWithoutIDDCode, ?string $IDDCode = null)
     {
         $this->number = $numberWithoutIDDCode;
         $this->IDDCode = $IDDCode ? intval(ltrim($IDDCode, '+0')) : null;
@@ -42,10 +35,9 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
 
     /**
      * 86.
-     *
-     * @return int
+     * @return int|null
      */
-    public function getIDDCode()
+    public function getIDDCode(): ?int
     {
         return $this->IDDCode;
     }
@@ -55,7 +47,7 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      *
      * @return int
      */
-    public function getNumber()
+    public function getNumber(): int
     {
         return $this->number;
     }
@@ -65,7 +57,7 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      *
      * @return string
      */
-    public function getUniversalNumber()
+    public function getUniversalNumber(): string
     {
         return $this->getPrefixedIDDCode('+').$this->number;
     }
@@ -75,17 +67,16 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      *
      * @return string
      */
-    public function getZeroPrefixedNumber()
+    public function getZeroPrefixedNumber(): string
     {
         return $this->getPrefixedIDDCode('00').$this->number;
     }
 
     /**
      * @param string $prefix
-     *
      * @return string|null
      */
-    public function getPrefixedIDDCode($prefix)
+    public function getPrefixedIDDCode(string $prefix): ?string
     {
         return $this->IDDCode ? $prefix.$this->IDDCode : null;
     }
@@ -119,7 +110,7 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      *
      * @return bool
      */
-    public function inChineseMainland()
+    public function inChineseMainland(): bool
     {
         return empty($this->IDDCode) || 86 === $this->IDDCode;
     }

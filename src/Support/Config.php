@@ -21,7 +21,7 @@ class Config implements \ArrayAccess
     /**
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * Config constructor.
@@ -35,8 +35,10 @@ class Config implements \ArrayAccess
      * Get an item from an array using "dot" notation.
      *
      * @param string $key
+     * @param mixed|null $default
+     * @return array|mixed|null
      */
-    public function get($key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $config = $this->config;
 
@@ -44,7 +46,7 @@ class Config implements \ArrayAccess
             return $config[$key];
         }
 
-        if (false === strpos($key, '.')) {
+        if (!str_contains($key, '.')) {
             return $default;
         }
 
@@ -62,20 +64,17 @@ class Config implements \ArrayAccess
      * Whether a offset exists.
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetexists.php
-     *
      * @param mixed $offset <p>
      *                      An offset to check for.
      *                      </p>
-     *
      * @return bool true on success or false on failure.
      *              </p>
      *              <p>
      *              The return value will be casted to boolean if non-boolean was returned
-     *
      * @since 5.0.0
      */
     #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->config);
     }
@@ -84,17 +83,14 @@ class Config implements \ArrayAccess
      * Offset to retrieve.
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetget.php
-     *
      * @param mixed $offset <p>
      *                      The offset to retrieve.
      *                      </p>
-     *
      * @return mixed Can return all value types
-     *
      * @since 5.0.0
      */
     #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
@@ -103,18 +99,16 @@ class Config implements \ArrayAccess
      * Offset to set.
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetset.php
-     *
      * @param mixed $offset <p>
      *                      The offset to assign the value to.
      *                      </p>
-     * @param mixed $value  <p>
+     * @param mixed $value <p>
      *                      The value to set.
      *                      </p>
-     *
      * @since 5.0.0
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (isset($this->config[$offset])) {
             $this->config[$offset] = $value;
@@ -125,15 +119,13 @@ class Config implements \ArrayAccess
      * Offset to unset.
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetunset.php
-     *
      * @param mixed $offset <p>
      *                      The offset to unset.
      *                      </p>
-     *
      * @since 5.0.0
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         if (isset($this->config[$offset])) {
             unset($this->config[$offset]);
