@@ -22,36 +22,26 @@ interface MessageInterface
 
     /**
      * Return the message type.
-     *
-     * @return string
      */
-    public function getMessageType();
+    public function getMessageType(): string;
 
     /**
      * Return message content.
-     *
-     * @return string
      */
-    public function getContent(?GatewayInterface $gateway = null);
+    public function getContent(?GatewayInterface $gateway = null): ?string;
 
     /**
      * Return the template id of message.
-     *
-     * @return string
      */
-    public function getTemplate(?GatewayInterface $gateway = null);
+    public function getTemplate(?GatewayInterface $gateway = null): ?string;
 
     /**
      * Return the template data of message.
-     *
-     * @return array
      */
-    public function getData(?GatewayInterface $gateway = null);
+    public function getData(?GatewayInterface $gateway = null): array;
 
     /**
      * Return message supported gateways.
-     *
-     * @return array
      */
-    public function getGateways();
+    public function getGateways(): array;
 }

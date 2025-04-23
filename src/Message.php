@@ -19,37 +19,20 @@ use Overtrue\EasySms\Contracts\MessageInterface;
  */
 class Message implements MessageInterface
 {
-    /**
-     * @var array
-     */
-    protected $gateways = [];
+    protected array $gateways = [];
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var string
-     */
-    protected $content;
+    protected \Closure|string|null $content = null;
 
-    /**
-     * @var string
-     */
-    protected $template;
+    protected \Closure|string|null $template = null;
 
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected array|\Closure $data = [];
 
     /**
      * Message constructor.
-     *
-     * @param string $type
      */
-    public function __construct(array $attributes = [], $type = MessageInterface::TEXT_MESSAGE)
+    public function __construct(array $attributes = [], string $type = MessageInterface::TEXT_MESSAGE)
     {
         $this->type = $type;
 
@@ -62,30 +45,24 @@ class Message implements MessageInterface
 
     /**
      * Return the message type.
-     *
-     * @return string
      */
-    public function getMessageType()
+    public function getMessageType(): string
     {
         return $this->type;
     }
 
     /**
      * Return message content.
-     *
-     * @return string
      */
-    public function getContent(?GatewayInterface $gateway = null)
+    public function getContent(?GatewayInterface $gateway = null): ?string
     {
         return is_callable($this->content) ? call_user_func($this->content, $gateway) : $this->content;
     }
 
     /**
      * Return the template id of message.
-     *
-     * @return string
      */
-    public function getTemplate(?GatewayInterface $gateway = null)
+    public function getTemplate(?GatewayInterface $gateway = null): ?string
     {
         return is_callable($this->template) ? call_user_func($this->template, $gateway) : $this->template;
     }
@@ -93,7 +70,7 @@ class Message implements MessageInterface
     /**
      * @return $this
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -103,7 +80,7 @@ class Message implements MessageInterface
     /**
      * @return $this
      */
-    public function setContent($content)
+    public function setContent($content): static
     {
         $this->content = $content;
 
@@ -113,37 +90,29 @@ class Message implements MessageInterface
     /**
      * @return $this
      */
-    public function setTemplate($template)
+    public function setTemplate($template): static
     {
         $this->template = $template;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getData(?GatewayInterface $gateway = null)
+    public function getData(?GatewayInterface $gateway = null): array
     {
         return is_callable($this->data) ? call_user_func($this->data, $gateway) : $this->data;
     }
 
     /**
-     * @param array|callable $data
-     *
      * @return $this
      */
-    public function setData($data)
+    public function setData(callable|array $data): static
     {
         $this->data = $data;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getGateways()
+    public function getGateways(): array
     {
         return $this->gateways;
     }
@@ -151,7 +120,7 @@ class Message implements MessageInterface
     /**
      * @return $this
      */
-    public function setGateways(array $gateways)
+    public function setGateways(array $gateways): static
     {
         $this->gateways = $gateways;
 

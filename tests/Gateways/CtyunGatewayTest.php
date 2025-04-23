@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Overtrue\EasySms\Tests\Gateways;
 
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
@@ -33,7 +32,7 @@ class CtyunGatewayTest extends TestCase
             'content' => 'mock-content',
             'template' => 'mock-tpl-id', // 模板ID
             'data' => [
-                "code" => 123456,
+                'code' => 123456,
             ],
         ]);
 

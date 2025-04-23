@@ -18,23 +18,14 @@ namespace Overtrue\EasySms;
  */
 class PhoneNumber implements Contracts\PhoneNumberInterface
 {
-    /**
-     * @var int
-     */
-    protected $number;
+    protected int|string $number;
 
-    /**
-     * @var int
-     */
-    protected $IDDCode;
+    protected ?int $IDDCode;
 
     /**
      * PhoneNumberInterface constructor.
-     *
-     * @param int    $numberWithoutIDDCode
-     * @param string $IDDCode
      */
-    public function __construct($numberWithoutIDDCode, $IDDCode = null)
+    public function __construct(int|string $numberWithoutIDDCode, ?string $IDDCode = null)
     {
         $this->number = $numberWithoutIDDCode;
         $this->IDDCode = $IDDCode ? intval(ltrim($IDDCode, '+0')) : null;
@@ -42,50 +33,37 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
 
     /**
      * 86.
-     *
-     * @return int
      */
-    public function getIDDCode()
+    public function getIDDCode(): ?int
     {
         return $this->IDDCode;
     }
 
     /**
      * 18888888888.
-     *
-     * @return int
      */
-    public function getNumber()
+    public function getNumber(): int|string
     {
         return $this->number;
     }
 
     /**
      * +8618888888888.
-     *
-     * @return string
      */
-    public function getUniversalNumber()
+    public function getUniversalNumber(): string
     {
         return $this->getPrefixedIDDCode('+').$this->number;
     }
 
     /**
      * 008618888888888.
-     *
-     * @return string
      */
-    public function getZeroPrefixedNumber()
+    public function getZeroPrefixedNumber(): string
     {
         return $this->getPrefixedIDDCode('00').$this->number;
     }
 
-    /**
-     * @param string $prefix
-     *
-     * @return string|null
-     */
-    public function getPrefixedIDDCode($prefix)
+    public function getPrefixedIDDCode(string $prefix): ?string
     {
         return $this->IDDCode ? $prefix.$this->IDDCode : null;
     }
@@ -116,10 +94,8 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
 
     /**
      * Check if the phone number belongs to chinese mainland.
-     *
-     * @return bool
      */
-    public function inChineseMainland()
+    public function inChineseMainland(): bool
     {
         return empty($this->IDDCode) || 86 === $this->IDDCode;
     }

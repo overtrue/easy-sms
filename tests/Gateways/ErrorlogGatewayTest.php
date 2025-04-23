@@ -40,14 +40,14 @@ class ErrorlogGatewayTest extends TestCase
             'data' => ['foo' => 'bar'],
         ]);
 
-        $gateway->send(new PhoneNumber(new PhoneNumber(18188888888)), $message, new Config());
+        $gateway->send(new PhoneNumber(18188888888), $message, new Config());
 
         $this->assertTrue(file_exists($this->logFile));
         $this->assertNotFalse(
             strpos(
                 file_get_contents($this->logFile),
-                'to: 18188888888 | message: "This is a test message."  | template: "" | data: {"foo":"bar"}'
-            )
+                'to: 18188888888 | message: "This is a test message."  | template: "" | data: {"foo":"bar"}',
+            ),
         );
     }
 }

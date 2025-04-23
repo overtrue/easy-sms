@@ -61,26 +61,30 @@ class EasySmsTest extends TestCase
             return $number instanceof PhoneNumber && !empty($number->getNumber());
         }), \Mockery::on(function ($message) {
             return $message instanceof MessageInterface && !empty($message->getContent());
-        }), [])->andReturn('send-result');
+        }), [])->andReturn([]);
 
         $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
         $easySms->shouldReceive('getMessenger')->andReturn($messenger);
 
         // simple
-        $this->assertSame('send-result', $easySms->send('18888888888', ['content' => 'hello']));
+        $this->assertIsArray($easySms->send('18888888888', ['content' => 'hello']));
 
         // message object
         $message = new Message(['content' => 'hello']);
-        $this->assertSame('send-result', $easySms->send('18888888888', $message, []));
+        $this->assertIsArray($easySms->send('18888888888', $message, []));
 
         // phone number object
         $number = new PhoneNumber('18888888888', 35);
         $message = new Message(['content' => 'hello']);
         $messenger = \Mockery::mock(Messenger::class);
-        $messenger->expects()->send($number, $message, [])->andReturn('mock-result');
+        $messenger->expects()->send(
+            \Mockery::type(PhoneNumber::class),
+            \Mockery::type(Message::class),
+            [],
+        )->andReturn([]);
         $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
         $easySms->shouldReceive('getMessenger')->andReturn($messenger);
-        $this->assertSame('mock-result', $easySms->send($number, $message));
+        $this->assertIsArray($easySms->send($number, $message));
     }
 
     public function testFormatMessage()
