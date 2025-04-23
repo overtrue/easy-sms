@@ -20,31 +20,23 @@ interface PhoneNumberInterface extends \JsonSerializable
 {
     /**
      * 86.
-     *
-     * @return int
      */
-    public function getIDDCode();
+    public function getIDDCode(): ?int;
 
     /**
      * 18888888888.
-     *
-     * @return int
      */
-    public function getNumber();
+    public function getNumber(): int|string;
 
     /**
      * +8618888888888.
-     *
-     * @return string
      */
-    public function getUniversalNumber();
+    public function getUniversalNumber(): string;
 
     /**
      * 008618888888888.
-     *
-     * @return string
      */
-    public function getZeroPrefixedNumber();
+    public function getZeroPrefixedNumber(): string;
 
     /**
      * @return string

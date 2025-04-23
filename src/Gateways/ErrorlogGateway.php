@@ -23,7 +23,7 @@ class ErrorlogGateway extends Gateway
     /**
      * @return array
      */
-    public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
+    public function send(PhoneNumberInterface|array $to, MessageInterface $message, Config $config)
     {
         if (is_array($to)) {
             $to = implode(',', $to);
