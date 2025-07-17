@@ -59,6 +59,7 @@
 - [火山引擎](https://console.volcengine.com/sms/)
 - [移动云MAS（黑名单模式）](https://mas.10086.cn)
 - [电信天翼云](https://www.ctyun.cn/document/10020426/10021544)
+- [微趣云](https://sms.weiqucloud.com/)
 
 ## 环境需求
 
