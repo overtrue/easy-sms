@@ -1039,6 +1039,26 @@ $easySms->send(18888888888, [
 ]);
 ```
 
+### [微趣云](https://sms.weiqucloud.com/)
+
+短信使用 `content`
+
+```php
+  'weiqucloud' => [
+        'userId'  => '',    // 服务商会提供 
+        'account'   => '',    //服务商会提供
+        'password'  => '',    // 服务商会提供,
+    ],
+```
+
+发送示例：
+
+```php
+$easySms->send(18888888888, [
+    'content'  =>"【已备案签名】您的验证码是 xx。",
+]);
+```
+
 ## :heart: 支持我
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
