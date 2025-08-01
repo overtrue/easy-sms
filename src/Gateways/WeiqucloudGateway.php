@@ -29,10 +29,10 @@ class WeiqucloudGateway extends Gateway
             "action" => "sendhy",
         ];
         $result = $this->postJson(self::ENDPOINT_URL, $data);
-        if ($result < 0) {
-            throw new GatewayErrorException('短信发送失败', $result, []);
-        }
-        return $result;
-    }
 
+        if ($result['code'] === 200 && $result['data']['status'] === 'Success') {
+            return $result;
+        }
+        throw new GatewayErrorException("短信发送失败: {$result['data']['message']}, remainPoint: {$result['data']['remainPoint']}, taskID:{$result['data']['taskID']}", 500, $result);
+    }
 }
