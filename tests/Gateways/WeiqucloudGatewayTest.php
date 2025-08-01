@@ -39,6 +39,7 @@ class WeiqucloudGatewayTest extends TestCase
             'action' => 'sendhy',
         ];
 
+
         // 成功响应的数据结构
         $successResponse = [
             'code' => 200,

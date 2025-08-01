@@ -29,6 +29,7 @@ class WeiqucloudGateway extends Gateway
             "action" => "sendhy",
         ];
         $result = $this->postJson(self::ENDPOINT_URL, $data);
+
         if ($result['code'] === 200 && $result['data']['status'] === 'Success') {
             return $result;
         }
