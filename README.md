@@ -1,6 +1,6 @@
 <h1 align="center">Easy SMS</h1>
 
-<p align="center">:calling: 一款满足你的多种发送需求的短信发送组件</p>
+<p align="center">:calling: 一款多渠道的短信发送组件</p>
 
 <p align="center">
 <a href="https://packagist.org/packages/overtrue/easy-sms"><img src="https://poser.pugx.org/overtrue/easy-sms/v/stable.svg" alt="Latest Stable Version"></a>
