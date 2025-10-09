@@ -57,8 +57,7 @@ abstract class Gateway implements GatewayInterface
     /**
      * Set timeout.
      *
-     * @param int $timeout
-     *
+     * @param  int  $timeout
      * @return $this
      */
     public function setTimeout($timeout)

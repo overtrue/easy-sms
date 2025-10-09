@@ -40,7 +40,7 @@ class AliyunIntlGateway extends Gateway
     {
         $data = $message->getData($this);
 
-        $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
+        $signName = ! empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
 
         unset($data['sign_name']);
 
@@ -53,7 +53,7 @@ class AliyunIntlGateway extends Gateway
             'SignatureNonce' => uniqid('', true),
             'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
             'Version' => self::ENDPOINT_VERSION,
-            'To' => !\is_null($to->getIDDCode()) ? (int) $to->getZeroPrefixedNumber() : $to->getNumber(),
+            'To' => ! \is_null($to->getIDDCode()) ? (int) $to->getZeroPrefixedNumber() : $to->getNumber(),
             'Action' => self::ENDPOINT_ACTION,
             'From' => $signName,
             'TemplateCode' => $message->getTemplate($this),
@@ -64,7 +64,7 @@ class AliyunIntlGateway extends Gateway
 
         $result = $this->get(self::ENDPOINT_URL, $params);
 
-        if ('OK' !== $result['ResponseCode']) {
+        if ($result['ResponseCode'] !== 'OK') {
             throw new GatewayErrorException($result['ResponseDescription'], $result['ResponseCode'], $result);
         }
 

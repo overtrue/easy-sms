@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class VolcengineGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'access_key_id' => 'mock_access_key_id',

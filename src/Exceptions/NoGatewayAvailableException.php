@@ -31,7 +31,7 @@ class NoGatewayAvailableException extends Exception
     /**
      * NoGatewayAvailableException constructor.
      *
-     * @param int $code
+     * @param  int  $code
      */
     public function __construct(array $results = [], $code = 0, ?\Throwable $previous = null)
     {
@@ -50,8 +50,7 @@ class NoGatewayAvailableException extends Exception
     }
 
     /**
-     * @param string $gateway
-     *
+     * @param  string  $gateway
      * @return mixed|null
      */
     public function getException($gateway)

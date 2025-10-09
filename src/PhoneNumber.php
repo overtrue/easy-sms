@@ -41,9 +41,9 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
 
         // Try to parse using libphonenumber
         try {
-            if (null !== $parsedIDDCode) {
+            if ($parsedIDDCode !== null) {
                 // If IDD code is provided, construct the phone number directly
-                $this->phoneNumberObject = new \libphonenumber\PhoneNumber();
+                $this->phoneNumberObject = new \libphonenumber\PhoneNumber;
                 $this->phoneNumberObject->setCountryCode($parsedIDDCode);
                 $this->phoneNumberObject->setNationalNumber($numberStr);
 
@@ -101,7 +101,7 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      */
     public function getUniversalNumber(): string
     {
-        if (null !== $this->phoneNumberObject && null !== $this->IDDCode && $this->phoneUtil->isValidNumber($this->phoneNumberObject)) {
+        if ($this->phoneNumberObject !== null && $this->IDDCode !== null && $this->phoneUtil->isValidNumber($this->phoneNumberObject)) {
             return $this->phoneUtil->format($this->phoneNumberObject, PhoneNumberFormat::E164);
         }
 
@@ -113,7 +113,7 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      */
     public function getZeroPrefixedNumber(): string
     {
-        if (null !== $this->phoneNumberObject && null !== $this->IDDCode) {
+        if ($this->phoneNumberObject !== null && $this->IDDCode !== null) {
             $e164 = $this->phoneUtil->format($this->phoneNumberObject, PhoneNumberFormat::E164);
 
             // Convert +XX to 00XX
@@ -157,6 +157,6 @@ class PhoneNumber implements Contracts\PhoneNumberInterface
      */
     public function inChineseMainland(): bool
     {
-        return empty($this->IDDCode) || 86 === $this->IDDCode;
+        return empty($this->IDDCode) || $this->IDDCode === 86;
     }
 }

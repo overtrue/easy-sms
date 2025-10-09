@@ -23,7 +23,7 @@ use Overtrue\EasySms\Support\Config;
 
 class EasySmsTest extends TestCase
 {
-    public function testGateway()
+    public function test_gateway()
     {
         $easySms = new EasySms([]);
 
@@ -36,7 +36,7 @@ class EasySmsTest extends TestCase
         $easySms->gateway('NotExistsGatewayName');
     }
 
-    public function testGatewayNameConflicts()
+    public function test_gateway_name_conflicts()
     {
         $easySms = \Mockery::mock(EasySms::class.'[makeGateway]', [['default' => DummyGatewayForTest::class]]);
 
@@ -44,23 +44,23 @@ class EasySmsTest extends TestCase
         $easySms->makeGateway(DummyGatewayNotImplementsGatewayInterface::class, []);
     }
 
-    public function testExtend()
+    public function test_extend()
     {
         $easySms = new EasySms([]);
         $easySms->extend('foo', function () {
-            return new DummyGatewayForTest();
+            return new DummyGatewayForTest;
         });
 
         $this->assertInstanceOf(DummyGatewayForTest::class, $easySms->gateway('foo'));
     }
 
-    public function testSend()
+    public function test_send()
     {
         $messenger = \Mockery::mock(Messenger::class);
         $messenger->allows()->send(\Mockery::on(function ($number) {
-            return $number instanceof PhoneNumber && !empty($number->getNumber());
+            return $number instanceof PhoneNumber && ! empty($number->getNumber());
         }), \Mockery::on(function ($message) {
-            return $message instanceof MessageInterface && !empty($message->getContent());
+            return $message instanceof MessageInterface && ! empty($message->getContent());
         }), [])->andReturn([]);
 
         $easySms = \Mockery::mock(EasySms::class.'[getMessenger]', [['default' => DummyGatewayForTest::class]]);
@@ -87,7 +87,7 @@ class EasySmsTest extends TestCase
         $this->assertIsArray($easySms->send($number, $message));
     }
 
-    public function testFormatMessage()
+    public function test_format_message()
     {
         $easySms = \Mockery::mock(EasySms::class.'[formatMessage]', [[]])->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -122,14 +122,14 @@ class EasySmsTest extends TestCase
         $this->assertSame(['c' => 'd'], $message->setData(['c' => 'd'])->getData());
     }
 
-    public function testGetMessenger()
+    public function test_get_messenger()
     {
         $easySms = new EasySms([]);
 
         $this->assertInstanceOf(Messenger::class, $easySms->getMessenger());
     }
 
-    public function testFormatGateways()
+    public function test_format_gateways()
     {
         $config = [
             'gateways' => [
@@ -173,7 +173,7 @@ class EasySmsTest extends TestCase
         $this->assertSame('e', $gateways['bar']->get('c'));
     }
 
-    public function testCreateGatewayWithDefaultTimeout()
+    public function test_create_gateway_with_default_timeout()
     {
         $easySms = new EasySms([
             'timeout' => 10.0,
@@ -189,9 +189,7 @@ class EasySmsTest extends TestCase
     }
 }
 
-class DummyGatewayNotImplementsGatewayInterface
-{
-}
+class DummyGatewayNotImplementsGatewayInterface {}
 
 class DummyGatewayForTest implements GatewayInterface
 {

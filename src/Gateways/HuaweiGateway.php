@@ -81,7 +81,7 @@ class HuaweiGateway extends Gateway
             $result = $this->unwrapResponse($e->getResponse());
         }
 
-        if (self::SUCCESS_CODE != $result['code']) {
+        if ($result['code'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['description'], ltrim($result['code'], 'E'), $result);
         }
 
@@ -103,9 +103,8 @@ class HuaweiGateway extends Gateway
     /**
      * 获取请求 Headers 参数.
      *
-     * @param string $appKey
-     * @param string $appSecret
-     *
+     * @param  string  $appKey
+     * @param  string  $appSecret
      * @return array
      */
     protected function getHeaders($appKey, $appSecret)
@@ -120,9 +119,8 @@ class HuaweiGateway extends Gateway
     /**
      * 构造X-WSSE参数值
      *
-     * @param string $appKey
-     * @param string $appSecret
-     *
+     * @param  string  $appKey
+     * @param  string  $appSecret
      * @return string
      */
     protected function buildWsseHeader($appKey, $appSecret)

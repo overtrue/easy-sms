@@ -19,16 +19,16 @@ use Psr\Http\Message\ResponseInterface;
 
 class HasHttpRequestTest extends TestCase
 {
-    public function testRequest()
+    public function test_request()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
-                ->shouldAllowMockingProtectedMethods();
+            ->shouldAllowMockingProtectedMethods();
         $mockBaseOptions = ['base_uri' => 'https://mock-base-options'];
         $mockResponse = \Mockery::mock(ResponseInterface::class);
         $mockHttpClient = \Mockery::mock(Client::class);
         $object->expects()->getHttpClient($mockBaseOptions)
-                ->andReturn($mockHttpClient)
-                ->once();
+            ->andReturn($mockHttpClient)
+            ->once();
         $object->expects()->getBaseOptions()->andReturn($mockBaseOptions);
         $object->expects()->unwrapResponse($mockResponse)->andReturn('unwrapped-api-result');
 
@@ -39,10 +39,10 @@ class HasHttpRequestTest extends TestCase
         $this->assertSame('unwrapped-api-result', $object->request('get', 'mock-endpoint', $options));
     }
 
-    public function testGet()
+    public function test_get()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
-                ->shouldAllowMockingProtectedMethods();
+            ->shouldAllowMockingProtectedMethods();
         $object->expects()->request('get', 'mock-endpoint', [
             'headers' => ['Content-Type' => 'Mock-Content-Type'],
             'query' => ['foo' => 'bar'],
@@ -54,7 +54,7 @@ class HasHttpRequestTest extends TestCase
         $this->assertSame('mock-result', $response);
     }
 
-    public function testPost()
+    public function test_post()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->shouldAllowMockingProtectedMethods();
@@ -69,11 +69,11 @@ class HasHttpRequestTest extends TestCase
         $this->assertSame('mock-result', $response);
     }
 
-    public function testGetBaseOptions()
+    public function test_get_base_options()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
-                ->makePartial()
-                ->shouldAllowMockingProtectedMethods();
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
         $object->shouldReceive('getBaseOptions')->withAnyArgs()->passthru();
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
@@ -81,15 +81,15 @@ class HasHttpRequestTest extends TestCase
 
         // timeout overwrite
         $object = \Mockery::mock(DummyTimeoutClassForHasHttpRequestTrait::class)
-                ->makePartial()
-                ->shouldAllowMockingProtectedMethods();
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
         $object->shouldReceive('getBaseOptions')->withAnyArgs()->passthru();
 
         $this->assertSame('http://mock-uri', $object->getBaseOptions()['base_uri']);
         $this->assertSame(30.0, $object->getBaseOptions()['timeout']);
     }
 
-    public function testUnwrapResponseWithJsonResponse()
+    public function test_unwrap_response_with_json_response()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()
@@ -102,7 +102,7 @@ class HasHttpRequestTest extends TestCase
         $this->assertSame($body, $object->unwrapResponse($response));
     }
 
-    public function testUnwrapResponseWithXMLResponse()
+    public function test_unwrap_response_with_xml_response()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()
@@ -118,7 +118,7 @@ class HasHttpRequestTest extends TestCase
         $this->assertSame(['foo' => 'hello', 'bar' => 'world'], $object->unwrapResponse($response));
     }
 
-    public function testUnwrapResponseWithUnsupportedResponse()
+    public function test_unwrap_response_with_unsupported_response()
     {
         $object = \Mockery::mock(DummyClassForHasHttpRequestTrait::class)
             ->makePartial()

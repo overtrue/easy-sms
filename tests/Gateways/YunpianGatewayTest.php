@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YunpianGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'api_key' => 'mock-api-key',
@@ -66,7 +66,7 @@ class YunpianGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
-    public function testDefaultSignature()
+    public function test_default_signature()
     {
         $config = [
             'api_key' => 'mock-api-key',

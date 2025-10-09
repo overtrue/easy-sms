@@ -46,7 +46,7 @@ class TinreeGateway extends Gateway
 
         $result = $this->post(self::ENDPOINT_URL, $params);
 
-        if (0 != $result['code']) {
+        if ($result['code'] != 0) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 

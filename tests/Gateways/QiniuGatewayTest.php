@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class QiniuGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'secret_key' => 'mock-secrey-key',

@@ -23,7 +23,7 @@ class HuaweiGatewayTest extends TestCase
     /**
      * 测试 发送华为短信
      */
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'endpoint' => 'mock-endpoint',
@@ -49,7 +49,7 @@ class HuaweiGatewayTest extends TestCase
             ->with(
                 'post',
                 \Mockery::on(function ($endpoint) use ($config) {
-                    return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
+                    return $endpoint === $config['endpoint'].'/sms/batchSendSms/v1';
                 }),
                 \Mockery::on(function ($params) use ($expectedParams) {
                     ksort($params['form_params']);
@@ -84,7 +84,7 @@ class HuaweiGatewayTest extends TestCase
     /**
      * 测试 自定义签名通道.
      */
-    public function testMultiFrom()
+    public function test_multi_from()
     {
         $config = [
             'endpoint' => 'mock-endpoint',
@@ -111,7 +111,7 @@ class HuaweiGatewayTest extends TestCase
             ->with(
                 'post',
                 \Mockery::on(function ($endpoint) use ($config) {
-                    return $config['endpoint'].'/sms/batchSendSms/v1' === $endpoint;
+                    return $endpoint === $config['endpoint'].'/sms/batchSendSms/v1';
                 }),
                 \Mockery::on(function ($params) use ($expectedParams) {
                     ksort($params['form_params']);
@@ -152,7 +152,7 @@ class HuaweiGatewayTest extends TestCase
      *
      * @throws \ReflectionException
      */
-    public function testGetEndpoint()
+    public function test_get_endpoint()
     {
         $method = new \ReflectionMethod(HuaweiGateway::class, 'getEndpoint');
         $method->setAccessible(true);
@@ -160,7 +160,7 @@ class HuaweiGatewayTest extends TestCase
         $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $defaultEndpoint = 'https://api.rtc.huaweicloud.com:10443/sms/batchSendSms/v1';
-        $this->assertSame($defaultEndpoint, $method->invoke($gateway, new Config()));
+        $this->assertSame($defaultEndpoint, $method->invoke($gateway, new Config));
 
         $config = new Config([
             'endpoint' => 'mock-endpoint',

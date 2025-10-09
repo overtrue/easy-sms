@@ -33,10 +33,15 @@ class VolcengineGateway extends Gateway
     use HasHttpRequest;
 
     public const ENDPOINT_ACTION = 'SendSms';
+
     public const ENDPOINT_VERSION = '2020-01-01';
+
     public const ENDPOINT_CONTENT_TYPE = 'application/json; charset=utf-8';
+
     public const ENDPOINT_ACCEPT = 'application/json';
+
     public const ENDPOINT_USER_AGENT = 'overtrue/easy-sms';
+
     public const ENDPOINT_SERVICE = 'volcSMS';
 
     public const Algorithm = 'HMAC-SHA256';
@@ -49,18 +54,19 @@ class VolcengineGateway extends Gateway
     ];
 
     private $regionId = self::ENDPOINT_DEFAULT_REGION_ID;
+
     protected $requestDate;
 
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = $message->getData($this);
-        $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
-        $smsAccount = !empty($data['sms_account']) ? $data['sms_account'] : $config->get('sms_account');
+        $signName = ! empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
+        $smsAccount = ! empty($data['sms_account']) ? $data['sms_account'] : $config->get('sms_account');
         $templateId = $message->getTemplate($this);
-        $phoneNumbers = !empty($data['phone_numbers']) ? $data['phone_numbers'] : $to->getNumber();
-        $templateParam = !empty($data['template_param']) ? $data['template_param'] : $message->getData($this);
+        $phoneNumbers = ! empty($data['phone_numbers']) ? $data['phone_numbers'] : $to->getNumber();
+        $templateParam = ! empty($data['template_param']) ? $data['template_param'] : $message->getData($this);
 
-        $tag = !empty($data['tag']) ? $data['tag'] : '';
+        $tag = ! empty($data['tag']) ? $data['tag'] : '';
 
         $payload = [
             'SmsAccount' => $smsAccount, // 消息组帐号,火山短信页面右上角，短信应用括号中的字符串
@@ -122,7 +128,7 @@ class VolcengineGateway extends Gateway
         return function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
                 $request = $request->withHeader('X-Date', $this->getRequestDate());
-                list($canonicalHeaders, $signedHeaders) = $this->getCanonicalHeaders($request);
+                [$canonicalHeaders, $signedHeaders] = $this->getCanonicalHeaders($request);
 
                 $queries = Query::parse($request->getUri()->getQuery());
                 $canonicalRequest = $request->getMethod()."\n"
@@ -193,7 +199,7 @@ class VolcengineGateway extends Gateway
     public function getEndpoint()
     {
         $regionId = $this->getRegionId();
-        if (!in_array($regionId, array_keys(self::$endpoints))) {
+        if (! in_array($regionId, array_keys(self::$endpoints))) {
             $regionId = self::ENDPOINT_DEFAULT_REGION_ID;
         }
 

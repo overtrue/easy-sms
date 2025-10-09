@@ -50,7 +50,7 @@ class ZzyunGateway extends Gateway
 
         $result = $this->post(self::ENDPOINT_URL, $params);
 
-        if ('Success' != $result['Code']) {
+        if ($result['Code'] != 'Success') {
             throw new GatewayErrorException($result['Message'], $result['Code'], $result);
         }
 

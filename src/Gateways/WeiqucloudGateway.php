@@ -30,7 +30,7 @@ class WeiqucloudGateway extends Gateway
         ];
         $result = $this->postJson(self::ENDPOINT_URL, $data);
 
-        if (200 === $result['code'] && 'Success' === $result['data']['status']) {
+        if ($result['code'] === 200 && $result['data']['status'] === 'Success') {
             return $result;
         }
         throw new GatewayErrorException("短信发送失败: {$result['data']['message']}, remainPoint: {$result['data']['remainPoint']}, taskID:{$result['data']['taskID']}", 500, $result);

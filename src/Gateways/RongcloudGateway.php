@@ -67,8 +67,8 @@ class RongcloudGateway extends Gateway
 
                 break;
             case 'verifyCode':
-                if (!array_key_exists('code', $data)
-                    or !array_key_exists('sessionId', $data)) {
+                if (! array_key_exists('code', $data)
+                    or ! array_key_exists('sessionId', $data)) {
                     throw new GatewayErrorException('"code" or "sessionId" is not set', 0);
                 }
                 $params = [
@@ -93,7 +93,7 @@ class RongcloudGateway extends Gateway
         try {
             $result = $this->post($endpoint, $params, $headers);
 
-            if (self::SUCCESS_CODE !== $result['code']) {
+            if ($result['code'] !== self::SUCCESS_CODE) {
                 throw new GatewayErrorException($result['errorMessage'], $result['code'], $result);
             }
         } catch (ClientException $e) {
@@ -106,8 +106,7 @@ class RongcloudGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function generateSign($params, Config $config)
@@ -118,8 +117,7 @@ class RongcloudGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $action
-     *
+     * @param  string  $action
      * @return string
      */
     protected function buildEndpoint($action)

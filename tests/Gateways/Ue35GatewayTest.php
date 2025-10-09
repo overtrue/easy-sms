@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class Ue35GatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'debug' => false,
@@ -33,18 +33,18 @@ class Ue35GatewayTest extends TestCase
         $gateway->shouldReceive('request')->with(
             'get',
             \Mockery::on(function ($api) {
-                return 0 === strpos($api, Ue35Gateway::getEndpointUri());
+                return strpos($api, Ue35Gateway::getEndpointUri()) === 0;
             }),
             \Mockery::on(function ($params) {
                 return true;
             })
         )
-        ->andReturn([
-            'errorcode' => Ue35Gateway::SUCCESS_CODE,
-        ], [
-            'errorcode' => 100,
-            'message' => 'error',
-        ])->twice();
+            ->andReturn([
+                'errorcode' => Ue35Gateway::SUCCESS_CODE,
+            ], [
+                'errorcode' => 100,
+                'message' => 'error',
+            ])->twice();
 
         $message = new Message(['content' => 'content']);
         $config = new Config($config);

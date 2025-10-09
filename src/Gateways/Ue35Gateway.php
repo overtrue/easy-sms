@@ -59,7 +59,7 @@ class Ue35Gateway extends Gateway
             $result = json_decode(json_encode(simplexml_load_string($result)), true);
         }
 
-        if (self::SUCCESS_CODE != $result['errorcode']) {
+        if ($result['errorcode'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['message'], $result['errorcode'], $result);
         }
 

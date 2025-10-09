@@ -58,9 +58,8 @@ class LuosimaoGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $function
-     *
+     * @param  string  $type
+     * @param  string  $function
      * @return string
      */
     protected function buildEndpoint($type, $function)

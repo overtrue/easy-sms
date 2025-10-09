@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class WeiqucloudGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'userId' => 'mock-user-id',

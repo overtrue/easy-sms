@@ -69,7 +69,7 @@ class CtyunGateway extends Gateway
         $headers['eop-date'] = $time;
 
         $result = $this->postJson($url, $data, $headers);
-        if (self::SUCCESS_CODE !== $result['code']) {
+        if ($result['code'] !== self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['message'], $result['code'], $result);
         }
 

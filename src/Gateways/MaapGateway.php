@@ -48,7 +48,7 @@ class MaapGateway extends Gateway
 
         $result = $this->postJson(self::ENDPOINT_URL, $params);
 
-        if (0 != $result['resultcode']) {
+        if ($result['resultcode'] != 0) {
             throw new GatewayErrorException($result['resultmsg'], $result['resultcode'], $result);
         }
 
@@ -58,9 +58,8 @@ class MaapGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array  $params
-     * @param string $key    签名Key
-     *
+     * @param  array  $params
+     * @param  string  $key  签名Key
      * @return string
      */
     protected function generateSign($params, $key)

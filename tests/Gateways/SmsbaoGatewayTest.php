@@ -25,7 +25,7 @@ use Overtrue\EasySms\Tests\TestCase;
  */
 class SmsbaoGatewayTest extends TestCase
 {
-    public function testSendWithSMS()
+    public function test_send_with_sms()
     {
         $config = [
             'user' => 'mock-user',
@@ -60,7 +60,7 @@ class SmsbaoGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
-    public function testSendWithWSMS()
+    public function test_send_with_wsms()
     {
         $config = [
             'user' => 'mock-user',

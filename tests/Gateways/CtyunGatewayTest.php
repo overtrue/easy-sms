@@ -11,7 +11,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class CtyunGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'secret_key' => 'mock-secrey-key',

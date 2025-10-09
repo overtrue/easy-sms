@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YidongmasblackGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'ecName' => 'mock-ec-name',

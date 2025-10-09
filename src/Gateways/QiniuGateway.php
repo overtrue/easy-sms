@@ -46,7 +46,7 @@ class QiniuGateway extends Gateway
             'mobile' => $to->getNumber(),
         ];
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $params['parameters'] = $data;
         }
 
@@ -68,9 +68,8 @@ class QiniuGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $function
-     *
+     * @param  string  $type
+     * @param  string  $function
      * @return string
      */
     protected function buildEndpoint($type, $function)
@@ -81,11 +80,10 @@ class QiniuGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $url
-     * @param string $method
-     * @param string $body
-     * @param string $contentType
-     *
+     * @param  string  $url
+     * @param  string  $method
+     * @param  string  $body
+     * @param  string  $contentType
      * @return string
      */
     protected function generateSign($url, $method, $body, $contentType, Config $config)
@@ -105,21 +103,21 @@ class QiniuGateway extends Gateway
         }
         // write request uri
         $toSignStr = $method.' '.$path;
-        if (!empty($query)) {
+        if (! empty($query)) {
             $toSignStr .= '?'.$query;
         }
         // write host and port
         $toSignStr .= "\nHost: ".$host;
-        if (!empty($port)) {
+        if (! empty($port)) {
             $toSignStr .= ':'.$port;
         }
         // write content type
-        if (!empty($contentType)) {
+        if (! empty($contentType)) {
             $toSignStr .= "\nContent-Type: ".$contentType;
         }
         $toSignStr .= "\n\n";
         // write body
-        if (!empty($body)) {
+        if (! empty($body)) {
             $toSignStr .= $body;
         }
 
@@ -129,8 +127,7 @@ class QiniuGateway extends Gateway
     }
 
     /**
-     * @param string $data
-     *
+     * @param  string  $data
      * @return string
      */
     protected function base64UrlSafeEncode($data)

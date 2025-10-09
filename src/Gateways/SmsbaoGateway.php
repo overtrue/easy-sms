@@ -48,7 +48,7 @@ class SmsbaoGateway extends Gateway
     {
         $data = $message->getContent($this);
 
-        if (is_null($to->getIDDCode()) || '86' == $to->getIDDCode()) {
+        if (is_null($to->getIDDCode()) || $to->getIDDCode() == '86') {
             $number = $to->getNumber();
             $action = 'sms';
         } else {
@@ -65,7 +65,7 @@ class SmsbaoGateway extends Gateway
 
         $result = $this->get($this->buildEndpoint($action), $params);
 
-        if (self::SUCCESS_CODE !== $result) {
+        if ($result !== self::SUCCESS_CODE) {
             throw new GatewayErrorException($this->errorStatuses[$result], $result);
         }
 

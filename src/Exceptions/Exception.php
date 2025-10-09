@@ -16,6 +16,4 @@ namespace Overtrue\EasySms\Exceptions;
  *
  * @author overtrue <i@overtrue.me>
  */
-class Exception extends \Exception
-{
-}
+class Exception extends \Exception {}

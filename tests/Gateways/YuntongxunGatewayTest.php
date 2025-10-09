@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YuntongxunGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'debug' => false,
@@ -34,7 +34,7 @@ class YuntongxunGatewayTest extends TestCase
         $gateway->shouldReceive('request')->with(
             'post',
             \Mockery::on(function ($api) {
-                return 0 === strpos($api, 'https://app.cloopen.com:8883/2013-12-26/Accounts/mock-account-sid/SMS/TemplateSMS?sig=');
+                return strpos($api, 'https://app.cloopen.com:8883/2013-12-26/Accounts/mock-account-sid/SMS/TemplateSMS?sig=') === 0;
             }),
             \Mockery::on(function ($params) {
                 return $params['json'] == [
@@ -42,15 +42,15 @@ class YuntongxunGatewayTest extends TestCase
                     'templateId' => 5589,
                     'appId' => 'mock-app-id',
                     'datas' => ['mock-data-1', 'mock-data-2'],
-                ] && 'application/json' == $params['headers']['Accept']
-                        && 'application/json;charset=utf-8' == $params['headers']['Content-Type'];
+                ] && $params['headers']['Accept'] == 'application/json'
+                        && $params['headers']['Content-Type'] == 'application/json;charset=utf-8';
             })
         )
-        ->andReturn([
-            'statusCode' => YuntongxunGateway::SUCCESS_CODE,
-        ], [
-            'statusCode' => 100,
-        ])->twice();
+            ->andReturn([
+                'statusCode' => YuntongxunGateway::SUCCESS_CODE,
+            ], [
+                'statusCode' => 100,
+            ])->twice();
 
         $message = new Message(['data' => ['mock-data-1', 'mock-data-2'], 'template' => 5589]);
         $config = new Config($config);
@@ -67,7 +67,7 @@ class YuntongxunGatewayTest extends TestCase
     }
 
     // 国际短信
-    public function testSendIntl()
+    public function test_send_intl()
     {
         $config = [
             'debug' => false,
@@ -81,15 +81,15 @@ class YuntongxunGatewayTest extends TestCase
         $gateway->shouldReceive('request')->with(
             'post',
             \Mockery::on(function ($api) {
-                return 0 === strpos($api, 'https://app.cloopen.com:8883/v2/account/mock-account-sid/international/send?sig=');
+                return strpos($api, 'https://app.cloopen.com:8883/v2/account/mock-account-sid/international/send?sig=') === 0;
             }),
             \Mockery::on(function ($params) {
                 return $params['json'] == [
                     'appId' => 'mock-app-id',
                     'mobile' => '006018188888888',
                     'content' => '容联云国际短信测试',
-                ] && 'application/json' == $params['headers']['Accept']
-                && 'application/json;charset=utf-8' == $params['headers']['Content-Type'];
+                ] && $params['headers']['Accept'] == 'application/json'
+                && $params['headers']['Content-Type'] == 'application/json;charset=utf-8';
             })
         )->andReturn([
             'statusCode' => YuntongxunGateway::SUCCESS_CODE,

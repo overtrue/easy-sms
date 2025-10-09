@@ -60,7 +60,7 @@ class TiniyoGateway extends Gateway
             ],
         ]);
 
-        if (self::SUCCESS_CODE != $result['statusCode']) {
+        if ($result['statusCode'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['statusCode'], $result['statusCode'], $result);
         }
 
@@ -70,8 +70,7 @@ class TiniyoGateway extends Gateway
     /**
      * build endpoint url.
      *
-     * @param string $accountSid
-     *
+     * @param  string  $accountSid
      * @return string
      */
     protected function buildEndPoint($accountSid)

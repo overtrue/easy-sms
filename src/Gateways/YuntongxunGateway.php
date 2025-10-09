@@ -83,7 +83,7 @@ class YuntongxunGateway extends Gateway
             ],
         ]);
 
-        if (self::SUCCESS_CODE != $result['statusCode']) {
+        if ($result['statusCode'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['statusCode'], $result['statusCode'], $result);
         }
 
@@ -93,10 +93,9 @@ class YuntongxunGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $resource
-     * @param string $datetime
-     *
+     * @param  string  $type
+     * @param  string  $resource
+     * @param  string  $datetime
      * @return string
      */
     protected function buildEndpoint($type, $resource, $datetime, Config $config)
