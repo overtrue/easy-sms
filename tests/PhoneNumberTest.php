@@ -47,4 +47,53 @@ class PhoneNumberTest extends TestCase
         $n = new PhoneNumber(18888888888, 68);
         $this->assertSame(json_encode(['number' => $n->getUniversalNumber()]), \json_encode(['number' => $n]));
     }
+
+    public function testInternationalFormat()
+    {
+        // Test international format with +
+        $n = new PhoneNumber('+8618888888888');
+        $this->assertSame(86, $n->getIDDCode());
+        $this->assertSame('18888888888', $n->getNumber());
+        $this->assertSame('+8618888888888', $n->getUniversalNumber());
+        $this->assertSame('008618888888888', $n->getZeroPrefixedNumber());
+    }
+
+    public function testInternationalFormatWithoutPlus()
+    {
+        // Test international format starting with 00
+        $n = new PhoneNumber('008618888888888');
+        $this->assertSame(86, $n->getIDDCode());
+        $this->assertSame('18888888888', $n->getNumber());
+        $this->assertSame('+8618888888888', $n->getUniversalNumber());
+    }
+
+    public function testDifferentCountries()
+    {
+        // Test US number
+        $n = new PhoneNumber('+1 650 253 0000');
+        $this->assertSame(1, $n->getIDDCode());
+        $this->assertSame('+16502530000', $n->getUniversalNumber());
+
+        // Test Netherlands number
+        $n = new PhoneNumber('+31612345678');
+        $this->assertSame(31, $n->getIDDCode());
+        $this->assertSame('+31612345678', $n->getUniversalNumber());
+
+        // Test UK number
+        $n = new PhoneNumber('+44 117 496 0123');
+        $this->assertSame(44, $n->getIDDCode());
+        $this->assertSame('+441174960123', $n->getUniversalNumber());
+    }
+
+    public function testChineseMainlandCheck()
+    {
+        $n = new PhoneNumber(18888888888);
+        $this->assertTrue($n->inChineseMainland());
+
+        $n = new PhoneNumber(18888888888, 86);
+        $this->assertTrue($n->inChineseMainland());
+
+        $n = new PhoneNumber(18888888888, 1);
+        $this->assertFalse($n->inChineseMainland());
+    }
 }
