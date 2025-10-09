@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class KingttoGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'userid' => 'mock-id',

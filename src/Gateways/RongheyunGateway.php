@@ -56,7 +56,7 @@ class RongheyunGateway extends Gateway
             $params,
             ['Content-Type' => 'application/json; charset="UTF-8"']
         );
-        if (200 != $result['code']) {
+        if ($result['code'] != 200) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 

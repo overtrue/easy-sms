@@ -57,7 +57,7 @@ class ModuyunGateway extends Gateway
 
         $result = $this->postJson($this->getEndpointUrl($urlParams), $params);
         $result = is_string($result) ? json_decode($result, true) : $result;
-        if (0 != $result['result']) {
+        if ($result['result'] != 0) {
             throw new GatewayErrorException($result['errmsg'], $result['result'], $result);
         }
 
@@ -65,8 +65,7 @@ class ModuyunGateway extends Gateway
     }
 
     /**
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function getEndpointUrl($params)
@@ -77,9 +76,8 @@ class ModuyunGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array  $params
-     * @param string $random
-     *
+     * @param  array  $params
+     * @param  string  $random
      * @return string
      */
     protected function generateSign($params, $random)

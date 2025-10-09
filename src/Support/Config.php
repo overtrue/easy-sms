@@ -41,12 +41,12 @@ class Config implements \ArrayAccess
             return $config[$key];
         }
 
-        if (!str_contains($key, '.')) {
+        if (! str_contains($key, '.')) {
             return $default;
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (!is_array($config) || !array_key_exists($segment, $config)) {
+            if (! is_array($config) || ! array_key_exists($segment, $config)) {
                 return $default;
             }
             $config = $config[$segment];
@@ -60,10 +60,9 @@ class Config implements \ArrayAccess
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetexists.php
      *
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     *                      </p>
-     *
+     * @param  mixed  $offset  <p>
+     *                         An offset to check for.
+     *                         </p>
      * @return bool true on success or false on failure.
      *              </p>
      *              <p>
@@ -82,10 +81,9 @@ class Config implements \ArrayAccess
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     *                      </p>
-     *
+     * @param  mixed  $offset  <p>
+     *                         The offset to retrieve.
+     *                         </p>
      * @return mixed Can return all value types
      *
      * @since 5.0.0
@@ -101,12 +99,12 @@ class Config implements \ArrayAccess
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetset.php
      *
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     *                      </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     *                      </p>
+     * @param  mixed  $offset  <p>
+     *                         The offset to assign the value to.
+     *                         </p>
+     * @param  mixed  $value  <p>
+     *                        The value to set.
+     *                        </p>
      *
      * @since 5.0.0
      */
@@ -123,9 +121,9 @@ class Config implements \ArrayAccess
      *
      * @see  http://php.net/manual/en/arrayaccess.offsetunset.php
      *
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     *                      </p>
+     * @param  mixed  $offset  <p>
+     *                         The offset to unset.
+     *                         </p>
      *
      * @since 5.0.0
      */

@@ -29,7 +29,7 @@ class ErrorlogGatewayTest extends TestCase
         unlink($this->logFile);
     }
 
-    public function testSend()
+    public function test_send()
     {
         $gateway = new ErrorlogGateway([
             'file' => $this->logFile,
@@ -40,7 +40,7 @@ class ErrorlogGatewayTest extends TestCase
             'data' => ['foo' => 'bar'],
         ]);
 
-        $gateway->send(new PhoneNumber(18188888888), $message, new Config());
+        $gateway->send(new PhoneNumber(18188888888), $message, new Config);
 
         $this->assertTrue(file_exists($this->logFile));
         $this->assertNotFalse(

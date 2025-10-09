@@ -53,7 +53,7 @@ class SendcloudGateway extends Gateway
 
         $result = $this->post(sprintf(self::ENDPOINT_TEMPLATE, 'send'), $params);
 
-        if (!$result['result']) {
+        if (! $result['result']) {
             throw new GatewayErrorException($result['message'], $result['statusCode'], $result);
         }
 
@@ -75,9 +75,8 @@ class SendcloudGateway extends Gateway
     }
 
     /**
-     * @param array  $params
-     * @param string $key
-     *
+     * @param  array  $params
+     * @param  string  $key
      * @return string
      */
     protected function sign($params, $key)

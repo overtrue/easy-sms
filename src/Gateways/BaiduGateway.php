@@ -51,12 +51,12 @@ class BaiduGateway extends Gateway
             'template' => $message->getTemplate($this),
             'contentVar' => $message->getData($this),
         ];
-        if (!empty($params['contentVar']['custom'])) {
+        if (! empty($params['contentVar']['custom'])) {
             // 用户自定义参数，格式为字符串，状态回调时会回传该值
             $params['custom'] = $params['contentVar']['custom'];
             unset($params['contentVar']['custom']);
         }
-        if (!empty($params['contentVar']['userExtId'])) {
+        if (! empty($params['contentVar']['userExtId'])) {
             // 通道自定义扩展码，上行回调时会回传该值，其格式为纯数字串。默认为不开通，请求时无需设置该参数。如需开通请联系客服申请
             $params['userExtId'] = $params['contentVar']['userExtId'];
             unset($params['contentVar']['userExtId']);
@@ -76,7 +76,7 @@ class BaiduGateway extends Gateway
 
         $result = $this->request('post', self::buildEndpoint($config), ['headers' => $headers, 'json' => $params]);
 
-        if (self::SUCCESS_CODE != $result['code']) {
+        if ($result['code'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['message'], $result['code'], $result);
         }
 
@@ -96,8 +96,7 @@ class BaiduGateway extends Gateway
     /**
      * Generate Authorization header.
      *
-     * @param int $datetime
-     *
+     * @param  int  $datetime
      * @return string
      */
     protected function generateSign(array $signHeaders, $datetime, Config $config)

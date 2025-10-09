@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class QcloudGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'sdk_app_id' => 'mock-sdk-app-id',
@@ -90,7 +90,7 @@ class QcloudGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
 
-    public function testSendWithPartialErrors()
+    public function test_send_with_partial_errors()
     {
         $config = [
             'sdk_app_id' => 'mock-sdk-app-id',
@@ -102,22 +102,22 @@ class QcloudGatewayTest extends TestCase
         $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
-                ->andReturn([
-                    'Response' => [
-                        'SendStatusSet' => [
-                            [
-                                'SerialNo' => '2028:f825e6b16e23f73f4123',
-                                'PhoneNumber' => '8618888888888',
-                                'Fee' => 1,
-                                'SessionContext' => '',
-                                'Code' => 'InvalidParameterValue.TemplateParameterFormatError',
-                                'Message' => 'Verification code template parameter format error',
-                                'IsoCode' => 'CN',
-                            ],
+            ->andReturn([
+                'Response' => [
+                    'SendStatusSet' => [
+                        [
+                            'SerialNo' => '2028:f825e6b16e23f73f4123',
+                            'PhoneNumber' => '8618888888888',
+                            'Fee' => 1,
+                            'SessionContext' => '',
+                            'Code' => 'InvalidParameterValue.TemplateParameterFormatError',
+                            'Message' => 'Verification code template parameter format error',
+                            'IsoCode' => 'CN',
                         ],
                     ],
-                    'RequestId' => '0dc99542-c61a-4a16-9545-ec8ec202c543',
-                ])->once();
+                ],
+                'RequestId' => '0dc99542-c61a-4a16-9545-ec8ec202c543',
+            ])->once();
 
         $message = new Message([
             'template' => 'template-id',

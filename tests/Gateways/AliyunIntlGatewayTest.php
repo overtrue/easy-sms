@@ -15,7 +15,7 @@ use Overtrue\EasySms\Tests\TestCase;
 class AliyunIntlGatewayTest extends TestCase
 {
     /** @test */
-    public function itCanSenSmsByAliyunIntlGateway()
+    public function it_can_sen_sms_by_aliyun_intl_gateway()
     {
         $config = [
             'access_key_id' => 'mock-api-key',
@@ -42,26 +42,26 @@ class AliyunIntlGatewayTest extends TestCase
         ];
 
         $gateway->shouldReceive('get')
-                ->with(AliyunIntlGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
-                    if (empty($params['Signature'])) {
-                        return false;
-                    }
+            ->with(AliyunIntlGateway::ENDPOINT_URL, \Mockery::on(function ($params) use ($expected) {
+                if (empty($params['Signature'])) {
+                    return false;
+                }
 
-                    unset($params['SignatureNonce'], $params['Timestamp'], $params['Signature']);
+                unset($params['SignatureNonce'], $params['Timestamp'], $params['Signature']);
 
-                    ksort($params);
-                    ksort($expected);
+                ksort($params);
+                ksort($expected);
 
-                    return $params == $expected;
-                }))
-                ->andReturn([
-                    'ResponseCode' => 'OK',
-                    'ResponseDescription' => 'mock-result',
-                ], [
-                    'ResponseCode' => 1234,
-                    'ResponseDescription' => 'mock-err-msg',
-                ])
-                ->twice();
+                return $params == $expected;
+            }))
+            ->andReturn([
+                'ResponseCode' => 'OK',
+                'ResponseDescription' => 'mock-result',
+            ], [
+                'ResponseCode' => 1234,
+                'ResponseDescription' => 'mock-err-msg',
+            ])
+            ->twice();
 
         $message = new Message([
             'template' => 'mock-template-code',

@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class SubmailGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'app_id' => 'mock-app-id',
@@ -63,7 +63,7 @@ class SubmailGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
-    public function testContentSend()
+    public function test_content_send()
     {
         $config = [
             'app_id' => 'mock-app-id',
@@ -104,7 +104,7 @@ class SubmailGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
-    public function testProject()
+    public function test_project()
     {
         $config = [
             'app_id' => 'mock-app-id',
@@ -137,7 +137,7 @@ class SubmailGatewayTest extends TestCase
         ], $gateway->send(new PhoneNumber(18188888888), $message, $config));
     }
 
-    public function testEndpointChina()
+    public function test_endpoint_china()
     {
         $config = [
             'app_id' => 'mock-app-id',
@@ -170,7 +170,7 @@ class SubmailGatewayTest extends TestCase
         ], $gateway->send(new PhoneNumber(18188888888, 86), $message, $config));
     }
 
-    public function testEndpointInternational()
+    public function test_endpoint_international()
     {
         $config = [
             'app_id' => 'mock-app-id',

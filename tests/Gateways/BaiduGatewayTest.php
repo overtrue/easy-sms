@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class BaiduGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'ak' => 'mock-ak',
@@ -37,7 +37,7 @@ class BaiduGatewayTest extends TestCase
         $gateway->shouldReceive('request')->with(
             'post',
             \Mockery::on(function ($api) {
-                return 0 == strpos($api, 'http://'.BaiduGateway::ENDPOINT_HOST.BaiduGateway::ENDPOINT_URI);
+                return strpos($api, 'http://'.BaiduGateway::ENDPOINT_HOST.BaiduGateway::ENDPOINT_URI) == 0;
             }),
             \Mockery::on(function ($params) use ($expected) {
                 ksort($params['json']);

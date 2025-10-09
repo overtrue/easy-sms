@@ -52,7 +52,7 @@ class HuyiGateway extends Gateway
 
         $result = $this->post(self::ENDPOINT_URL, $params);
 
-        if (self::SUCCESS_CODE != $result['code']) {
+        if ($result['code'] != self::SUCCESS_CODE) {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 
@@ -62,8 +62,7 @@ class HuyiGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function generateSign($params)

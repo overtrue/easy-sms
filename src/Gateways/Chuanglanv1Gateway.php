@@ -55,7 +55,7 @@ class Chuanglanv1Gateway extends Gateway
      */
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
-        $IDDCode = !empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
+        $IDDCode = ! empty($to->getIDDCode()) ? $to->getIDDCode() : 86;
 
         $params = [
             'account' => $config->get('account'),
@@ -63,13 +63,13 @@ class Chuanglanv1Gateway extends Gateway
             'report' => $config->get('needstatus') ?? false,
         ];
 
-        if (86 != $IDDCode) {
+        if ($IDDCode != 86) {
             $params['mobile'] = $to->getIDDCode().$to->getNumber();
             $params['account'] = $config->get('intel_account') ?: $config->get('account');
             $params['password'] = $config->get('intel_password') ?: $config->get('password');
         }
 
-        if (self::CHANNEL_VARIABLE_CODE == $this->getChannel($config, $IDDCode)) {
+        if ($this->getChannel($config, $IDDCode) == self::CHANNEL_VARIABLE_CODE) {
             $params['params'] = $message->getData($this);
             $params['msg'] = $this->wrapChannelContent($message->getTemplate($this), $config, $IDDCode);
         } else {
@@ -79,7 +79,7 @@ class Chuanglanv1Gateway extends Gateway
 
         $result = $this->postJson($this->buildEndpoint($config, $IDDCode), $params);
 
-        if (!isset($result['code']) || '0' != $result['code']) {
+        if (! isset($result['code']) || $result['code'] != '0') {
             throw new GatewayErrorException(json_encode($result, JSON_UNESCAPED_UNICODE), isset($result['code']) ? $result['code'] : 0, $result);
         }
 
@@ -87,8 +87,7 @@ class Chuanglanv1Gateway extends Gateway
     }
 
     /**
-     * @param int $IDDCode
-     *
+     * @param  int  $IDDCode
      * @return string
      *
      * @throws InvalidArgumentException
@@ -97,7 +96,7 @@ class Chuanglanv1Gateway extends Gateway
     {
         $channel = $this->getChannel($config, $IDDCode);
 
-        if (self::INT_URL === $channel) {
+        if ($channel === self::INT_URL) {
             return $channel;
         }
 
@@ -105,18 +104,18 @@ class Chuanglanv1Gateway extends Gateway
     }
 
     /**
-     * @param int $IDDCode
+     * @param  int  $IDDCode
      *
      * @throws InvalidArgumentException
      */
     protected function getChannel(Config $config, $IDDCode)
     {
-        if (86 != $IDDCode) {
+        if ($IDDCode != 86) {
             return self::INT_URL;
         }
         $channel = $config->get('channel', self::CHANNEL_NORMAL_CODE);
 
-        if (!in_array($channel, [self::CHANNEL_NORMAL_CODE, self::CHANNEL_VARIABLE_CODE])) {
+        if (! in_array($channel, [self::CHANNEL_NORMAL_CODE, self::CHANNEL_VARIABLE_CODE])) {
             throw new InvalidArgumentException('Invalid channel for ChuanglanGateway.');
         }
 
@@ -124,9 +123,8 @@ class Chuanglanv1Gateway extends Gateway
     }
 
     /**
-     * @param string $content
-     * @param int    $IDDCode
-     *
+     * @param  string  $content
+     * @param  int  $IDDCode
      * @return string|string
      *
      * @throws InvalidArgumentException

@@ -48,7 +48,7 @@ class YidongmasblackGateway extends Gateway
         $params['content'] = $message->getContent();
         $result = $this->postJson(self::ENDPOINT_URL, $this->generateContent($params));
 
-        if ('true' != $result['success']) {
+        if ($result['success'] != 'true') {
             throw new GatewayErrorException($result['success'], $result['rspcod'], $result);
         }
 
@@ -58,8 +58,7 @@ class YidongmasblackGateway extends Gateway
     /**
      * Generate Content.
      *
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function generateContent($params)

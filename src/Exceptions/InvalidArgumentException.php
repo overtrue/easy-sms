@@ -14,6 +14,4 @@ namespace Overtrue\EasySms\Exceptions;
 /**
  * Class InvalidArgumentException.
  */
-class InvalidArgumentException extends Exception
-{
-}
+class InvalidArgumentException extends Exception {}

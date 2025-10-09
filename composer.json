@@ -12,7 +12,7 @@
         "phpunit/phpunit": "^9.5.8",
         "mockery/mockery": "^1.4.2",
         "jetbrains/phpstorm-attributes": "^1.0",
-        "friendsofphp/php-cs-fixer": "^3.54"
+        "laravel/pint": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -33,8 +33,9 @@
     ],
     "scripts": {
         "phpstan": "phpstan analyse",
-        "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --allow-risky=yes --ansi",
-        "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --allow-risky=yes --ansi",
+        "check-style": "pint --test",
+        "fix-style": "pint",
+        "fix": "pint",
         "test": "phpunit --colors",
         "psalm": "psalm --show-info=true --no-cache",
         "psalm-fix": "psalm --no-cache --alter --issues=MissingReturnType,MissingParamType"

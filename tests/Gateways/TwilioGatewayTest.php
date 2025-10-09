@@ -19,7 +19,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class TwilioGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'account_sid' => 'mock-api-account-sid',

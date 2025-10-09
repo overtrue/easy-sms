@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class SendcloudGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'sms_user' => 'mock-user',
@@ -51,8 +51,7 @@ class SendcloudGatewayTest extends TestCase
                     && $params['phone'] == $expected['phone']
                     && $params['vars'] == $expected['vars']
                     && $params['signature'] == $expectedSignature
-                    && !isset($params['timestamp'])
-                ;
+                    && ! isset($params['timestamp']);
             }))
             ->andReturn([
                 'message' => '操作成功',
@@ -87,7 +86,7 @@ class SendcloudGatewayTest extends TestCase
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
 
-    public function testTimestampConfig()
+    public function test_timestamp_config()
     {
         $config = [
             'sms_user' => 'mock-user',
@@ -98,7 +97,7 @@ class SendcloudGatewayTest extends TestCase
 
         $gateway->shouldReceive('post')
             ->with(sprintf(SendcloudGateway::ENDPOINT_TEMPLATE, 'send'), \Mockery::on(function ($params) {
-                return isset($params['timestamp']) && 13 == strlen($params['timestamp']) && $params['timestamp'] <= time() * 1000;
+                return isset($params['timestamp']) && strlen($params['timestamp']) == 13 && $params['timestamp'] <= time() * 1000;
             }))->andReturn([
                 'message' => '操作成功',
                 'result' => true,

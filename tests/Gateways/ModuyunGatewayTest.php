@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class ModuyunGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'accesskey' => 'mock-accesskey',

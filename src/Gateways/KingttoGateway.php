@@ -48,7 +48,7 @@ class KingttoGateway extends Gateway
 
         $result = $this->post(self::ENDPOINT_URL, $params);
 
-        if ('Success' != $result['returnstatus']) {
+        if ($result['returnstatus'] != 'Success') {
             throw new GatewayErrorException($result['message'], $result['remainpoint'], $result);
         }
 

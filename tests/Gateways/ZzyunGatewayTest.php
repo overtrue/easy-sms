@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class ZzyunGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'user_id' => 'mock-user_id',

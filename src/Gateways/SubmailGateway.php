@@ -53,7 +53,7 @@ class SubmailGateway extends Gateway
             $params = [
                 'appid' => $config->get('app_id'),
                 'signature' => $config->get('app_key'),
-                'project' => !empty($template_code) ? $template_code : (!empty($data['project']) ? $data['project'] : $config->get('project')),
+                'project' => ! empty($template_code) ? $template_code : (! empty($data['project']) ? $data['project'] : $config->get('project')),
                 'to' => $to->getUniversalNumber(),
                 'vars' => json_encode($data, JSON_FORCE_OBJECT),
             ];
@@ -61,7 +61,7 @@ class SubmailGateway extends Gateway
 
         $result = $this->post($endpoint, $params);
 
-        if ('success' != $result['status']) {
+        if ($result['status'] != 'success') {
             throw new GatewayErrorException($result['msg'], $result['code'], $result);
         }
 
@@ -71,8 +71,7 @@ class SubmailGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $function
-     *
+     * @param  string  $function
      * @return string
      */
     protected function buildEndpoint($function)
@@ -83,14 +82,13 @@ class SubmailGateway extends Gateway
     /**
      * Check if the phone number belongs to chinese mainland.
      *
-     * @param PhoneNumberInterface $to
-     *
+     * @param  PhoneNumberInterface  $to
      * @return bool
      */
     protected function inChineseMainland($to)
     {
         $code = $to->getIDDCode();
 
-        return empty($code) || 86 === $code;
+        return empty($code) || $code === 86;
     }
 }

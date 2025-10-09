@@ -22,10 +22,9 @@ trait HasHttpRequest
     /**
      * Make a get request.
      *
-     * @param string $endpoint
-     * @param array  $query
-     * @param array  $headers
-     *
+     * @param  string  $endpoint
+     * @param  array  $query
+     * @param  array  $headers
      * @return ResponseInterface|array|string
      */
     protected function get($endpoint, $query = [], $headers = [])
@@ -39,10 +38,9 @@ trait HasHttpRequest
     /**
      * Make a post request.
      *
-     * @param string $endpoint
-     * @param array  $params
-     * @param array  $headers
-     *
+     * @param  string  $endpoint
+     * @param  array  $params
+     * @param  array  $headers
      * @return ResponseInterface|array|string
      */
     protected function post($endpoint, $params = [], $headers = [])
@@ -56,9 +54,8 @@ trait HasHttpRequest
     /**
      * Make a post request with json params.
      *
-     * @param array $params
-     * @param array $headers
-     *
+     * @param  array  $params
+     * @param  array  $headers
      * @return ResponseInterface|array|string
      */
     protected function postJson($endpoint, $params = [], $headers = [])
@@ -72,10 +69,9 @@ trait HasHttpRequest
     /**
      * Make a http request.
      *
-     * @param string $method
-     * @param string $endpoint
-     * @param array  $options  http://docs.guzzlephp.org/en/latest/request-options.html
-     *
+     * @param  string  $method
+     * @param  string  $endpoint
+     * @param  array  $options  http://docs.guzzlephp.org/en/latest/request-options.html
      * @return ResponseInterface|array|string
      */
     protected function request($method, $endpoint, $options = [])
@@ -120,9 +116,9 @@ trait HasHttpRequest
         $contentType = $response->getHeaderLine('Content-Type');
         $contents = $response->getBody()->getContents();
 
-        if (false !== stripos($contentType, 'json') || stripos($contentType, 'javascript')) {
+        if (stripos($contentType, 'json') !== false || stripos($contentType, 'javascript')) {
             return json_decode($contents, true);
-        } elseif (false !== stripos($contentType, 'xml')) {
+        } elseif (stripos($contentType, 'xml') !== false) {
             return json_decode(json_encode(simplexml_load_string($contents)), true);
         }
 

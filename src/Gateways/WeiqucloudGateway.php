@@ -2,14 +2,14 @@
 
 namespace Overtrue\EasySms\Gateways;
 
-use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Contracts\MessageInterface;
 use Overtrue\EasySms\Contracts\PhoneNumberInterface;
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
 
 /**
- * 微趣云短信网关
+ * 微趣云短信网关.
  */
 class WeiqucloudGateway extends Gateway
 {
@@ -20,13 +20,13 @@ class WeiqucloudGateway extends Gateway
     public function send(PhoneNumberInterface $to, MessageInterface $message, Config $config)
     {
         $data = [
-            "userId" => $config->get('userId'),
-            "account" => $config->get('account'),
-            "password" => $config->get('password'),
-            "mobile" => $to->getNumber(),
-            "content" => $message->getContent($this),
-            "sendTime" => "",
-            "action" => "sendhy",
+            'userId' => $config->get('userId'),
+            'account' => $config->get('account'),
+            'password' => $config->get('password'),
+            'mobile' => $to->getNumber(),
+            'content' => $message->getContent($this),
+            'sendTime' => '',
+            'action' => 'sendhy',
         ];
         $result = $this->postJson(self::ENDPOINT_URL, $data);
 

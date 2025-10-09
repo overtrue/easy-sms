@@ -24,7 +24,7 @@ class RandomStrategy implements StrategyInterface
             $keys = \array_keys($gateways);
             $n = \count($keys);
 
-            for ($i = $n - 1; $i > 0; --$i) {
+            for ($i = $n - 1; $i > 0; $i--) {
                 $j = \random_int(0, $i);
                 [$keys[$i], $keys[$j]] = [$keys[$j], $keys[$i]];
             }

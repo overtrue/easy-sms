@@ -11,7 +11,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class NowcnGatewaysTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'key' => '1',
@@ -23,7 +23,7 @@ class NowcnGatewaysTest extends TestCase
         $gateway->shouldReceive('request')->with(
             'get',
             \Mockery::on(function ($api) {
-                return 0 === strpos($api, NowcnGateway::ENDPOINT_URL);
+                return strpos($api, NowcnGateway::ENDPOINT_URL) === 0;
             }),
             \Mockery::on(function ($params) {
                 return true;

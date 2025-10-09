@@ -48,11 +48,11 @@ class QcloudGateway extends Gateway
     {
         $data = $message->getData($this);
 
-        $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name', '');
+        $signName = ! empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name', '');
 
         unset($data['sign_name']);
 
-        $phone = !\is_null($to->getIDDCode()) ? strval($to->getUniversalNumber()) : $to->getNumber();
+        $phone = ! \is_null($to->getIDDCode()) ? strval($to->getUniversalNumber()) : $to->getNumber();
         $params = [
             'PhoneNumberSet' => [
                 $phone,
@@ -80,13 +80,13 @@ class QcloudGateway extends Gateway
             'json' => $params,
         ]);
 
-        if (!empty($result['Response']['Error']['Code'])) {
+        if (! empty($result['Response']['Error']['Code'])) {
             throw new GatewayErrorException($result['Response']['Error']['Message'], 400, $result);
         }
 
-        if (!empty($result['Response']['SendStatusSet'])) {
+        if (! empty($result['Response']['SendStatusSet'])) {
             foreach ($result['Response']['SendStatusSet'] as $group) {
-                if ('Ok' != $group['Code']) {
+                if ($group['Code'] != 'Ok') {
                     throw new GatewayErrorException($group['Message'], 400, $result);
                 }
             }
@@ -98,8 +98,7 @@ class QcloudGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      */
     protected function generateSign($params, $timestamp)

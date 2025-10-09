@@ -49,7 +49,7 @@ class YunpianGateway extends Gateway
             'exceptions' => false,
         ];
 
-        if (!is_null($template)) {
+        if (! is_null($template)) {
             $function = 'tpl_single_send';
             $data = [];
 
@@ -67,7 +67,7 @@ class YunpianGateway extends Gateway
             $content = $message->getContent($this);
             $signature = $config->get('signature', '');
             $option['form_params'] = array_merge($option['form_params'], [
-                'text' => 0 === \stripos($content, '【') ? $content : $signature.$content,
+                'text' => \stripos($content, '【') === 0 ? $content : $signature.$content,
             ]);
         }
 
@@ -84,10 +84,9 @@ class YunpianGateway extends Gateway
     /**
      * Build endpoint url.
      *
-     * @param string $type
-     * @param string $resource
-     * @param string $function
-     *
+     * @param  string  $type
+     * @param  string  $resource
+     * @param  string  $function
      * @return string
      */
     protected function buildEndpoint($type, $resource, $function)

@@ -20,7 +20,7 @@ use Overtrue\EasySms\PhoneNumber;
  */
 class PhoneNumberTest extends TestCase
 {
-    public function testOnlyNumber()
+    public function test_only_number()
     {
         $n = new PhoneNumber(18888888888);
         $this->assertSame(18888888888, $n->getNumber());
@@ -30,7 +30,7 @@ class PhoneNumberTest extends TestCase
         $this->assertSame('18888888888', \strval($n));
     }
 
-    public function testDiffCode()
+    public function test_diff_code()
     {
         $n = new PhoneNumber(18888888888, 68);
         $this->assertSame(68, $n->getIDDCode());
@@ -42,13 +42,13 @@ class PhoneNumberTest extends TestCase
         $this->assertSame(68, $n->getIDDCode());
     }
 
-    public function testJsonEncode()
+    public function test_json_encode()
     {
         $n = new PhoneNumber(18888888888, 68);
         $this->assertSame(json_encode(['number' => $n->getUniversalNumber()]), \json_encode(['number' => $n]));
     }
 
-    public function testInternationalFormat()
+    public function test_international_format()
     {
         // Test international format with +
         $n = new PhoneNumber('+8618888888888');
@@ -58,7 +58,7 @@ class PhoneNumberTest extends TestCase
         $this->assertSame('008618888888888', $n->getZeroPrefixedNumber());
     }
 
-    public function testInternationalFormatWithoutPlus()
+    public function test_international_format_without_plus()
     {
         // Test international format starting with 00
         $n = new PhoneNumber('008618888888888');
@@ -67,7 +67,7 @@ class PhoneNumberTest extends TestCase
         $this->assertSame('+8618888888888', $n->getUniversalNumber());
     }
 
-    public function testDifferentCountries()
+    public function test_different_countries()
     {
         // Test US number
         $n = new PhoneNumber('+1 650 253 0000');
@@ -85,7 +85,7 @@ class PhoneNumberTest extends TestCase
         $this->assertSame('+441174960123', $n->getUniversalNumber());
     }
 
-    public function testChineseMainlandCheck()
+    public function test_chinese_mainland_check()
     {
         $n = new PhoneNumber(18888888888);
         $this->assertTrue($n->inChineseMainland());

@@ -71,7 +71,7 @@ class YunxinGateway extends Gateway
         try {
             $result = $this->post($endpoint, $params, $headers);
 
-            if (!isset($result['code']) || self::SUCCESS_CODE !== $result['code']) {
+            if (! isset($result['code']) || $result['code'] !== self::SUCCESS_CODE) {
                 $code = isset($result['code']) ? $result['code'] : 0;
                 $error = isset($result['msg']) ? $result['msg'] : json_encode($result, JSON_UNESCAPED_UNICODE);
 
@@ -138,7 +138,7 @@ class YunxinGateway extends Gateway
     {
         $data = $message->getData($this);
 
-        if (!array_key_exists('code', $data)) {
+        if (! array_key_exists('code', $data)) {
             throw new GatewayErrorException('"code" cannot be empty', 0);
         }
 

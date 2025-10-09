@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class HuyiGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'api_id' => 'mock-api-id',

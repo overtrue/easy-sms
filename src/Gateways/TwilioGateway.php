@@ -63,7 +63,7 @@ class TwilioGateway extends Gateway
                 ],
                 'form_params' => $params,
             ]);
-            if (in_array($result['status'], $this->errorStatuses) || !is_null($result['error_code'])) {
+            if (in_array($result['status'], $this->errorStatuses) || ! is_null($result['error_code'])) {
                 throw new GatewayErrorException($result['message'], $result['error_code'], $result);
             }
         } catch (ClientException $e) {
@@ -76,8 +76,7 @@ class TwilioGateway extends Gateway
     /**
      * build endpoint url.
      *
-     * @param string $accountSid
-     *
+     * @param  string  $accountSid
      * @return string
      */
     protected function buildEndPoint($accountSid)

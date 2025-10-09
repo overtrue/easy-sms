@@ -16,7 +16,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
-    public function testConfig()
+    public function test_config()
     {
         $config = new Config([
             'foo' => 'bar',

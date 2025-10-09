@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class YunxinGatewayTest extends TestCase
 {
-    public function testSendWithSendCode()
+    public function test_send_with_send_code()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -72,7 +72,7 @@ class YunxinGatewayTest extends TestCase
         $gateway->send($phone, $message, $config);
     }
 
-    public function testSendWithVerifyCode()
+    public function test_send_with_verify_code()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -123,7 +123,7 @@ class YunxinGatewayTest extends TestCase
         $gateway->send($phone, $message, $config);
     }
 
-    public function testSendWithTemplateMsg()
+    public function test_send_with_template_msg()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -178,7 +178,7 @@ class YunxinGatewayTest extends TestCase
         $gateway->send($phone, $message, $config);
     }
 
-    public function testBuildEndpoint()
+    public function test_build_endpoint()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -201,7 +201,7 @@ class YunxinGatewayTest extends TestCase
         );
     }
 
-    public function testBuildHeaders()
+    public function test_build_headers()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -223,7 +223,7 @@ class YunxinGatewayTest extends TestCase
         $this->assertSame($checkSum, $headers['CheckSum']);
     }
 
-    public function testBuildSendCodeParams()
+    public function test_build_send_code_params()
     {
         $config = [
             'app_key' => 'mock-app-key',
@@ -259,7 +259,7 @@ class YunxinGatewayTest extends TestCase
         ], $method->invoke($gateway, $phone, $message, $config));
     }
 
-    public function testBuildVerifyCodeParams()
+    public function test_build_verify_code_params()
     {
         $config = [
             'app_key' => 'mock-app-key',

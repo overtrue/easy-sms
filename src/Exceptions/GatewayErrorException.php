@@ -24,8 +24,8 @@ class GatewayErrorException extends Exception
     /**
      * GatewayErrorException constructor.
      *
-     * @param string $message
-     * @param int    $code
+     * @param  string  $message
+     * @param  int  $code
      */
     public function __construct($message, $code, array $raw = [])
     {

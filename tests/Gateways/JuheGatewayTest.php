@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class JuheGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'app_key' => 'mock-key',

@@ -73,7 +73,7 @@ class EasySms
      */
     public function gateway(?string $name): GatewayInterface
     {
-        if (!isset($this->gateways[$name])) {
+        if (! isset($this->gateways[$name])) {
             $this->gateways[$name] = $this->createGateway($name);
         }
 
@@ -91,15 +91,15 @@ class EasySms
             $strategy = $this->config->get('default.strategy', OrderStrategy::class);
         }
 
-        if (!\class_exists($strategy)) {
-            $strategy = __NAMESPACE__ . '\Strategies\\' . \ucfirst($strategy);
+        if (! \class_exists($strategy)) {
+            $strategy = __NAMESPACE__.'\Strategies\\'.\ucfirst($strategy);
         }
 
-        if (!\class_exists($strategy)) {
+        if (! \class_exists($strategy)) {
             throw new InvalidArgumentException("Unsupported strategy \"{$strategy}\"");
         }
 
-        if (empty($this->strategies[$strategy]) || !($this->strategies[$strategy] instanceof StrategyInterface)) {
+        if (empty($this->strategies[$strategy]) || ! ($this->strategies[$strategy] instanceof StrategyInterface)) {
             $this->strategies[$strategy] = new $strategy($this);
         }
 
@@ -138,7 +138,7 @@ class EasySms
     {
         $config = $this->config->get("gateways.{$name}", []);
 
-        if (!isset($config['timeout'])) {
+        if (! isset($config['timeout'])) {
             $config['timeout'] = $this->config->get('timeout', Gateway::DEFAULT_TIMEOUT);
         }
 
@@ -151,7 +151,7 @@ class EasySms
             $gateway = $this->makeGateway($className, $config);
         }
 
-        if (!($gateway instanceof GatewayInterface)) {
+        if (! ($gateway instanceof GatewayInterface)) {
             throw new InvalidArgumentException(\sprintf('Gateway "%s" must implement interface %s.', $name, GatewayInterface::class));
         }
 
@@ -165,7 +165,7 @@ class EasySms
      */
     protected function makeGateway(string $gateway, array $config): GatewayInterface
     {
-        if (!\class_exists($gateway) || !\in_array(GatewayInterface::class, \class_implements($gateway))) {
+        if (! \class_exists($gateway) || ! \in_array(GatewayInterface::class, \class_implements($gateway))) {
             throw new InvalidArgumentException(\sprintf('Class "%s" is a invalid easy-sms gateway.', $gateway));
         }
 
@@ -183,7 +183,7 @@ class EasySms
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__ . "\\Gateways\\{$name}Gateway";
+        return __NAMESPACE__."\\Gateways\\{$name}Gateway";
     }
 
     /**
@@ -205,10 +205,10 @@ class EasySms
 
     protected function formatMessage(MessageInterface|array|string $message): MessageInterface
     {
-        if (!($message instanceof MessageInterface)) {
-            if (!\is_array($message)) {
+        if (! ($message instanceof MessageInterface)) {
+            if (! \is_array($message)) {
                 $message = [
-                    'content'  => $message,
+                    'content' => $message,
                     'template' => $message,
                 ];
             }
@@ -235,7 +235,7 @@ class EasySms
             $formatted[$gateway] = $setting;
             $globalSettings = $this->config->get("gateways.{$gateway}", []);
 
-            if (\is_string($gateway) && !empty($globalSettings) && \is_array($setting)) {
+            if (\is_string($gateway) && ! empty($globalSettings) && \is_array($setting)) {
                 $formatted[$gateway] = new Config(\array_merge($globalSettings, $setting));
             }
         }

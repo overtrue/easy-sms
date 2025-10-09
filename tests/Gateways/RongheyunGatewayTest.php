@@ -20,7 +20,7 @@ use Overtrue\EasySms\Tests\TestCase;
 
 class RongheyunGatewayTest extends TestCase
 {
-    public function testSend()
+    public function test_send()
     {
         $config = [
             'username' => 'mock-username',

@@ -51,7 +51,7 @@ class AliyunGateway extends Gateway
     {
         $data = $message->getData($this);
 
-        $signName = !empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
+        $signName = ! empty($data['sign_name']) ? $data['sign_name'] : $config->get('sign_name');
 
         unset($data['sign_name']);
 
@@ -65,7 +65,7 @@ class AliyunGateway extends Gateway
             'Timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
             'Action' => self::ENDPOINT_METHOD,
             'Version' => self::ENDPOINT_VERSION,
-            'PhoneNumbers' => !\is_null($to->getIDDCode()) ? strval($to->getZeroPrefixedNumber()) : $to->getNumber(),
+            'PhoneNumbers' => ! \is_null($to->getIDDCode()) ? strval($to->getZeroPrefixedNumber()) : $to->getNumber(),
             'SignName' => $signName,
             'TemplateCode' => $message->getTemplate($this),
             'TemplateParam' => json_encode($data, JSON_FORCE_OBJECT),
@@ -75,7 +75,7 @@ class AliyunGateway extends Gateway
 
         $result = $this->get(self::ENDPOINT_URL, $params);
 
-        if (!empty($result['Code']) && 'OK' != $result['Code']) {
+        if (! empty($result['Code']) && $result['Code'] != 'OK') {
             throw new GatewayErrorException($result['Message'], $result['Code'], $result);
         }
 
@@ -85,8 +85,7 @@ class AliyunGateway extends Gateway
     /**
      * Generate Sign.
      *
-     * @param array $params
-     *
+     * @param  array  $params
      * @return string
      *
      * @see https://help.aliyun.com/document_detail/101343.html
