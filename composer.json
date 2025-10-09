@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^6.2 || ^7.0",
-        "php": ">=8.4",
+        "php": ">=8.3",
         "ext-json": "*",
         "giggsey/libphonenumber-for-php": "^9.0"
     },
