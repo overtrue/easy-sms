@@ -6,6 +6,7 @@ composer.lock
 .subsplit
 .php_cs.cache
 .php-cs-fixer.cache
+.pint.cache
 .idea
 /index.php
 /config.php

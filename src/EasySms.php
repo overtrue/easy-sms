@@ -92,7 +92,7 @@ class EasySms
         }
 
         if (!\class_exists($strategy)) {
-            $strategy = __NAMESPACE__ . '\Strategies\\' . \ucfirst($strategy);
+            $strategy = __NAMESPACE__.'\Strategies\\'.\ucfirst($strategy);
         }
 
         if (!\class_exists($strategy)) {
@@ -183,7 +183,7 @@ class EasySms
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__ . "\\Gateways\\{$name}Gateway";
+        return __NAMESPACE__."\\Gateways\\{$name}Gateway";
     }
 
     /**
@@ -208,7 +208,7 @@ class EasySms
         if (!($message instanceof MessageInterface)) {
             if (!\is_array($message)) {
                 $message = [
-                    'content'  => $message,
+                    'content' => $message,
                     'template' => $message,
                 ];
             }

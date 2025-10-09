@@ -39,7 +39,6 @@ class WeiqucloudGatewayTest extends TestCase
             'action' => 'sendhy',
         ];
 
-
         // 成功响应的数据结构
         $successResponse = [
             'code' => 200,
@@ -47,8 +46,8 @@ class WeiqucloudGatewayTest extends TestCase
                 'status' => 'Success',
                 'taskID' => 'mock-task-id',
                 'remainPoint' => 100,
-                'message' => '发送成功'
-            ]
+                'message' => '发送成功',
+            ],
         ];
 
         // 失败响应的数据结构
@@ -58,8 +57,8 @@ class WeiqucloudGatewayTest extends TestCase
                 'status' => 'Failed',
                 'message' => '账户余额不足',
                 'remainPoint' => 0,
-                'taskID' => 'mock-task-id-failed'
-            ]
+                'taskID' => 'mock-task-id-failed',
+            ],
         ];
 
         $gateway->shouldReceive('postJson')
@@ -81,4 +80,4 @@ class WeiqucloudGatewayTest extends TestCase
 
         $gateway->send(new PhoneNumber(18188888888), $message, $config);
     }
-} 
+}
