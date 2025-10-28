@@ -28,7 +28,7 @@ class YunxinGateway extends Gateway
 {
     use HasHttpRequest;
 
-    public const ENDPOINT_TEMPLATE = 'https://api.netease.im/%s/%s.action';
+    public const ENDPOINT_TEMPLATE = 'https://sms.yunxinapi.com/%s/%s.action';
 
     public const ENDPOINT_ACTION = 'sendCode';
 
