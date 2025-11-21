@@ -9,7 +9,7 @@ jobs:
     phpunit:
         strategy:
             matrix:
-                php_version: [8.4]
+                php_version: [8.4, 8.5]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
