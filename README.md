@@ -394,6 +394,33 @@ $easySms->send($phone_number, [
 ]);
 ```
 
+
+### [阿里云短信认证](https://help.aliyun.com/zh/pnvs/getting-started/sms-authentication-service-novice-guide)
+
+短信内容使用 `template` + `data`
+
+```php
+    'aliyundypns' => [
+        'access_key_id' => '',
+        'access_key_secret' => '',
+        'sign_name' => '', // 不可自定义，可选：速通互联验证码、云渚科技验证服务等
+    ],
+```
+
+发送示例：
+
+```php
+$easySms = new EasySms($config);
+
+$easySms->send('18888888888', [
+    'template' => '100001', // 模板ID，详见：https://dypns.console.aliyun.com/smsCertParamsConfig
+    'data' => [
+        "code" => 1234,
+        "min" => 5, // 有效时间（分钟）
+    ],
+]);
+```
+
 ### [云片](https://www.yunpian.com)
 
 短信内容使用 `content`
