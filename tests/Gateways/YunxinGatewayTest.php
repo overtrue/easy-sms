@@ -48,7 +48,7 @@ class YunxinGatewayTest extends TestCase
             ->andReturn('mock-params');
 
         $gateway->shouldReceive('post')
-            ->with('https://api.netease.im/sms/sendcode.action', 'mock-params', 'mock-headers')
+            ->with('https://sms.yunxinapi.com/sms/sendcode.action', 'mock-params', 'mock-headers')
             ->andReturn([
                 'code' => 200,
                 'msg' => 5,
@@ -103,7 +103,7 @@ class YunxinGatewayTest extends TestCase
             ->andReturn('mock-params');
 
         $gateway->shouldReceive('post')
-            ->with('https://api.netease.im/sms/verifycode.action', 'mock-params', 'mock-headers')
+            ->with('https://sms.yunxinapi.com/sms/verifycode.action', 'mock-params', 'mock-headers')
             ->andReturn([
                 'code' => 200,
             ], [
@@ -154,7 +154,7 @@ class YunxinGatewayTest extends TestCase
             ->andReturn('mock-params');
 
         $gateway->shouldReceive('post')
-            ->with('https://api.netease.im/sms/sendtemplate.action', 'mock-params', 'mock-headers')
+            ->with('https://sms.yunxinapi.com/sms/sendtemplate.action', 'mock-params', 'mock-headers')
             ->andReturn([
                 'code' => 200,
                 'msg' => 5,
@@ -191,12 +191,12 @@ class YunxinGatewayTest extends TestCase
         $gateway = \Mockery::mock(YunxinGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
         $this->assertSame(
-            'https://api.netease.im/sms/sendcode.action',
+            'https://sms.yunxinapi.com/sms/sendcode.action',
             $method->invoke($gateway, 'sms', 'sendCode')
         );
 
         $this->assertSame(
-            'https://api.netease.im/mock-resource/mock-function.action',
+            'https://sms.yunxinapi.com/mock-resource/mock-function.action',
             $method->invoke($gateway, 'mock-resource', 'mock-function')
         );
     }
