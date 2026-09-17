@@ -32,6 +32,10 @@ class QcloudGatewayTest extends TestCase
         $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
+            ->with('post', \Mockery::type('string'), \Mockery::on(function ($options) {
+                // guzzle 7.11+ requires header values to be strings
+                return array_filter($options['headers'], 'is_string') === $options['headers'];
+            }))
             ->andReturn([
                 'Response' => [
                     'SendStatusSet' => [
@@ -102,6 +106,10 @@ class QcloudGatewayTest extends TestCase
         $gateway = \Mockery::mock(QcloudGateway::class.'[request]', [$config])->shouldAllowMockingProtectedMethods();
 
         $gateway->shouldReceive('request')
+            ->with('post', \Mockery::type('string'), \Mockery::on(function ($options) {
+                // guzzle 7.11+ requires header values to be strings
+                return array_filter($options['headers'], 'is_string') === $options['headers'];
+            }))
             ->andReturn([
                 'Response' => [
                     'SendStatusSet' => [

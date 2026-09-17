@@ -53,7 +53,7 @@ class RongcloudGateway extends Gateway
         $headers = [
             'Nonce' => uniqid(),
             'App-Key' => $config->get('app_key'),
-            'Timestamp' => time(),
+            'Timestamp' => (string) time(),
         ];
         $headers['Signature'] = $this->generateSign($headers, $config);
 
