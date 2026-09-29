@@ -138,7 +138,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_build_endpoint()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'buildEndpoint');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         // 验证码通道
@@ -162,7 +161,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_get_channel()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'getChannel');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         // 验证码通道
@@ -184,7 +182,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_get_channel_exception()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'getChannel');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         // 无效通道
@@ -203,7 +200,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_validate_code_channel_wrap_channel_content()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'wrapChannelContent');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $content = '这是短信内容。';
@@ -222,7 +218,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_promotion_channel_wrap_channel_content()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'wrapChannelContent');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $content = '这是短信内容。';
@@ -245,7 +240,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_promotion_channel_wrap_channel_content_without_sign()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'wrapChannelContent');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $content = '这是短信内容。';
@@ -270,7 +264,6 @@ class ChuanglanGatewayTest extends TestCase
     public function test_promotion_channel_wrap_channel_content_without_unsubscribe()
     {
         $method = new \ReflectionMethod(ChuanglanGateway::class, 'wrapChannelContent');
-        $method->setAccessible(true);
         $gateway = \Mockery::mock(ChuanglanGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 
         $content = '这是短信内容。';

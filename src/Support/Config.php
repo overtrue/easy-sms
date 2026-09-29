@@ -16,7 +16,7 @@ use ArrayAccess;
 /**
  * Class Config.
  */
-class Config implements \ArrayAccess
+class Config implements ArrayAccess
 {
     protected array $config;
 
