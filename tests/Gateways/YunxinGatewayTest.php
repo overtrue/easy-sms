@@ -186,7 +186,6 @@ class YunxinGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunxinGateway::class, 'buildEndpoint');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunxinGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
@@ -209,7 +208,6 @@ class YunxinGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunxinGateway::class, 'buildHeaders');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunxinGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
@@ -233,7 +231,6 @@ class YunxinGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunxinGateway::class, 'buildSendCodeParams');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunxinGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
@@ -267,7 +264,6 @@ class YunxinGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunxinGateway::class, 'buildVerifyCodeParams');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunxinGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 

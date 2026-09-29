@@ -64,7 +64,10 @@
 
 ## 环境需求
 
-- PHP >= 8.4
+- PHP >= 8.4（已在 PHP 8.5 上验证）
+- [guzzlehttp/guzzle](https://github.com/guzzle/guzzle) `^7.0 || ^8.0`
+
+> Guzzle 8 起 `headers` 选项的值必须是字符串（或非空字符串数组）。在网关配置的 `options.headers` 里传入数字、布尔值或 `null` 时会触发 `GuzzleHttp\Exception\InvalidArgumentException`，请先自行转成字符串。
 
 ## 安装
 

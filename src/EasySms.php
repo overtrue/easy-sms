@@ -111,7 +111,7 @@ class EasySms
      *
      * @return $this
      */
-    public function extend(string $name, \Closure $callback): static
+    public function extend(string $name, Closure $callback): static
     {
         $this->customCreators[$name] = $callback;
 

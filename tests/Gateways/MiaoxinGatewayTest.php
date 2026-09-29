@@ -294,7 +294,6 @@ class MiaoxinGatewayTest extends TestCase
         $gateway = new MiaoxinGateway(['account' => 'mock-account', 'secret' => 'mock-secret']);
 
         $method = new \ReflectionMethod(MiaoxinGateway::class, 'generateToken');
-        $method->setAccessible(true);
 
         $this->assertSame(
             sha1('account=mock-account&ts=20260907120000&secret=mock-secret'),

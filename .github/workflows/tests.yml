@@ -10,6 +10,7 @@ jobs:
         strategy:
             matrix:
                 php_version: [8.4, 8.5]
+                guzzle: ['^7.0', '^8.0']
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -19,6 +20,8 @@ jobs:
                   php-version: ${{ matrix.php_version }}
                   coverage: xdebug
             - name: Install dependencies
-              run: composer install
+              run: |
+                  composer require --no-update "guzzlehttp/guzzle:${{ matrix.guzzle }}"
+                  composer install
             - name: PHPUnit check
               run: ./vendor/bin/phpunit --coverage-text

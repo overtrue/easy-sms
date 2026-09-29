@@ -155,7 +155,6 @@ class HuaweiGatewayTest extends TestCase
     public function test_get_endpoint()
     {
         $method = new \ReflectionMethod(HuaweiGateway::class, 'getEndpoint');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(HuaweiGateway::class.'[request]', [[]])->shouldAllowMockingProtectedMethods();
 

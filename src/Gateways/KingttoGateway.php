@@ -16,6 +16,7 @@ use Overtrue\EasySms\Contracts\PhoneNumberInterface;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Support\Config;
 use Overtrue\EasySms\Traits\HasHttpRequest;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class KingttoGateWay.
@@ -31,7 +32,7 @@ class KingttoGateway extends Gateway
     public const ENDPOINT_METHOD = 'send';
 
     /**
-     * @return \Psr\Http\Message\ResponseInterface|array|string
+     * @return ResponseInterface|array|string
      *
      * @throws GatewayErrorException
      */

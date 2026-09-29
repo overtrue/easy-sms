@@ -46,7 +46,7 @@ class YunpianGateway extends Gateway
                 'apikey' => $config->get('api_key'),
                 'mobile' => $to->getUniversalNumber(),
             ],
-            'exceptions' => false,
+            'http_errors' => false,
         ];
 
         if (! is_null($template)) {

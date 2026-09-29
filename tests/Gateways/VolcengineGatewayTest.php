@@ -11,6 +11,7 @@
 
 namespace Overtrue\EasySms\Tests\Gateways;
 
+use GuzzleHttp\Psr7\Request;
 use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Gateways\VolcengineGateway;
 use Overtrue\EasySms\Message;
@@ -100,5 +101,52 @@ class VolcengineGatewayTest extends TestCase
 
         $this->expectException(GatewayErrorException::class);
         $gateway->send(new PhoneNumber($phone), $message, new Config($config));
+    }
+
+    /**
+     * The signature middleware relies on HandlerStack, PSR-7 helpers and
+     * stream hashing, all of which must keep working on Guzzle 8 / PSR-7 3.x.
+     */
+    public function test_sign_handle()
+    {
+        $gateway = new VolcengineGatewayForSignHandleTest([
+            'access_key_id' => 'mock_access_key_id',
+            'access_key_secret' => 'mock_access_key_secret',
+            'sign_name' => 'mock_sign_name',
+            'sms_account' => 'mock_sms_account',
+        ]);
+
+        $captured = null;
+        $handler = function ($request, $options) use (&$captured) {
+            $captured = $request;
+
+            return 'signed-result';
+        };
+
+        $middleware = $gateway->signHandle();
+        $send = $middleware($handler);
+
+        $result = $send(new Request(
+            'POST',
+            VolcengineGateway::$endpoints[VolcengineGateway::ENDPOINT_DEFAULT_REGION_ID].'/?Action=SendSms&Version=2020-01-01',
+            ['Content-Type' => VolcengineGateway::ENDPOINT_CONTENT_TYPE],
+            '{"SmsAccount":"mock_sms_account"}'
+        ), []);
+
+        $this->assertSame('signed-result', $result);
+        $this->assertMatchesRegularExpression('/^\d{8}T\d{6}Z$/', $captured->getHeaderLine('X-Date'));
+        $this->assertStringStartsWith(
+            'HMAC-SHA256 Credential=mock_access_key_id/',
+            $captured->getHeaderLine('Authorization')
+        );
+        $this->assertStringContainsString('SignedHeaders=', $captured->getHeaderLine('Authorization'));
+    }
+}
+
+class VolcengineGatewayForSignHandleTest extends VolcengineGateway
+{
+    public function signHandle()
+    {
+        return parent::signHandle();
     }
 }

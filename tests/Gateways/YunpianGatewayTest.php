@@ -33,7 +33,7 @@ class YunpianGatewayTest extends TestCase
                 'mobile' => '18188888888',
                 'text' => '【overtrue】This is a test message.',
             ],
-            'exceptions' => false,
+            'http_errors' => false,
         ])->andReturn([
             'code' => 0,
             'msg' => '发送成功',
@@ -90,7 +90,7 @@ class YunpianGatewayTest extends TestCase
                 'mobile' => '18188888888',
                 'text' => '【测试】This is a 【test】 message.',
             ],
-            'exceptions' => false,
+            'http_errors' => false,
         ])->andReturn($response);
 
         $this->assertSame($response, $gateway->send(new PhoneNumber(18188888888), new Message(['content' => 'This is a 【test】 message.']), $config));
@@ -102,7 +102,7 @@ class YunpianGatewayTest extends TestCase
                 'mobile' => '18188888888',
                 'text' => '【已经存在】This is a 【test】 message.',
             ],
-            'exceptions' => false,
+            'http_errors' => false,
         ])->andReturn($response);
 
         $this->assertSame($response, $gateway->send(new PhoneNumber(18188888888), new Message(['content' => '【已经存在】This is a 【test】 message.']), $config));

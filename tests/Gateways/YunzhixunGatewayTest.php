@@ -121,7 +121,6 @@ class YunzhixunGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunzhixunGateway::class, 'buildEndpoint');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunzhixunGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
@@ -150,7 +149,6 @@ class YunzhixunGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunzhixunGateway::class, 'buildParams');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunzhixunGateway::class, [$config])->shouldAllowMockingProtectedMethods();
 
@@ -199,7 +197,6 @@ class YunzhixunGatewayTest extends TestCase
         ];
 
         $method = new \ReflectionMethod(YunzhixunGateway::class, 'execute');
-        $method->setAccessible(true);
 
         $gateway = \Mockery::mock(YunzhixunGateway::class.'[postJson]', [$config]);
         $gateway->shouldAllowMockingProtectedMethods();
