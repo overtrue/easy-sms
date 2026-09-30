@@ -121,4 +121,63 @@ class UcloudGatewayTest extends TestCase
 
         $gateway->send(new PhoneNumber(18888888888), $message, $config);
     }
+
+    /**
+     * @dataProvider templateParamsProvider
+     */
+    public function testTemplateParams(array $data, array $templateParams)
+    {
+        $config = [
+            'private_key' => 'private-key',
+            'public_key' => 'public-key',
+            'sig_content' => 'EasySms',
+        ];
+        $params = array_merge([
+            'Action' => 'SendUSMSMessage',
+            'SigContent' => 'EasySms',
+            'TemplateId' => 'template-id',
+            'PublicKey' => 'public-key',
+            'PhoneNumbers.0' => 18888888888,
+        ], $templateParams);
+        ksort($params);
+        $signature = '';
+        foreach ($params as $key => $value) {
+            $signature .= $key.$value;
+        }
+        $params['Signature'] = sha1($signature.'private-key');
+
+        $gateway = \Mockery::mock(UcloudGateway::class.'[get]', [$config])->shouldAllowMockingProtectedMethods();
+        $gateway->shouldReceive('get')->once()->with(
+            UcloudGateway::ENDPOINT_URL,
+            \Mockery::on(function ($actual) use ($params) {
+                ksort($actual);
+                ksort($params);
+                $this->assertSame($params, $actual);
+
+                return true;
+            })
+        )->andReturn(['RetCode' => UcloudGateway::SUCCESS_CODE]);
+
+        $this->assertSame(['RetCode' => UcloudGateway::SUCCESS_CODE], $gateway->send(
+            new PhoneNumber(18888888888),
+            new Message(['template' => 'template-id', 'data' => $data]),
+            new Config($config)
+        ));
+    }
+
+    public function templateParamsProvider()
+    {
+        return [
+            'missing code' => [[], []],
+            'null code' => [['code' => null], []],
+            'empty string' => [['code' => ''], []],
+            'empty array' => [['code' => []], []],
+            'false code' => [['code' => false], []],
+            'integer zero' => [['code' => 0], ['TemplateParams.0' => 0]],
+            'string zero' => [['code' => '0'], ['TemplateParams.0' => '0']],
+            'single parameter' => [['code' => '123456'], ['TemplateParams.0' => '123456']],
+            'multiple parameters' => [['code' => ['123456', '10']], ['TemplateParams.0' => '123456', 'TemplateParams.1' => '10']],
+            'zero in array' => [['code' => [0, '0']], ['TemplateParams.0' => 0, 'TemplateParams.1' => '0']],
+        ];
+    }
 }

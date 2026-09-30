@@ -64,17 +64,14 @@ class UcloudGateway extends Gateway
             'TemplateId' => $message->getTemplate($this),
             'PublicKey' => $config->get('public_key'),
         ];
-        $code = isset($data['code']) ? $data['code'] : '';
-        if (is_array($code) && !empty($code)) {
+        $code = $data['code'] ?? null;
+        if (is_array($code)) {
             foreach ($code as $key => $value) {
                 $params['TemplateParams.'.$key] = $value;
             }
-        } else {
-            if (!empty($code) || !is_null($code)) {
-                $params['TemplateParams.0'] = $code;
-            }
+        } elseif (null !== $code && '' !== $code && false !== $code) {
+            $params['TemplateParams.0'] = $code;
         }
-
         $mobiles = isset($data['mobiles']) ? $data['mobiles'] : '';
         if (!empty($mobiles) && !is_null($mobiles)) {
             if (is_array($mobiles)) {
